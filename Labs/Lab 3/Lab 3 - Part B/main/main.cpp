@@ -32,7 +32,7 @@ private:
 			auto ss = startstop(re) ? &StateMachine::start : &StateMachine::stop;
 			auto m = machines[target(re)];
 
-			if (m->WaitForThread(1) != WAIT_TIMEOUT)
+			if (m->WaitForThread(0) == WAIT_OBJECT_0)
 				continue;
 			(*m.*(ss))();
 
@@ -43,7 +43,7 @@ private:
 
 	bool threads_complete() {
 		for (uint32_t i = 0; i < num_machines; i++) {
-			if (machines[i]->WaitForThread(1) == WAIT_TIMEOUT)
+			if (machines[i]->WaitForThread(0) == WAIT_TIMEOUT)
 				return false;
 		}
 		return true;
@@ -60,11 +60,20 @@ int main(void) {
 		wms[i] = new WashingMachine(i);
 		cms[i]->Resume();
 		wms[i]->Resume();
+		// Guarantee threads are running before turning on
+		// MachineControllers
+		cms[i]->WaitForThread(1);
+		wms[i]->WaitForThread(1);
 	}
 	cmc.Resume();
 	wmc.Resume();
 	cmc.WaitForThread();
 	wmc.WaitForThread();
+
+	for (int i = 0; i < NUM_MACHINES; i++) {
+		delete cms[i];
+		delete wms[i];
+	}
 
 	return 0;
 }
