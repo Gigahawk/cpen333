@@ -13,9 +13,12 @@ int main(void) {
 		wms[i]->Resume();
 	}
 
+	// Threads will never finish (start off in idle state)
 	for (int i = 0; i < NUM_MACHINES; i++) {
 		cms[i]->WaitForThread();
+		delete cms[i];
 		wms[i]->WaitForThread();
+		delete wms[i];
 	}
 	return 0;
 }
