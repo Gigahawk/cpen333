@@ -60,10 +60,11 @@ int main(void) {
 		wms[i] = new WashingMachine(i);
 		cms[i]->Resume();
 		wms[i]->Resume();
-		// Guarantee threads are running before turning on
-		// MachineControllers
-		cms[i]->WaitForThread(1);
-		wms[i]->WaitForThread(1);
+		// Wait a little bit to ensure threads have time to start.
+		// WaitForThread() can't be used to differentiate between
+		// resumed and suspended threads.
+		cms[i]->WaitForThread(10);
+		wms[i]->WaitForThread(10);
 	}
 	cmc.Resume();
 	wmc.Resume();
