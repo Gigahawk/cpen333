@@ -163,7 +163,7 @@ string parse_and_invoke(string cmd) {
 		catch (...) {
 			return string("ERROR: could not parse idx");
 		}
-		if(idx > NUM_WIDGETS) {
+		if(idx >= NUM_WIDGETS) {
 			return string("ERROR: widget idx out of range");
 		}
 		return to_string(widgets[idx]);
@@ -184,7 +184,7 @@ string parse_and_invoke(string cmd) {
 		catch (...) {
 			return string("ERROR: could not parse val");
 		}
-		if(idx > NUM_WIDGETS) {
+		if(idx >= NUM_WIDGETS) {
 			return string("ERROR: widget idx out of range");
 		}
 		widgets[idx] = val;
