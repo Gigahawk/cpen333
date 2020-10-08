@@ -91,6 +91,8 @@ int main() {
 	while (1) {
 		ret = recv(client_socket, mark, BUF_LEN - (mark - recvbuf), 0);
 		if (ret > 0) {
+			// recv doesn't seem to write null byte, ensure string has proper ending
+			mark[ret] = 0;
 			printf("Bytes received: %d\n", ret);
 			mark += ret;
 		}
