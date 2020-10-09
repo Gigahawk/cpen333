@@ -27,6 +27,7 @@ int main() {
 	struct addrinfo* result = NULL, * ptr = NULL, hints;
 	char recvbuf[BUF_LEN] = { 0 };
 	char sendbuf[BUF_LEN] = { 0 };
+	sprintf_s(sendbuf, BUF_LEN, "\n\n%s", PROMPT);
 	char* mark = recvbuf;
 
 	// Initialize Winsock
@@ -121,6 +122,12 @@ int main() {
 	return 0;
 }
 
+/**
+ * @brief Pop the first command off the top of the input buffer and process it
+ * @param in input buffer
+ * @param out output buffer
+ * @return number of chars removed from the input buffer
+*/
 int handle_command(char* in, char* out) {
 	string s_in = string(in);
 	size_t end = s_in.find_first_of("\n");
@@ -133,14 +140,21 @@ int handle_command(char* in, char* out) {
 	string new_in = s_in.substr(end + 1, s_in.size() - cmd.size() - 1);
 
 	printf("Recieved cmd: %s\n", cmd.c_str());
-	printf("cmd size: %d\n", cmd.size());
+	printf("cmd size: %d\n", (int)cmd.size());
 	result = parse_and_invoke(cmd);
-	sprintf_s(out, BUF_LEN, "\n%s\n%s", result.c_str(), PROMPT);
+	// Resend last result if no result provided
+	if(result.size())
+		sprintf_s(out, BUF_LEN, "\n%s\n%s", result.c_str(), PROMPT);
 	printf("Responding with: %s\n", out);
 	strcpy_s(in, BUF_LEN, new_in.c_str());
 	return cmd.size() + 1;
 }
 
+/**
+ * @brief run the provided command and return the result
+ * @param cmd command to run
+ * @return command result
+*/
 string parse_and_invoke(string cmd) {
 	istringstream iss(cmd);
 	vector<string> results(istream_iterator<string>{iss},

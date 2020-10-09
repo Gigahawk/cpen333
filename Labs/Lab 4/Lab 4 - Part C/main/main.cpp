@@ -109,6 +109,15 @@ int main() {
 
 // Format the response string to contain just the latest result
 // res should always be guaranteed to end with PROMPT
+
+
+/**
+ * @brief format the results buffer to contain just the result
+ *
+ * Note the buffer MUST end with PROMPT when calling this function
+ *
+ * @param res result buf
+*/
 void format_res(char* res) {
 	// Strip prompt and trailing newline
 	res[strlen(res) - (strlen(PROMPT) + 1)] = 0;
@@ -125,6 +134,12 @@ void format_res(char* res) {
 	}
 }
 
+/**
+ * @brief Send newline and wait for the response to come back
+ * @param s socket to communicate with
+ * @param res response buffer
+ * @param retries number of times to attempt to look for response
+*/
 void get_prompt(SOCKET s, char* res, uint32_t retries=10) {
 	int ret;
 	char* mark = res;
@@ -158,6 +173,13 @@ void get_prompt(SOCKET s, char* res, uint32_t retries=10) {
 	exit(1);
 }
 
+/**
+ * @brief Send a command to the telnet server
+ * @param s socket to communicate with
+ * @param cmd command to run, without newline
+ * @param res results buffer
+ * @return number of bytes sent
+*/
 int send_cmd(SOCKET s, const char* cmd, char* res) {
 	int ret;
 
@@ -173,7 +195,7 @@ int send_cmd(SOCKET s, const char* cmd, char* res) {
 		exit(1);
 	}
 	if (ret != strlen(cmd)) {
-		printf("error: sent %d bytes, expected %d\n", ret, strlen(cmd));
+		printf("error: sent %d bytes, expected %d\n", ret, (int)strlen(cmd));
 		closesocket(s);
 		WSACleanup();
 		exit(2);
