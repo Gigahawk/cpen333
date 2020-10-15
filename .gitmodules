@@ -1,0 +1,3 @@
+[submodule "Labs/Lab 6/Lab 6/olcPixelGameEngine"]
+	path = Labs/Lab 6/Lab 6/olcPixelGameEngine
+	url = https://github.com/OneLoneCoder/olcPixelGameEngine.git
