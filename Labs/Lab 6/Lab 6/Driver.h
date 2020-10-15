@@ -3,14 +3,15 @@
 #include "rt.h"
 #include "olcPixelGameEngine/olcPixelGameEngine.h"
 #include <random>
+#include "common.h"
 
-#define AVG_SPEED 10
+#define AVG_SPEED 20
 #define SPEED_STDDEV 5
 #define MAX_LAPS 20
 #define LAP_LENGTH 100000000
 #define FUEL_CONS_COEFF 3
 #define TIRE_DEG_COEFF 1
-#define LOW_FUEL_THRESH 10000
+#define LOW_FUEL_THRESH INT32_MAX/4
 #define LOW_TIRE_THRESH 10000
 
 class Driver : public ActiveClass
@@ -20,8 +21,11 @@ public:
 		progress(0), laps(0), needs_pit(false), 
 		fuel(INT32_MAX), tire_health(INT32_MAX),
 		disqualified(false), speed(0), color(c) {}
-	uint32_t get_progress() { return progress; }
-	double get_progress_percent() { return (double)progress/LAP_LENGTH; }
+	double get_lap_progress() { return (double)progress/LAP_LENGTH; }
+	double get_progress() { return ((double)progress/LAP_LENGTH + laps)/MAX_LAPS; }
+	double get_fuel() { return (double)fuel/INT32_MAX; }
+	double get_tire_health() { return (double)tire_health/INT32_MAX; }
+	bool get_needs_pit() { return needs_pit; }
 	olc::Pixel color;
 private:
 	uint32_t progress;
@@ -36,5 +40,6 @@ private:
 	void next_speed();
 	uint32_t speed;
 	void consume_resources();
+	bool enter_pit();
 };
 #endif
