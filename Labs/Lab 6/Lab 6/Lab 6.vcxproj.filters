@@ -27,6 +27,12 @@
     <ClCompile Include="Supervisor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Refuelling.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Semaphores.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="olcPixelGameEngine\olcPixelGameEngine.h">
@@ -42,6 +48,15 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Supervisor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Refuelling.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Semaphores.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="globals.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

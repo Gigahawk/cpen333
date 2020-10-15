@@ -5,28 +5,26 @@
 
 #include "Driver.h"
 #include "Supervisor.h"
+#include "Refuelling.h"
+#include "globals.h"
 
 #define MARGIN 5
 #define LIGHT_RAD 5
 #define STANDINGS_WIDTH 200
 #define STANDINGS_ROW_HEIGHT 10
 #define STANDINGS_CHAR_LEN 32
-#define CAR_SIZE 5
+#define CAR_SIZE 10
 #define TRACK_WIDTH CAR_SIZE*NUM_DRIVERS
 #define TRACK_HEIGHT (ScreenHeight() - (MARGIN*2))
 
-CSemaphore race_start("race_start", 0, NUM_DRIVERS);
-CSemaphore race_over("race_over", 0, 1);
-CSemaphore pit_entry_light("pel", 1, 1);
-CSemaphore pit_exit_light("pel2", 0, 1);
-CSemaphore car_in_pit("cip", 0, 1);
+Driver* curr_driver = nullptr;
 
 bool comp_place(Driver* d1, Driver* d2) {
 	return d1->get_progress() > d2->get_progress();
 }
 
 // Override base class with your custom functionality
-class Example : public olc::PixelGameEngine
+class Example : public olc::PixelGameEngine, public Semaphores
 {
 public:
 	Example()
@@ -45,6 +43,8 @@ public:
 		}
 		supervisor = new Supervisor();
 		supervisor->Resume();
+		refuelling_tech = new Refuelling();
+		refuelling_tech->Resume();
 
 		race_start.Signal(NUM_DRIVERS);
 		return true;
@@ -56,6 +56,7 @@ public:
 		Clear(olc::WHITE);
 		draw_track();
 		draw_pit_lights();
+		draw_technicians();
 		draw_standings();
 		draw_drivers();
 		return true;
@@ -64,6 +65,7 @@ private:
 	Driver* drivers[NUM_DRIVERS];
 	Driver* standings[NUM_DRIVERS];
 	Supervisor* supervisor;
+	Refuelling* refuelling_tech;
 	void draw_track() {
 		int32_t x, y, w, h;
 		x = MARGIN;
@@ -98,6 +100,20 @@ private:
 		FillCircle(x2, y, r, c2);
 	}
 
+	void draw_technicians() {
+		int32_t x1, x2, y, r;
+		olc::Pixel c;
+
+		// Refuelling technician
+		x1 = MARGIN + TRACK_WIDTH + MARGIN + LIGHT_RAD;
+		x2 = x1 + LIGHT_RAD + MARGIN;
+		y = MARGIN + LIGHT_RAD + LIGHT_RAD + MARGIN + LIGHT_RAD;
+		r = LIGHT_RAD;
+		c = refuelling.Read() ? olc::GREEN : olc::RED;
+		FillCircle(x1, y, r, c);
+		DrawString(x2, y, "Refuelling", olc::BLACK, 1);
+	}
+
 	void draw_standings() {
 		int32_t x, y;
 		sort_standings();
@@ -105,12 +121,12 @@ private:
 		for (int i = 0; i < NUM_DRIVERS; i++) {
 			y = MARGIN + i*STANDINGS_ROW_HEIGHT;
 			char s[STANDINGS_CHAR_LEN] = { 0 };
-			sprintf_s(s, STANDINGS_CHAR_LEN, "%d, F: %d, T: %d, NP: %d",
+			sprintf_s(s, STANDINGS_CHAR_LEN, "%d, F: %d, T: %d, L: %d",
 				i + 1,
 				(int32_t)(standings[i]->get_fuel() * 100),
 				(int32_t)(standings[i]->get_tire_health() * 100),
-				standings[i]->get_needs_pit());
-			DrawString(x, y, string(s), olc::BLACK, 1);
+				standings[i]->get_laps());
+			DrawString(x, y, string(s), standings[i]->color, 1);
 		}
 	}
 
@@ -124,7 +140,7 @@ private:
 int main()
 {
 	Example demo;
-	if (demo.Construct(800, 480, 1, 1))
+	if (demo.Construct(400, 480, 1, 1))
 		demo.Start();
 	return 0;
 }
