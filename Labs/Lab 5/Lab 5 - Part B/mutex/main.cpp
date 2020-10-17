@@ -30,7 +30,7 @@ class PrintClass : public ActiveClass
 	int main(void) {
 		CThread* threads[EXTRA_THREADS];
 		CMutex* m = new CMutex("m");
-		thread_args ta[3] = { 0 };
+		thread_args ta[EXTRA_THREADS] = { 0 };
 		for (int i = 0; i < EXTRA_THREADS; i++) {
 			ta[i].c1 = 10;
 			ta[i].c2 = (i + 2) * 10;

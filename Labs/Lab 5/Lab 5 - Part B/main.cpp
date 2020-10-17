@@ -26,7 +26,7 @@ class PrintClass : public ActiveClass
 {
 	int main(void) {
 		CThread* threads[EXTRA_THREADS];
-		thread_args ta[3] = { 0 };
+		thread_args ta[EXTRA_THREADS] = { 0 };
 		for (int i = 0; i < EXTRA_THREADS; i++) {
 			ta[i].c1 = 10;
 			ta[i].c2 = (i + 2) * 10;
@@ -40,6 +40,7 @@ class PrintClass : public ActiveClass
 		move_and_print(5, 5, 1);
 		for (int i = 0; i < EXTRA_THREADS; i++) {
 			threads[i]->WaitForThread();
+			delete threads[i];
 		}
 		return 0;
 	}
