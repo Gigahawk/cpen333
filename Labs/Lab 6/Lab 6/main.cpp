@@ -6,6 +6,8 @@
 #include "Driver.h"
 #include "Supervisor.h"
 #include "Refuelling.h"
+#include "Debris.h"
+#include "Visor.h"
 #include "globals.h"
 
 #define MARGIN 5
@@ -43,6 +45,10 @@ public:
 		supervisor->Resume();
 		refuelling_tech = new Refuelling();
 		refuelling_tech->Resume();
+		visor_tech = new Visor();
+		visor_tech->Resume();
+		debris_tech = new Debris();
+		debris_tech->Resume();
 
 		race_start.Signal(NUM_DRIVERS);
 		return true;
@@ -64,6 +70,8 @@ private:
 	Driver* standings[NUM_DRIVERS];
 	Supervisor* supervisor;
 	Refuelling* refuelling_tech;
+	Visor* visor_tech;
+	Debris* debris_tech;
 	void draw_track() {
 		int32_t x, y, w, h;
 		x = MARGIN;
@@ -85,31 +93,55 @@ private:
 	}
 
 	void draw_pit_lights() {
-		int32_t x1, x2, y, r;
+		int32_t x1, x2, x3, y, r;
 		olc::Pixel c1, c2;
 		r = LIGHT_RAD;
 		x1 = MARGIN + TRACK_WIDTH + MARGIN + LIGHT_RAD;
 		x2 = x1 + LIGHT_RAD + MARGIN + LIGHT_RAD;
+		x3 = x2 + LIGHT_RAD + MARGIN;
 		y = MARGIN + LIGHT_RAD;
 
 		c1 = pit_entry_light.Read() ? olc::GREEN : olc::RED;
 		c2 = pit_exit_light.Read() ? olc::GREEN : olc::RED;
 		FillCircle(x1, y, r, c1);
 		FillCircle(x2, y, r, c2);
+
+		DrawString(
+			x3, y, format("Supervisor: %s", supervisor->get_state().c_str()),
+			olc::BLACK, 1);
 	}
 
 	void draw_technicians() {
 		int32_t x1, x2, y, r;
 		olc::Pixel c;
 
-		// Refuelling technician
 		x1 = MARGIN + TRACK_WIDTH + MARGIN + LIGHT_RAD;
 		x2 = x1 + LIGHT_RAD + MARGIN;
-		y = MARGIN + LIGHT_RAD + LIGHT_RAD + MARGIN + LIGHT_RAD;
 		r = LIGHT_RAD;
+
+		// Refuelling technician
+		y = MARGIN + LIGHT_RAD + LIGHT_RAD + MARGIN + LIGHT_RAD;
 		c = refuelling.Read() ? olc::GREEN : olc::RED;
 		FillCircle(x1, y, r, c);
-		DrawString(x2, y, "Refuelling", olc::BLACK, 1);
+		DrawString(
+			x2, y, format("Refuelling: %s", refuelling_tech->get_state().c_str()),
+			olc::BLACK, 1);
+
+		// Visor technician
+		y += LIGHT_RAD + MARGIN + LIGHT_RAD;
+		c = visor.Read() ? olc::GREEN : olc::RED;
+		FillCircle(x1, y, r, c);
+		DrawString(
+			x2, y, format("Visor: %s", visor_tech->get_state().c_str()),
+			olc::BLACK, 1);
+
+		// Debris technician
+		y += LIGHT_RAD + MARGIN + LIGHT_RAD;
+		c = debris.Read() ? olc::GREEN : olc::RED;
+		FillCircle(x1, y, r, c);
+		DrawString(
+			x2, y, format("Debris: %s", debris_tech->get_state().c_str()),
+			olc::BLACK, 1);
 	}
 
 	void draw_standings() {
@@ -138,7 +170,7 @@ private:
 int main()
 {
 	Example demo;
-	if (demo.Construct(400, 480, 1, 1))
+	if (demo.Construct(800, 480, 1, 1))
 		demo.Start();
 	return 0;
 }

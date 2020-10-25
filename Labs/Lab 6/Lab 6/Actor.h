@@ -19,9 +19,12 @@ public:
 	{
 		global_data = (struct global_data_t*)(LinkDataPool());
 		curr_driver = &(global_data->curr_driver);
+		state = "Idle";
 	}
+	string inline get_state() { return state; };
 protected:
 	struct global_data_t* global_data;
 	Driver** curr_driver;
+	string state;
 };
 #endif

@@ -139,15 +139,19 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Actor.cpp" />
+    <ClCompile Include="common.cpp" />
+    <ClCompile Include="Debris.cpp" />
     <ClCompile Include="Driver.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Refuelling.cpp" />
     <ClCompile Include="rt.cpp" />
     <ClCompile Include="Semaphores.cpp" />
     <ClCompile Include="Supervisor.cpp" />
+    <ClCompile Include="Visor.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Actor.h" />
+    <ClInclude Include="Debris.h" />
     <ClInclude Include="Driver.h" />
     <ClInclude Include="common.h" />
     <ClInclude Include="globals.h" />
@@ -156,6 +160,7 @@
     <ClInclude Include="rt.h" />
     <ClInclude Include="Semaphores.h" />
     <ClInclude Include="Supervisor.h" />
+    <ClInclude Include="Visor.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

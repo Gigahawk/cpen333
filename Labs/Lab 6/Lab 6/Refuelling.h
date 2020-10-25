@@ -15,20 +15,19 @@ class Refuelling : public Actor
 private:
 	int main() {
 		while (!race_over.Read()) {
-			while (pit_entry_light.Read());
-			while (!car_in_pit.Read());
+			service_start.Wait();
 			// Car has entered pit, do stuff here
 			refuelling.Signal();
+			state = "Fuelling";
 			while (!(*curr_driver)->add_fuel(REFUELLING_RATE))
 				Sleep(REFUELLING_INTERVAL);
 			refuelling.Wait();
 			refuelling_done.Signal();
-			// Wait for car to exit
-			while(car_in_pit.Read());
-
+			state = "Resetting";
 			// Wait for reset;
 			Sleep(REFUELLING_RESET_TIME);
 			refuelling_ready.Signal();
+			state = "Idle";
 		}
 		return 0;
 	}
