@@ -4,7 +4,7 @@
 #include "olcPixelGameEngine/olcPixelGameEngine.h"
 #include <random>
 #include "common.h"
-#include "Semaphores.h"
+#include "Actor.h"
 
 #define AVG_SPEED 100
 #define SPEED_JITTER 100
@@ -15,11 +15,11 @@
 #define LOW_FUEL_THRESH INT32_MAX/4
 #define LOW_TIRE_THRESH 10000
 
-class Driver : public ActiveClass, public Semaphores
+class Driver : public Actor
 {
 public:
 	Driver(olc::Pixel c) :
-		progress(0), laps(0), needs_pit(false), 
+		progress(0), laps(0), needs_pit(false),
 		fuel(INT32_MAX), tire_health(INT32_MAX),
 		disqualified(false), speed(0), color(c) {}
 	double get_lap_progress() { return (double)progress/LAP_LENGTH; }

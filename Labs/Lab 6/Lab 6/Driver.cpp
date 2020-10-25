@@ -59,13 +59,13 @@ void Driver::consume_resources()
 
 bool Driver::enter_pit()
 {
-	if(!pit_entry_light.Read()) 
+	if(!pit_entry_light.Read())
 		return false;
 	speed = 0;
-	curr_driver = this;
+	*curr_driver = this;
 	car_in_pit.Signal();
 	while(!pit_exit_light.Read());
-	curr_driver = nullptr;
+	*curr_driver = nullptr;
 	car_in_pit.Wait();
 	return true;
 }

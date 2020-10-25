@@ -17,8 +17,6 @@
 #define TRACK_WIDTH CAR_SIZE*NUM_DRIVERS
 #define TRACK_HEIGHT (ScreenHeight() - (MARGIN*2))
 
-Driver* curr_driver = nullptr;
-
 bool comp_place(Driver* d1, Driver* d2) {
 	return d1->get_progress() > d2->get_progress();
 }

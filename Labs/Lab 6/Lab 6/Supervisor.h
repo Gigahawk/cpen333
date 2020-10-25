@@ -3,9 +3,9 @@
 
 #include "rt.h"
 #include "common.h"
-#include "Semaphores.h"
+#include "Actor.h"
 
-class Supervisor : public ActiveClass, public Semaphores
+class Supervisor : public Actor
 {
 private:
 	int main() {
