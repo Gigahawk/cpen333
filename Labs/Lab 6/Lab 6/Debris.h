@@ -6,9 +6,6 @@
 #include "Driver.h"
 #include "Actor.h"
 
-#define DEBRIS_RATE 1000
-#define DEBRIS_RESET_TIME 2000
-#define DEBRIS_INTERVAL 10
 class Debris : public Actor
 {
 private:
@@ -16,6 +13,8 @@ private:
 		while (!race_over.Read()) {
 			service_start.Wait();
 			// Car has entered pit, do stuff here
+			state = "Preparing";
+			Sleep(tech_dist(rnd));
 			debris.Signal();
 			state = "Cleaning intake";
 			while (!(*curr_driver)->clean_intake(DEBRIS_RATE))

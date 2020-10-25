@@ -7,6 +7,14 @@
  * @param amt amount of fuel to add
  * @return true if the tank is full, else false
 */
+int32_t Driver::get_tire_health_raw()
+{
+	int32_t o = INT32_MAX;
+	for (int i = 0; i < 4; i++)
+		if (tire_health[i] < o)
+			o = tire_health[i];
+	return o;
+}
 bool Driver::add_fuel(int32_t amt)
 {
 	if (fuel > INT32_MAX - amt) {
@@ -47,9 +55,18 @@ bool Driver::clean_intake(int32_t amt)
 	return false;
 }
 
+void Driver::remove_tire(uint8_t idx)
+{
+	tire_health[idx] = 0;
+}
+
+void Driver::replace_tire(uint8_t idx)
+{
+	tire_health[idx] = INT32_MAX;
+}
+
 int Driver::main(void)
 {
-	rnd.seed((uint32_t)this);
 	race_start.Wait();
 	while (laps < MAX_LAPS) {
 		if (needs_pit)
@@ -85,20 +102,27 @@ int32_t Driver::intake_buildup()
 	return (int32_t)round(intake_dist(rnd));
 }
 
+
+void Driver::degrade_tires()
+{
+	for (int i = 0; i < 4; i++)
+		tire_health[i] -= tire_dist(rnd) * speed;
+}
+
 void Driver::consume_resources()
 {
 	fuel -= FUEL_CONS_COEFF * speed;
-	tire_health -= TIRE_DEG_COEFF * speed;
+	degrade_tires();
 	visor_clarity -= visor_buildup();
 	intake_flow -= intake_buildup();
 	if (
-		fuel < 0 || tire_health < 0 || visor_clarity < 0
+		fuel < 0 || get_tire_health_raw() < 0 || visor_clarity < 0
 		|| intake_flow < 0) {
 		disqualified = true;
 	}
 	if (
 		fuel < LOW_FUEL_THRESH
-		|| tire_health < LOW_TIRE_THRESH
+		|| get_tire_health_raw() < LOW_TIRE_THRESH
 		|| visor_clarity < LOW_VISOR_THRESH) {
 		needs_pit = true;
 	}

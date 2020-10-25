@@ -6,9 +6,6 @@
 #include "Driver.h"
 #include "Actor.h"
 
-#define VISOR_RATE 1000
-#define VISOR_RESET_TIME 1000
-#define VISOR_INTERVAL 10
 class Visor : public Actor
 {
 private:
@@ -16,6 +13,8 @@ private:
 		while (!race_over.Read()) {
 			service_start.Wait();
 			// Car has entered pit, do stuff here
+			state = "Preparing";
+			Sleep(tech_dist(rnd));
 			visor.Signal();
 			state = "Cleaning visor";
 			while (!(*curr_driver)->clean_visor(VISOR_RATE))

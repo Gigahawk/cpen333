@@ -6,9 +6,6 @@
 #include "Actor.h"
 
 
-#define REFUELLING_RATE 10000000
-#define REFUELLING_RESET_TIME 3000
-#define REFUELLING_INTERVAL 1
 
 class Refuelling : public Actor
 {
@@ -17,6 +14,8 @@ private:
 		while (!race_over.Read()) {
 			service_start.Wait();
 			// Car has entered pit, do stuff here
+			state = "Preparing";
+			Sleep(tech_dist(rnd));
 			refuelling.Signal();
 			state = "Fuelling";
 			while (!(*curr_driver)->add_fuel(REFUELLING_RATE))

@@ -142,12 +142,18 @@
     <ClCompile Include="common.cpp" />
     <ClCompile Include="Debris.cpp" />
     <ClCompile Include="Driver.cpp" />
+    <ClCompile Include="Jacking.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Refuelling.cpp" />
     <ClCompile Include="rt.cpp" />
     <ClCompile Include="Semaphores.cpp" />
     <ClCompile Include="Supervisor.cpp" />
     <ClCompile Include="Visor.cpp" />
+    <ClCompile Include="Wheel.cpp" />
+    <ClCompile Include="WheelActor.cpp" />
+    <ClCompile Include="WheelNut.cpp" />
+    <ClCompile Include="WheelRefitting.cpp" />
+    <ClCompile Include="WheelRemoval.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Actor.h" />
@@ -155,12 +161,17 @@
     <ClInclude Include="Driver.h" />
     <ClInclude Include="common.h" />
     <ClInclude Include="globals.h" />
+    <ClInclude Include="Jacking.h" />
     <ClInclude Include="olcPixelGameEngine\olcPixelGameEngine.h" />
     <ClInclude Include="Refuelling.h" />
     <ClInclude Include="rt.h" />
     <ClInclude Include="Semaphores.h" />
     <ClInclude Include="Supervisor.h" />
     <ClInclude Include="Visor.h" />
+    <ClInclude Include="WheelActor.h" />
+    <ClInclude Include="WheelNut.h" />
+    <ClInclude Include="WheelRefitting.h" />
+    <ClInclude Include="WheelRemoval.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
