@@ -12,7 +12,6 @@
 #include "WheelNut.h"
 #include "WheelRemoval.h"
 #include "WheelRefitting.h"
-#include "globals.h"
 
 #define MARGIN 5
 #define LIGHT_RAD 5
@@ -28,17 +27,16 @@ bool comp_place(Driver* d1, Driver* d2) {
 }
 
 // Override base class with your custom functionality
-class Example : public olc::PixelGameEngine, public Semaphores
+class PitStopSimulator : public olc::PixelGameEngine, public Semaphores
 {
 public:
-	Example()
+	PitStopSimulator()
 	{
-		// Name you application
-		sAppName = "Example";
+		sAppName = "PitStopSimulator";
+		race_started = false;
 	}
 	bool OnUserCreate() override
 	{
-		// Called once at the start, so create things here
 		for (int i = 0; i < NUM_DRIVERS; i++) {
 			drivers[i] = new Driver(
 				olc::Pixel(rand() % 256, rand() % 256, rand() % 256));
@@ -89,13 +87,15 @@ public:
 		wheelrefitting_back_right_tech = new WheelRefitting(false, false);
 		wheelrefitting_back_right_tech->Resume();
 
-		race_start.Signal(NUM_DRIVERS);
 		return true;
 	}
 
 	bool OnUserUpdate(float fElapsedTime) override
 	{
-		// called once per frame, draws random coloured pixels
+		if (GetKey(olc::Key::SPACE).bPressed && !race_started) {
+			race_start.Signal(NUM_DRIVERS);
+			race_started = true;
+		}
 		Clear(olc::WHITE);
 		draw_track();
 		draw_pit_lights();
@@ -103,6 +103,29 @@ public:
 		draw_standings();
 		draw_drivers();
 		return true;
+	}
+	~PitStopSimulator() {
+		for (int i = 0; i < NUM_DRIVERS; i++) {
+			delete drivers[i];
+		}
+		delete supervisor;
+		delete refuelling_tech;
+		delete visor_tech;
+		delete debris_tech;
+		delete jacking_front_tech;
+		delete jacking_back_tech;
+		delete wheelnut_front_left_tech;
+		delete wheelnut_front_right_tech;
+		delete wheelnut_back_left_tech;
+		delete wheelnut_back_right_tech;
+		delete wheelremoval_front_left_tech;
+		delete wheelremoval_front_right_tech;
+		delete wheelremoval_back_left_tech;
+		delete wheelremoval_back_right_tech;
+		delete wheelrefitting_front_left_tech;
+		delete wheelrefitting_front_right_tech;
+		delete wheelrefitting_back_left_tech;
+		delete wheelrefitting_back_right_tech;
 	}
 private:
 	Driver* drivers[NUM_DRIVERS];
@@ -125,6 +148,7 @@ private:
 	WheelRefitting* wheelrefitting_front_right_tech;
 	WheelRefitting* wheelrefitting_back_left_tech;
 	WheelRefitting* wheelrefitting_back_right_tech;
+	bool race_started;
 	void draw_track() {
 		int32_t x, y, w, h;
 		x = MARGIN;
@@ -343,17 +367,15 @@ private:
 		}
 	}
 
-
 	void sort_standings() {
 		sort(standings, standings + NUM_DRIVERS, comp_place);
 	}
-
 };
 
 int main()
 {
-	Example demo;
-	if (demo.Construct(700, 360, 2, 2))
-		demo.Start();
+	PitStopSimulator app;
+	if (app.Construct(700, 360, 2, 2))
+		app.Start();
 	return 0;
 }

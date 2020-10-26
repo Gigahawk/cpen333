@@ -28,6 +28,21 @@ public:
 		else
 			wheel_service_start = &wheel_b_service_start;
 	}
+	~WheelActor() {
+		delete wheelnut;
+		delete wheelnut_done;
+		delete wheelnut_ready;
+
+		delete wheelremoval;
+		delete wheelremoval_done;
+		delete wheelremoval_ready;
+		delete wheelremoval_start;
+
+		delete wheelrefitting;
+		delete wheelrefitting_done;
+		delete wheelrefitting_ready;
+		delete wheelrefitting_start;
+	}
 protected:
 	string corner;
 	bool front;

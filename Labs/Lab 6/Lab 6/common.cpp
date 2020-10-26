@@ -1,4 +1,5 @@
 #include "common.h"
+
 string format(const char* fmt, ...) {
 	va_list a;
 	va_start(a, fmt);

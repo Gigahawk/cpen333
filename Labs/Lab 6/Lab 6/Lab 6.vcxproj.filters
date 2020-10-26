@@ -33,19 +33,10 @@
     <ClCompile Include="Semaphores.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Actor.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="common.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Visor.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Debris.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Jacking.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Wheel.cpp">
@@ -84,9 +75,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Semaphores.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="globals.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Actor.h">

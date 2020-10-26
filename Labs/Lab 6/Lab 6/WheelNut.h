@@ -10,11 +10,6 @@ class WheelNut : public WheelActor
 {
 public:
 	WheelNut(bool front, bool left) : WheelActor(front, left) {}
-	~WheelNut() {
-		delete wheelnut;
-		delete wheelnut_done;
-		delete wheelnut_ready;
-	}
 private:
 	int main() {
 		while (!race_over.Read()) {

@@ -1,12 +1,6 @@
 #include "Driver.h"
-#include "globals.h"
 
 
-/**
- * @brief Add fuel to the driver's car
- * @param amt amount of fuel to add
- * @return true if the tank is full, else false
-*/
 int32_t Driver::get_tire_health_raw()
 {
 	int32_t o = INT32_MAX;
@@ -15,6 +9,12 @@ int32_t Driver::get_tire_health_raw()
 			o = tire_health[i];
 	return o;
 }
+
+/**
+ * @brief Add fuel to the driver's car
+ * @param amt amount of fuel to add
+ * @return true if the tank is full, else false
+*/
 bool Driver::add_fuel(int32_t amt)
 {
 	if (fuel > INT32_MAX - amt) {

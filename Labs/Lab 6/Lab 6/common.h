@@ -4,11 +4,13 @@
 #include <vector>
 #include <stdarg.h>
 
+// Number of racers
 #define NUM_DRIVERS 10
+// Number of technicians triggered by supervisor
 #define NUM_TECHNICIANS 5
 
-
-#define MAX_LAPS 1000
+// Racetrack stats
+#define MAX_LAPS 200
 #define LAP_LENGTH 1000
 
 // Driver performance values
@@ -57,6 +59,7 @@
 
 #define WHEELREMOVAL_TIME 1000
 #define WHEELREMOVAL_RESET_TIME 1000
+
 using namespace std;
 
 string format(const char* fmt, ...);
