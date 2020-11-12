@@ -36,11 +36,11 @@ private:
 	void set_display() {
 		ZeroMemory(sb.win_buf[0], sb.col);
 		if (strlen(msg)) {
-			strcpy_s(sb.win_buf[0], sb.col, msg);
+			strncpy_s(sb.win_buf[0], sb.col, msg, sb.col - 1);
 		}
 		else {
 			sb.win_buf[0][0] = prefix;
-			strcpy_s(sb.win_buf[0] + 1, sb.col - 1, buffer);
+			strncpy_s(sb.win_buf[0] + 1, sb.col - 1, buffer, sb.col - 2);
 		}
 	}
 
