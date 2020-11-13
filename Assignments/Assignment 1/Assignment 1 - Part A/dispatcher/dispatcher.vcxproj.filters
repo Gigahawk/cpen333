@@ -15,16 +15,10 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\rt.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Widget.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="EditText.cpp">
+    <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -32,16 +26,10 @@
     <ClInclude Include="..\rt.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Widget.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="EditText.h">
+    <ClInclude Include="..\plumbing.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\common.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\plumbing.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
