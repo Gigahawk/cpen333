@@ -5,37 +5,38 @@
 #include "../rt.h"
 #include "../common.h"
 #include "../plumbing.h"
-
-#define STATUS_IDLE 0
-#define STATUS_UP 1
-#define STATUS_DOWN 2
-
-#define FLOOR_DISTANCE 10000
+#include "../ElevatorMonitor.h"
 
 using namespace std;
 
 void log_msg(const char* format, ...);
 bool floor_cmp(uint8_t x, uint8_t y);
+void remove_dup();
+uint8_t target_floor();
 uint8_t last_floor = 0;
 uint8_t num;
 uint8_t status = STATUS_IDLE;
+
+// Target floors need to be queueable to support
+// "send[ing] the elevator ... [to an intermediate floor] ...
+// when passing that floor on its way to somewhere else" (pg. 2 of lab manual)
+vector<uint8_t> floor_stack;
 
 int main(int argc, char* argv[]) {
 	CMailbox mb;
 	UINT mb_msg;
 	uint32_t loc = 0;
 	bool fault = false;
+	e_status_t e_status;
 
-	// Target floors need to be queueable to support
-	// "send[ing] the elevator ... [to an intermediate floor] ...
-	// when passing that floor on its way to somewhere else" (pg. 2 of lab manual)
-	vector<uint8_t> floor_stack;
 
 	if (argc < 2)
 		num = 1;
 	else
 		num = atoi(argv[1]);
 	log_msg("Starting");
+
+	ElevatorMonitor em(num);
 
 	while (true) {
 		if (mb.TestForMessage()) {
@@ -71,6 +72,7 @@ int main(int argc, char* argv[]) {
 			last_floor = floor_stack.back();
 			log_msg("Floor reached: %d", last_floor);
 			floor_stack.pop_back();
+			continue;
 		}
 
 		if (floor_stack.size() == 1) {
@@ -82,6 +84,8 @@ int main(int argc, char* argv[]) {
 			}
 		}
 
+		remove_dup();
+
 		// Move requests for floors that have already been passed
 		sort(floor_stack.begin(), floor_stack.end(), floor_cmp);
 
@@ -89,6 +93,9 @@ int main(int argc, char* argv[]) {
 			loc++;
 		else if (status == STATUS_DOWN)
 			loc--;
+
+		e_status = {status, loc, target_floor(), last_floor };
+		em.Update_Status(e_status);
 		Sleep(10);
 	}
 
@@ -129,4 +136,24 @@ bool floor_cmp(uint8_t x, uint8_t y)
 	else
 		return !b;
 }
+
+// Remove duplicate requests
+void remove_dup()
+{
+	auto end = floor_stack.end();
+	for (auto it = floor_stack.begin(); it != end; it++) {
+		end = remove(it + 1, end, *it);
+	}
+	floor_stack.erase(end, floor_stack.end());
+}
+
+uint8_t target_floor()
+{
+	if (status == STATUS_UP)
+		return *max_element(floor_stack.begin(), floor_stack.end());
+	else if (status == STATUS_DOWN)
+		return *min_element(floor_stack.begin(), floor_stack.end());
+	return last_floor;
+}
+
 
