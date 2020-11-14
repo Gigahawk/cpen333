@@ -25,9 +25,10 @@ typedef CTypedPipe<io_data_t> IOPipe;
 #define STATUS_IDLE 0
 #define STATUS_UP 1
 #define STATUS_DOWN 2
+#define STATUS_FAULT 3
 
 // Distance between elevator floors
-#define FLOOR_DISTANCE 10000
+#define FLOOR_DISTANCE 100
 
 
 

@@ -7,6 +7,9 @@
 #include "../plumbing.h"
 #include "../ElevatorMonitor.h"
 
+#define STOP_COUNT 100
+#define LOOP_DELAY 10
+
 using namespace std;
 
 void log_msg(const char* format, ...);
@@ -28,7 +31,7 @@ int main(int argc, char* argv[]) {
 	uint32_t loc = 0;
 	bool fault = false;
 	e_status_t e_status;
-
+	uint16_t stop_count = 0;
 
 	if (argc < 2)
 		num = 1;
@@ -39,6 +42,9 @@ int main(int argc, char* argv[]) {
 	ElevatorMonitor em(num);
 
 	while (true) {
+		e_status = {status, loc, target_floor(), last_floor };
+		em.Update_Status(e_status);
+
 		if (mb.TestForMessage()) {
 			mb_msg = mb.GetMessageA();
 
@@ -53,13 +59,24 @@ int main(int argc, char* argv[]) {
 			else if (mb_msg == FAULT_RELEASE) {
 				log_msg("Fault released");
 				fault = false;
+				status = STATUS_IDLE;
 			}
 		}
+		log_msg("Status %d", status);
+		//log_msg("floor_stack size %d", floor_stack.size());
 		// Elevator should discard all commands when fault is active
 		if (fault) {
 			while (!floor_stack.empty()) {
 				floor_stack.pop_back();
 			}
+			status = STATUS_FAULT;
+			continue;
+		}
+
+		if (stop_count) {
+			status = STATUS_IDLE;
+			stop_count--;
+			Sleep(LOOP_DELAY);
 			continue;
 		}
 
@@ -68,18 +85,19 @@ int main(int argc, char* argv[]) {
 			continue;
 		}
 
-		if (floor_stack.back() * 100 == loc) {
+		if (floor_stack.back() * FLOOR_DISTANCE == loc) {
 			last_floor = floor_stack.back();
 			log_msg("Floor reached: %d", last_floor);
 			floor_stack.pop_back();
+			stop_count = STOP_COUNT;
 			continue;
 		}
 
 		if (floor_stack.size() == 1) {
-			if (floor_stack.back() > last_floor) {
+			if (floor_stack.back() > (double)loc / FLOOR_DISTANCE) {
 				status = STATUS_UP;
 			}
-			else if (floor_stack.back() < last_floor) {
+			else if (floor_stack.back() < (double)loc / FLOOR_DISTANCE) {
 				status = STATUS_DOWN;
 			}
 		}
@@ -94,9 +112,10 @@ int main(int argc, char* argv[]) {
 		else if (status == STATUS_DOWN)
 			loc--;
 
-		e_status = {status, loc, target_floor(), last_floor };
-		em.Update_Status(e_status);
-		Sleep(10);
+		if (status != STATUS_IDLE)
+			log_msg("Location: %d", loc);
+
+		Sleep(LOOP_DELAY);
 	}
 
 	return 0;
@@ -149,6 +168,8 @@ void remove_dup()
 
 uint8_t target_floor()
 {
+	if(floor_stack.empty())
+		return last_floor;
 	if (status == STATUS_UP)
 		return *max_element(floor_stack.begin(), floor_stack.end());
 	else if (status == STATUS_DOWN)

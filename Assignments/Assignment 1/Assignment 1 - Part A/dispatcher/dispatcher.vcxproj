@@ -139,6 +139,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\common.cpp" />
     <ClCompile Include="..\ElevatorMonitor.cpp" />
     <ClCompile Include="..\rt.cpp" />
     <ClCompile Include="main.cpp" />

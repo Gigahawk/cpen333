@@ -36,8 +36,8 @@ int main(int argc, char* argv[]) {
 
 	CProcess io_proc(io_path.c_str(),
 		NORMAL_PRIORITY_CLASS,
-		OWN_WINDOW,
-		//PARENT_WINDOW,
+		//OWN_WINDOW,
+		PARENT_WINDOW,
 		ACTIVE);
 	while (true) {
 		io_pipe.Read(&io_data);
@@ -57,7 +57,7 @@ int main(int argc, char* argv[]) {
 			gen_fault(true, CTOI(io_data.cmd[1]));
 			break;
 		case '+':
-			gen_fault(true, CTOI(io_data.cmd[1]));
+			gen_fault(false, CTOI(io_data.cmd[1]));
 			break;
 		case 'e':
 			printf("Ending simulation\n");

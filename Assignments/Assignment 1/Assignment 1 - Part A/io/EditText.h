@@ -10,15 +10,12 @@ class EditText :
 public:
     EditText(uint32_t width = 0, char prefix = ':') :
 		prefix(prefix), width(width), Widget() , idx(0) {
-		reset();
 		Resume();
 	}
-	void reset() {
+	void reset(window_dim_t wd) override {
 		uint32_t col = width;
 		if (col <= 0) {
-			CONSOLE_SCREEN_BUFFER_INFO csbi;
-			GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), &csbi);
-			col = csbi.srWindow.Right - csbi.srWindow.Left + 1;
+			col = wd.col;
 		}
 		if (col != sb.col) {
 			free_buf();
@@ -85,7 +82,6 @@ private:
 			if (idx == 2 && buffer[0] != '/') {
 				handle_command();
 			}
-			reset();
 		}
 		return 0;
 	}

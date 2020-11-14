@@ -139,10 +139,16 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\common.cpp" />
     <ClCompile Include="..\ElevatorMonitor.cpp" />
     <ClCompile Include="..\rt.cpp" />
     <ClCompile Include="EditText.cpp" />
+    <ClCompile Include="ElevatorDoorWidget.cpp" />
+    <ClCompile Include="ElevatorFloorWidget.cpp" />
+    <ClCompile Include="ElevatorWidget.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="ScreenWidget.cpp" />
+    <ClCompile Include="VSplit.cpp" />
     <ClCompile Include="Widget.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -151,6 +157,11 @@
     <ClInclude Include="..\plumbing.h" />
     <ClInclude Include="..\rt.h" />
     <ClInclude Include="EditText.h" />
+    <ClInclude Include="ElevatorDoorWidget.h" />
+    <ClInclude Include="ElevatorFloorWidget.h" />
+    <ClInclude Include="ElevatorWidget.h" />
+    <ClInclude Include="ScreenWidget.h" />
+    <ClInclude Include="VSplit.h" />
     <ClInclude Include="Widget.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
