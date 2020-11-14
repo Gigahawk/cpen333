@@ -12,9 +12,11 @@ using namespace std;
 void inside_elev(uint8_t id, uint8_t floor);
 void outside_elev(bool up, uint8_t floor);
 void gen_fault(bool f, uint8_t id);
+void end_sim();
 
 ElevatorMonitor* ems[NUM_ELEVS];
 CProcess* elevator_procs[NUM_ELEVS];
+CProcess* io_proc;
 
 int main(int argc, char* argv[]) {
 	io_data_t io_data;
@@ -34,7 +36,7 @@ int main(int argc, char* argv[]) {
 			ACTIVE);
 	}
 
-	CProcess io_proc(io_path.c_str(),
+	io_proc = new CProcess(io_path.c_str(),
 		NORMAL_PRIORITY_CLASS,
 		//OWN_WINDOW,
 		PARENT_WINDOW,
@@ -60,10 +62,10 @@ int main(int argc, char* argv[]) {
 			gen_fault(false, CTOI(io_data.cmd[1]));
 			break;
 		case 'e':
-			printf("Ending simulation\n");
+			end_sim();
 			break;
 		default:
-			io_proc.Post(CMD_ERR);
+			io_proc->Post(CMD_ERR);
 			break;
 		}
 	}
@@ -81,9 +83,13 @@ void outside_elev(bool up, uint8_t floor)
 	uint8_t target = 0;
 	uint32_t distance = UINT32_MAX;
 	uint32_t d;
+	uint8_t s;
+	bool df;
 	for (i = 0; i < NUM_ELEVS; i++) {
 		d = ems[i]->distance_to_floor(floor);
-		if (d < distance) {
+		s = ems[i]->dir_to_floor(floor);
+		df = (s == STATUS_UP || s == STATUS_IDLE);
+		if (d < distance && up == df) {
 			distance = d;
 			target = i;
 		}
@@ -97,4 +103,11 @@ void gen_fault(bool f, uint8_t id)
 		elevator_procs[id - 1]->Post(FAULT_TRIGGER);
 	else
 		elevator_procs[id - 1]->Post(FAULT_RELEASE);
+}
+
+void end_sim() {
+	io_proc->Post(SIM_END);
+	for (int i = 0; i < NUM_ELEVS; i++) {
+		elevator_procs[i]->Post(SIM_END);
+	}
 }

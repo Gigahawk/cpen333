@@ -18,13 +18,17 @@ public:
     }
 	void set_status(int8_t s) { status = s; }
 	void set_loc(uint32_t l) { loc = l; }
+	void set_waiting(bool w) { waiting = w; }
 private:
 	uint8_t id;
 	int8_t status;
 	uint32_t loc;
+	bool waiting;
 	void set_display() {
 		bool open = false;
 		if (status == STATUS_IDLE && (loc % FLOOR_DISTANCE) == 0)
+			open = true;
+		if (waiting)
 			open = true;
 
 		for (int i = 0; i < sb.row; i++) {

@@ -8,6 +8,8 @@ struct e_status_t {
 	uint32_t loc;
 	uint8_t target_floor;
 	uint8_t last_floor;
+	bool waiting;
+	int8_t floor_stack[10];
 };
 
 class ElevatorMonitor : public CDataPool, public ActiveClass
@@ -63,6 +65,20 @@ public:
 			return abs(f_loc - (int64_t)curr_status.loc);
 
 		return abs(curr_loc - target_loc) + abs(target_loc - f_loc);
+	}
+
+	uint8_t dir_to_floor(uint8_t f) {
+		int64_t f_loc = FLOOR_DISTANCE * f;
+		e_status_t curr_status = get_status();
+		int64_t target_loc = FLOOR_DISTANCE * curr_status.target_floor;
+		int64_t curr_loc = curr_status.loc;
+
+		if ((curr_status.status == STATUS_IDLE) ||
+			(f_loc > curr_loc && curr_status.status == STATUS_UP) ||
+			(f_loc < curr_loc && curr_status.status == STATUS_DOWN))
+			return curr_status.status;
+
+		return !(curr_status.status - 1) + 1;
 	}
 
 private:

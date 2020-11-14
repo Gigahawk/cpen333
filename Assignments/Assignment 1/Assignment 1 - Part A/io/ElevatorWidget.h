@@ -4,15 +4,17 @@
 #include "../common.h"
 #include "ElevatorDoorWidget.h"
 #include "ElevatorFloorWidget.h"
+#include "ElevatorQueue.h"
 
 class ElevatorWidget :
 	public Widget, public ActiveClass
 {
 public:
     ElevatorWidget(uint8_t id) :
-        id(id), em(ElevatorMonitor(id)) , ed(ElevatorDoorWidget(id))
+        id(id), em(ElevatorMonitor(id)) , ed(ElevatorDoorWidget(id)), eq(ElevatorQueueWidget(es.floor_stack))
 	{
 		place_widget(&ef, -1, -1);
+		place_widget(&eq, -1, -1);
 		place_widget(&ed, 0, 0);
 		Resume();
 	}
@@ -27,11 +29,13 @@ private:
     ElevatorMonitor em;
 	ElevatorDoorWidget ed;
 	ElevatorFloorWidget ef;
+	ElevatorQueueWidget eq;
+	e_status_t es;
 	int main() {
-		e_status_t es;
 		while (true) {
 			es = em.Get_Elevator_Status();
 			ed.set_status(es.status);
+			ed.set_waiting(es.waiting);
 			ed.set_loc(es.loc);
 			ef.set_loc(es.loc);
 		}

@@ -159,6 +159,7 @@
     <ClInclude Include="EditText.h" />
     <ClInclude Include="ElevatorDoorWidget.h" />
     <ClInclude Include="ElevatorFloorWidget.h" />
+    <ClInclude Include="ElevatorQueue.h" />
     <ClInclude Include="ElevatorWidget.h" />
     <ClInclude Include="ScreenWidget.h" />
     <ClInclude Include="VSplit.h" />

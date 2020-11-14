@@ -19,6 +19,8 @@ uint8_t target_floor();
 uint8_t last_floor = 0;
 uint8_t num;
 uint8_t status = STATUS_IDLE;
+bool waiting = false;
+uint32_t loc = 0;
 
 // Target floors need to be queueable to support
 // "send[ing] the elevator ... [to an intermediate floor] ...
@@ -28,10 +30,10 @@ vector<uint8_t> floor_stack;
 int main(int argc, char* argv[]) {
 	CMailbox mb;
 	UINT mb_msg;
-	uint32_t loc = 0;
 	bool fault = false;
 	e_status_t e_status;
 	uint16_t stop_count = 0;
+	bool sim_end = false;
 
 	if (argc < 2)
 		num = 1;
@@ -42,10 +44,16 @@ int main(int argc, char* argv[]) {
 	ElevatorMonitor em(num);
 
 	while (true) {
-		e_status = {status, loc, target_floor(), last_floor };
+		e_status = { status, loc, target_floor(), last_floor, waiting, {0} };
+		for (int i = 0; i < 10; i++) {
+			if (i < floor_stack.size())
+				e_status.floor_stack[i] = floor_stack[i];
+			else
+				e_status.floor_stack[i] = -1;
+		}
 		em.Update_Status(e_status);
 
-		if (mb.TestForMessage()) {
+		if (mb.TestForMessage() && !sim_end) {
 			mb_msg = mb.GetMessageA();
 
 			if (mb_msg < 10) { // Handle floor request
@@ -61,9 +69,15 @@ int main(int argc, char* argv[]) {
 				fault = false;
 				status = STATUS_IDLE;
 			}
+			else if (mb_msg == SIM_END) {
+				log_msg("Ending simulation");
+				sim_end = true;
+				while (!floor_stack.empty()) {
+					floor_stack.pop_back();
+				}
+				floor_stack.push_back(0);
+			}
 		}
-		log_msg("Status %d", status);
-		//log_msg("floor_stack size %d", floor_stack.size());
 		// Elevator should discard all commands when fault is active
 		if (fault) {
 			while (!floor_stack.empty()) {
@@ -74,10 +88,15 @@ int main(int argc, char* argv[]) {
 		}
 
 		if (stop_count) {
-			status = STATUS_IDLE;
+			waiting = true;
 			stop_count--;
+			if (!stop_count)
+				status = STATUS_IDLE;
 			Sleep(LOOP_DELAY);
 			continue;
+		}
+		else {
+			waiting = false;
 		}
 
 		if (floor_stack.empty()) {
@@ -93,11 +112,14 @@ int main(int argc, char* argv[]) {
 			continue;
 		}
 
-		if (floor_stack.size() == 1) {
+		if (status == STATUS_IDLE && !(loc % FLOOR_DISTANCE)) {
+			log_msg("Updating status: floor=%f", (double)loc / FLOOR_DISTANCE);
 			if (floor_stack.back() > (double)loc / FLOOR_DISTANCE) {
+				log_msg("Going up");
 				status = STATUS_UP;
 			}
 			else if (floor_stack.back() < (double)loc / FLOOR_DISTANCE) {
+				log_msg("Going down");
 				status = STATUS_DOWN;
 			}
 		}
@@ -112,8 +134,8 @@ int main(int argc, char* argv[]) {
 		else if (status == STATUS_DOWN)
 			loc--;
 
-		if (status != STATUS_IDLE)
-			log_msg("Location: %d", loc);
+		//if (status != STATUS_IDLE)
+		//	log_msg("Location: %d", loc);
 
 		Sleep(LOOP_DELAY);
 	}
@@ -141,19 +163,21 @@ void log_msg(const char* format, ...)
 */
 bool floor_cmp(uint8_t x, uint8_t y)
 {
-	if (status == STATUS_IDLE)
+	if (status != STATUS_UP && status != STATUS_DOWN)
 		return false;
 
 	bool b = x < y;
+	double lf = (double)loc / FLOOR_DISTANCE;
 
-	if (x > last_floor && y > last_floor)
+	if (x > lf && y > lf)
 		return !b;
-	else if (x < last_floor && y < last_floor)
+	else if (x < lf && y < lf)
 		return b;
 	else if (status == STATUS_UP)
 		return b;
-	else
+	else if (status == STATUS_DOWN)
 		return !b;
+	return false;
 }
 
 // Remove duplicate requests

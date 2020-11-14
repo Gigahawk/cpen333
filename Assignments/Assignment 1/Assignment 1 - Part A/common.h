@@ -13,6 +13,7 @@ namespace fs = std::filesystem;
 #define ELEVATOR_WIDGET_WIDTH 20
 #define ELEVATOR_DOOR_WIDTH 7
 #define ELEVATOR_DOOR_HEIGHT 7
+#define BUF_LEN 1024
 
 /**
  * @brief get the parent dir of a path

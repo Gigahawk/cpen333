@@ -1,15 +1,15 @@
 #pragma once
 #include "../rt.h"
 #include "../plumbing.h"
+#include "../common.h"
 #include "Widget.h"
 
-#define BUF_LEN 1024
 class EditText :
 	public Widget, public ActiveClass
 {
 public:
     EditText(uint32_t width = 0, char prefix = ':') :
-		prefix(prefix), width(width), Widget() , idx(0) {
+		prefix(prefix), width(width), Widget() , idx(0), sim_end(false) {
 		Resume();
 	}
 	void reset(window_dim_t wd) override {
@@ -35,6 +35,7 @@ private:
 	io_data_t io_data;
 	CMailbox mb;
 	UINT mb_code;
+	bool sim_end;
 
 	void set_display() {
 		ZeroMemory(sb.win_buf[0], sb.col);
@@ -56,6 +57,7 @@ private:
 				switch (mb_code) {
 				case SIM_END:
 					show_message("Simulation Ending");
+					sim_end = true;
 					break;
 				default:
 					sprintf_s(mb_msg, "Unknown message code recieved: %d", mb_code);
@@ -63,7 +65,7 @@ private:
 				}
 			}
 
-			if (_kbhit()) {
+			if (_kbhit() && !sim_end) {
 				// Clear message
 				msg[0] = '\0';
 				c = _getch();
