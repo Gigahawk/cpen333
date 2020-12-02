@@ -1,37 +1,20 @@
 #include <stdio.h>
 #include <iostream>
-#include "CCourse.h"
-#include "CProf.h"
-#include "CPres.h"
-#include "CAdmin.h"
-#include "CStudent.h"
-#include "CSystem.h"
+#include "Database.h"
+#include "Student.h"
 
 using namespace std;
 
 int main() {
-	
-	CPres Ono;
-	CAdmin Sarah;
-
-	CProf Mike;
-	CProf PJ;
-	
-	CStudent Jacky;
-	CStudent Jasper;
-	CStudent Jayden;
-	CStudent Toast;
-	CStudent Michael;
-
-	CCourse MATH100;
-	CCourse CPEN333;
-
-	Jacky.AddCourse(&CPEN333);
-	Jasper.AddCourse(&CPEN333);
-	Toast.AddCourse(&CPEN333);
-	Michael.AddCourse(&CPEN333);
-	
-	Jayden.AddCourse(&MATH100);
-	Jayden.cheat(&MATH100);
-	Mike.sus(&Jayden);
+	Database *db = Database::getInstance();
+	Student s;
+	db->push_student("cjasper");
+	cout << "Simulating \"Selection and admittance into a year 2 program\" (Case 2)" << endl;
+	s.username = "cjasper";
+	s.set_password("cjasper");
+	s.prefs.push_back(Major::ENPH);
+	s.prefs.push_back(Major::CPEN);
+	s.prefs.push_back(Major::MECH);
+	s.submit_2nd_year_prefs();
+	return 0;
 }

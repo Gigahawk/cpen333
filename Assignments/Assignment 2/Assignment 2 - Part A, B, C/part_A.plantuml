@@ -1,0 +1,95 @@
+@startuml
+left to right direction
+
+
+'IDK why this doesn't work inside a usecase block
+skinparam actorBackgroundColor<<Student>> sandyBrown
+skinparam actorBackgroundColor<<Professor>> paleGreen
+skinparam actorBackgroundColor<<Admin>> skyBlue
+skinparam actorBackgroundColor<<President>> pink
+
+skinparam usecase {
+    BackgroundColor<<Student>> sandyBrown
+    BackgroundColor<<Professor>> paleGreen
+    BackgroundColor<<Admin>> skyBlue
+    BackgroundColor<<President>> pink
+}
+
+"Student" as student <<Student>>
+"Professor" as prof <<Professor>>
+"Faculty Admin" as admin <<Admin>>
+"President" as pres <<President>>
+
+rectangle System {
+    (Log In) as (login)
+    (Verify Credentials) as verf_cred
+    login ..> verf_cred : <<include>>
+    
+    (View Registered Courses) as view_reg_courses <<Student>>
+    (Withdraw From Courses) as withdraw_courses
+    (Register For Courses) as reg_courses
+    view_reg_courses <.. withdraw_courses : <<extend>>
+    view_reg_courses <.. reg_courses : <<extend>>
+
+    (Pay Tuition Fees) as pay_fees <<Student>>
+    (Send user to payment portal) as send_pay
+    (Recieve payment status \nfrom payment portal) as recv_pay
+    pay_fees ..> send_pay : <<include>>
+    pay_fees ..> recv_pay : <<include>>
+
+    (Submit Statement of Response) as sub_res <<Student>>
+    (Appeal Case) as appeal
+    (Verify Student in Misconduct Case) as ver_case
+    sub_res <.. appeal : <<extend>>
+    sub_res ..> ver_case : <<include>>
+
+
+    (Apply for 2nd Year Program) as apply_2nd <<Student>>
+    (Verify Student Meets Prerequisites) as ver_prereq
+    apply_2nd ..> ver_prereq : <<include>>
+
+
+    (Submit Grades) as sub_grades <<Professor>>
+    (Report Academic Misconduct) as rep_case <<Professor>>
+    (Submit Statement of Case) as sub_case
+    rep_case ..> sub_case : <<include>>
+
+    (Update Transcript) as update_trans <<Admin>>
+    (Update Academic Standing) as update_stand <<Admin>>
+
+    (Review Academic\nMisconduct Statements) as review_statement <<President>>
+    (Arrange Hearing) as arrange_hearing <<President>>
+    (Give Verdict) as give_verdict <<President>>
+    (Clear Student) as clear_stud 
+    (Suspend Student) as suspend_stud 
+    give_verdict <.. clear_stud : <<extend>>
+    give_verdict <.. suspend_stud : <<extend>>
+
+    '(Display Error) as disp_err
+    'disp_err ..> login : <<extend>>
+    'disp_err ..> apply_2nd : <<extend>>
+    'disp_err ..> sub_res : <<extend>>
+    'disp_err ..> pay_fees : <<extend>>
+}
+
+student -- login
+prof -- login
+admin -- login
+pres -- login
+
+student -- view_reg_courses
+student -- sub_res
+student -- apply_2nd
+student -- pay_fees
+
+prof -- sub_grades
+prof -- rep_case
+
+admin -- update_trans
+admin -- update_stand
+
+pres -- review_statement
+pres -- arrange_hearing
+pres -- give_verdict
+
+@enduml
