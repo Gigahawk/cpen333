@@ -4,6 +4,7 @@
 #include <random>
 #include "Logger.h"
 #include "GenericException.h"
+#include "Tuition.h"
 #include "common.h"
 
 #define NUM_COURSES 50
@@ -54,6 +55,27 @@ public:
         log("Major set to %s", major_to_str(m).c_str());
     }
 
+    Tuition get_tuition(uint16_t id) {
+        log("Calculating tuition for student ID %d", id);
+        StudentEntry* se = _get_student(id);
+        Tuition t;
+        vector<CourseEntry> ces;
+        for (auto c : se->registered_courses)
+            ces.push_back(get_course(c));
+        if (!ces.size()) {
+            log("Student is not registered for courses, no tuition");
+            return t;
+        }
+        for (auto ce : ces) {
+            // Calculation based on credit count would go here, assume always $500 for mockup
+            t.push_back({ course_to_str(ce), 500 });
+        }
+        // General student fees
+        t.push_back({ "UPASS", 200 });
+        t.push_back({ "REC CENTER", 200 });
+        return t;
+    }
+
     bool attempt_registration(uint16_t id, uint16_t course_id) {
         StudentEntry* se = _get_student(id);
         CourseEntry* ce = _get_course(course_id);
@@ -75,6 +97,13 @@ public:
         se->registered_courses.push_back(course_id);
         log("Registered successfully");
         return true;
+    }
+
+    void pay_tuition(uint16_t id, double amt) {
+        StudentEntry* se = _get_student(id);
+        log("Updating payment for %s (%d)", se->username.c_str(), se->id);
+        se->amt_paid += amt;
+        log("Student has paid a total of $%.2f", se->amt_paid);
     }
 
     vector<StudentEntry> get_students() {
@@ -127,6 +156,9 @@ public:
         return *_get_student(id);
     }
 
+    CourseEntry get_course(uint16_t id) {
+        return *_get_course(id);
+    }
 private:
 	uniform_int_distribution<int> unif_cc = uniform_int_distribution<int>(100, 599);
 	uniform_int_distribution<int> unif_maj = uniform_int_distribution<int>(0, MajorLimit.size() - 2);

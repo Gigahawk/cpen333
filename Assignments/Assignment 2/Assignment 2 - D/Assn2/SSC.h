@@ -7,6 +7,7 @@
 #include "GenericException.h"
 #include "Database.h"
 #include "Admin.h"
+#include "PaymentProcessor.h"
 #include "common.h"
 
 using namespace std;
@@ -115,6 +116,53 @@ public:
         Database* db = Database::get_instance();
 		log("Attempting to register student %d to course %d", id, course_id);
         return db->attempt_registration(id, course_id);
+    }
+
+    Tuition get_tuition(string token) {
+        if (verify_token(token) != STUDENT) {
+            log("Account is not a student, cannot return student info");
+            throw SSCException("Invalid student token");
+        }
+        uint16_t id = get_id_from_token(token);
+		log("Connecting to database");
+        Database* db = Database::get_instance();
+        Tuition t = db->get_tuition(id);
+        log("Retrieved tuition for student %d from database", id);
+        cout << t.as_string() << endl;
+        cout << "Total: $" << t.total() << endl;
+        return t;
+    }
+
+    PaymentProcessor pay_tuition(string token) {
+        Tuition t = get_tuition(token);
+        uint16_t id = get_id_from_token(token);
+        if (t.total() == 0.0) {
+            log("Error: tuition is $0, student is probably not registered");
+            throw SSCException("No Tuition");
+        }
+        PaymentProcessor p(t.total(), id);
+        return p;
+    }
+
+    bool verify_payment(string token, Payment p) {
+        if (verify_token(token) != STUDENT) {
+            log("Account is not a student, cannot return student info");
+            throw SSCException("Invalid student token");
+        }
+        uint16_t id = get_id_from_token(token);
+        if (p.sig.compare("PAID") != 0) {
+            log("Invalid payment certificate");
+            return false;
+        }
+        if (p.id != id) {
+            log("Payment certifite ID mismatch");
+            return false;
+        }
+		log("Payment validated");
+		log("Connecting to database");
+        Database* db = Database::get_instance();
+        db->pay_tuition(id, p.amt);
+        return true;
     }
 
     void notify_placement(StudentEntry s) {
