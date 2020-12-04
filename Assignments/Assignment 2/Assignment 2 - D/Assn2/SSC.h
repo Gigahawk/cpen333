@@ -4,11 +4,13 @@
 #include <vector>
 #include <algorithm>
 #include "Logger.h"
+#include "GenericException.h"
 #include "Database.h"
 #include "Admin.h"
 #include "common.h"
 
 using namespace std;
+
 
 class SSC :
     public Logger
@@ -20,16 +22,19 @@ public:
     void submit_2nd_year_prefs(string token, vector<Major> prefs) {
         if (verify_token(token) != STUDENT) {
             log("Account is not a student, cannot specify 2nd year preferences");
+            throw SSCException("Invalid student token");
         }
         uint16_t id = get_id_from_token(token);
-		log("Conecting to database");
+		log("Connecting to database");
         Database* db = Database::get_instance();
 		log("Submitting preferences to database");
         db->set_prefs(id, prefs);
     }
 
     void place_students() {
+		log("Connecting to database");
         Database* db = Database::get_instance();
+		log("Requesting student list from database");
         vector<StudentEntry> list = db->get_students();
         vector<StudentEntry> placed;
         StudentEntry curr_s;
@@ -87,6 +92,31 @@ public:
         }
     }
 
+    StudentEntry get_student_info(string token) {
+        if (verify_token(token) != STUDENT) {
+            log("Account is not a student, cannot return student info");
+            throw SSCException("Invalid student token");
+        }
+        uint16_t id = get_id_from_token(token);
+		log("Connecting to database");
+        Database* db = Database::get_instance();
+        StudentEntry s = db->get_student(id);
+        log("Retrieved student %s from database", s.username.c_str());
+        return s;
+    }
+
+    bool attempt_registration(string token, uint16_t course_id) {
+        if (verify_token(token) != STUDENT) {
+            log("Account is not a student, cannot attempt registration");
+            throw SSCException("Invalid student token");
+        }
+        uint16_t id = get_id_from_token(token);
+		log("Connecting to database");
+        Database* db = Database::get_instance();
+		log("Attempting to register student %d to course %d", id, course_id);
+        return db->attempt_registration(id, course_id);
+    }
+
     void notify_placement(StudentEntry s) {
         log("Notifying %s via %s that they have been placed in %s",
             s.username.c_str(),
@@ -99,6 +129,13 @@ public:
             s.username.c_str());
         Admin* a = Admin::get_instance();
         a->notify_unplaced(s);
+    }
+
+    vector<CourseEntry> get_course_catalog() {
+		log("Connecting to database");
+        Database* db = Database::get_instance();
+        // SSC courses are publicly available, no need to check token
+        return db->get_courses();
     }
 
 private:

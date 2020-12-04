@@ -27,6 +27,12 @@ public:
             log("%s is unplaced, scheduling meeting and sending email", s.username.c_str());
         }
     }
+
+    void destroy() {
+        log("Resetting data");
+        while (!unplaced.empty())
+            unplaced.pop_back();
+    }
 private:
     vector<StudentEntry> unplaced;
     static Admin* inst;

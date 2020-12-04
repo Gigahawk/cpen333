@@ -66,6 +66,13 @@ enum AccountType {
 	PRESIDENT
 };
 
+enum Term {
+	W1, W2, S1, S2
+};
+static const char* TermStr[] = {
+	"W1", "W2", "S1", "S2"
+};
+
 // Database schema of student
 struct StudentEntry {
     uint16_t id = 0;
@@ -73,12 +80,26 @@ struct StudentEntry {
     double average = 0;
     vector<Major> prefs;
 	Major placement = Major::INVL;
+	vector<uint16_t> registered_courses;
+};
+
+struct CourseEntry {
+    uint16_t id = 0;
+	Major faculty = Major::INVL;
+	uint16_t code;
+	Term term = Term::W1;
+	uint8_t timeslot;
+	uint16_t seats = 0;
 };
 
 uint16_t id_from_str(string username);
 string major_to_str(Major m);
+string term_to_str(Term t);
+string course_to_str(CourseEntry c);
+string course_to_str_full(CourseEntry c);
 string prefs_list_to_str(vector<Major> l);
 
 string stud_to_str(StudentEntry s);
 string seats_available(vector<uint32_t> seats);
 bool compare_average(StudentEntry s1, StudentEntry s2);
+
