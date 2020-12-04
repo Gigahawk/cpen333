@@ -1,21 +1,32 @@
 #pragma once
 #include <vector>
+#include <exception>
+#include <string>
 #include "Logger.h"
 #include "common.h"
 
 using namespace std;
 
-struct StudentEntry {
-    uint16_t id;
-    string username;
-    vector<Major> prefs;
+
+class DatabaseException : public exception {
+public:
+    DatabaseException(const std::string& msg) : msg(msg) {}
+    virtual const char* what() const throw() {
+        return msg.c_str();
+    }
+private:
+    string msg;
 };
 
+
+
+// Mock Database
 class Database :
     public Logger
 {
+
 public:
-    static Database* getInstance() {
+    static Database* get_instance() {
         if (inst == nullptr) {
             inst = new Database();
         }
@@ -35,6 +46,33 @@ public:
         log("Setting placement preferences for student ID %d", id);
         StudentEntry* se = get_student(id);
         se->prefs = prefs;
+        log("Placement preferences set to %s", prefs_list_to_str(se->prefs).c_str());
+    }
+
+    void set_average(uint16_t id, double avg) {
+        log("Setting average for student ID %d", id);
+        StudentEntry* se = get_student(id);
+        se->average = avg;
+        log("Average set to %f", avg);
+    }
+
+    void set_placement(uint16_t id, Major m) {
+        log("Setting major for student ID %d", id);
+        StudentEntry* se = get_student(id);
+        se->placement = m;
+        log("Major set to %s", major_to_str(m).c_str());
+    }
+
+    vector<StudentEntry> get_students() {
+        return table;
+    }
+
+    void print_db() {
+        log("Printing database table");
+        for (auto s : table) {
+            printf("%s", stud_to_str(s).c_str());
+        }
+        log("End of database table");
     }
 
 private:
@@ -46,7 +84,8 @@ private:
                 return &(*i);
             }
         }
-        return nullptr;
+		log("Error: student %d not found", id);
+        throw DatabaseException("Student not in database");
     }
     vector<StudentEntry> table;
     static Database* inst;

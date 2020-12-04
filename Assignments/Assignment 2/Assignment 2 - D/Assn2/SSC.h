@@ -2,8 +2,10 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <algorithm>
 #include "Logger.h"
 #include "Database.h"
+#include "Admin.h"
 #include "common.h"
 
 using namespace std;
@@ -21,9 +23,82 @@ public:
         }
         uint16_t id = get_id_from_token(token);
 		log("Conecting to database");
-        Database* db = Database::getInstance();
+        Database* db = Database::get_instance();
 		log("Submitting preferences to database");
         db->set_prefs(id, prefs);
+    }
+
+    void place_students() {
+        Database* db = Database::get_instance();
+        vector<StudentEntry> list = db->get_students();
+        vector<StudentEntry> placed;
+        StudentEntry curr_s;
+        vector<Major> curr_m;
+        vector<uint32_t> major_seats = MajorLimit;
+        log("Sorting students by average");
+        sort(list.begin(), list.end(), compare_average);
+        for (auto s : list) {
+            printf("%s", stud_to_str(s).c_str());
+        }
+        log("Placing students");
+        while (!list.empty()) {
+            curr_s = list.back();
+            curr_m = curr_s.prefs;
+            for (auto m : curr_m) {
+                if (curr_s.average < 50.0) {
+                    log("Student %s is failing, will not be placed",
+                        curr_s.username.c_str());
+                    break;
+                }
+                if (major_seats[m] > 0) {
+                    log(
+                        "Assigning student %s to major %s",
+                        curr_s.username.c_str(), major_to_str(m).c_str());
+                    major_seats[m]--;
+                    curr_s.placement = m;
+                    break;
+                }
+            }
+            if (curr_s.placement == Major::INVL)
+                log("Student %s could not be placed", curr_s.username.c_str());
+            placed.push_back(curr_s);
+            list.pop_back();
+        }
+        log("All students placed, seats remaining:");
+        printf("%s", seats_available(major_seats).c_str());
+        log("Student placements:");
+        for (auto s : placed) {
+            printf("%s", stud_to_str(s).c_str());
+        }
+        log("Sending placements to database");
+        // Ideally this would be a single database query, doing this for simplicity
+        for (auto s : placed) {
+            db->set_placement(s.id, s.placement);
+        }
+        log("Notifying placed students");
+        for (auto s : placed) {
+            if (s.placement != Major::INVL)
+                notify_placement(s);
+        }
+        log("Notifying admin of unplaced students");
+        for (auto s : placed) {
+            if (s.placement == Major::INVL)
+                notify_admin(s);
+        }
+    }
+
+    void notify_placement(StudentEntry s) {
+        log("Notifying %s via %s that they have been placed in %s",
+            s.username.c_str(),
+            (s.username + "@ubc.ca").c_str(),
+            major_to_str(s.placement).c_str());
+    }
+
+    void notify_admin(StudentEntry s) {
+        log("Notifying admin via admin@ubc.ca that %s has not been placed",
+            s.username.c_str());
+        Admin* a = Admin::get_instance();
+        a->notify_unplaced(s);
     }
 
 private:
