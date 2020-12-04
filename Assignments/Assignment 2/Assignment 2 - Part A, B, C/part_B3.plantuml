@@ -1,0 +1,67 @@
+@startuml
+title View and register for courses in T1 or T2 (or summer) and pay tuition fees  (Case 3)
+actor Student as student
+boundary SSC as ssc
+entity Shibboleth as shib
+database Database as db
+boundary "Payment Processor" as pp
+
+activate student
+student -> ssc : Login request
+activate ssc
+ssc -> shib : Authentication request
+activate shib
+shib -> student : Credential request
+student -> shib : Provide credentials
+shib -> student : Provide access token
+deactivate shib
+student -> ssc : Login with access token
+group Authenticated
+    student -> ssc : Request course catalog
+    ssc -> student : Show course catalog
+    loop student looking for courses
+        student -> ssc : Search for/select course code
+        ssc -> db : Request course information
+        activate db
+        db -> db : Retrieve course information
+        db -> ssc : Provide course information
+        deactivate db
+        ssc -> student : Show course page
+        student -> ssc : Registration request
+        ssc -> db : Attempt registration
+        activate db
+        alt course is not full and student is eligible
+            db -> db : Register student in course
+            db -> ssc : Notify SSC of success
+        else course is full or student is uneligible
+            db -> ssc : Notify SSC of failure
+        end
+        deactivate db
+        ssc -> student : Notify student of success/failure
+    end
+
+    student -> ssc : Request tuition details
+    ssc -> db : Request course + student fees
+    activate db
+    db -> db : Retrieve course + student fees
+    db -> ssc : Send course + student fees
+    deactivate db
+    ssc -> student : Show tuition fees
+    student -> ssc : Payment request
+    ssc -> pp : Forward fee details to payment processor
+    activate pp
+    pp -> student : Request payment information
+    student -> pp : Submit payment information
+    pp -> pp : Verify payment information
+    pp -> ssc : Notify SSC of payment success/failure
+    deactivate pp
+    alt payment successful
+        ssc -> db : Update payment status of student
+        activate db
+        db -> db : Store updated payment status
+        deactivate db
+    end
+    ssc -> student : Display payment success/failure page
+end
+deactivate ssc
+@enduml

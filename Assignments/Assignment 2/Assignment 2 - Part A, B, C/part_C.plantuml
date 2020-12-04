@@ -1,0 +1,45 @@
+@startuml
+
+abstract User {
+    string jwt
+}
+
+class Fees {
+
+}
+
+class Student {
+    enum standing
+
+    int getFees()
+}
+
+class Professor {
+
+}
+
+class President {
+
+}
+
+class SSC {
+    void submit2ndYear()
+    int getId()
+}
+
+class Shibboleth {
+    string getToken()
+}
+
+class PaymentProcessor {
+
+}
+
+class Database {
+
+}
+
+User <|-- Student
+User <|-- Professor
+User <|-- President
+@enduml

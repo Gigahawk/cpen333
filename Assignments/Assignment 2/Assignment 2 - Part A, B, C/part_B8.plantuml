@@ -1,0 +1,87 @@
+@startuml
+title President suspends student for 1 or 2 terms (or indefinitely) based\non number of incidences of cheating in a course while at UBC.\nThis requires that students be banned from registering during suspension,\na zero is entered in the course and a record of the incident is \nentered on their transcript and recorded in Deans office (Case 8)
+actor Professor as prof
+actor Student as student
+actor President as pres
+boundary SSC as ssc
+entity Shibboleth as shib
+database Database as db
+
+prof -> ssc : Login request
+activate prof
+activate ssc
+ssc -> shib : Authentication request
+activate shib
+shib -> prof : Credential request
+prof -> shib : Provide credentials
+shib -> prof : Provide access token
+deactivate shib
+prof -> ssc : Login with access token
+group Professor Authenticated
+    prof -> ssc : Submit Statement of Case
+    deactivate prof
+    ssc -> db : Send Statement of Case
+    activate db
+    db -> db : Store Statement of Case
+    deactivate db
+end
+ssc -> student : Request Statement of Response
+deactivate ssc
+...Until deadline for Statement of Response...
+student -> ssc : Login request
+activate student
+activate ssc
+ssc -> shib : Authentication request
+activate shib
+shib -> student : Credential request
+student -> shib : Provide credentials
+shib -> student : Provide access token
+deactivate shib
+student -> ssc : Login with access token
+group Student Authenticated
+    student -> ssc : Submit Statement of Response
+    deactivate student
+    ssc -> db : Send Statement of Response
+    deactivate ssc
+    activate db
+    db -> db : Store Statement of Response
+    deactivate db
+end
+ssc -> pres : Notify president of case
+activate pres
+pres -> pres : Investigate case
+pres -> pres : Arrange hearing
+pres -> student : Notify student of hearing
+pres -> prof : Notify professor of hearing
+deactivate pres
+...Until hearing...
+pres -> student : Notify student of verdict
+activate pres
+pres -> prof : Notify professor of verdict
+alt guilty verdict
+    pres -> ssc : Login request
+    activate ssc
+    ssc -> shib : Authentication request
+    activate shib
+    shib -> pres : Credential request
+    pres -> shib : Provide credentials
+    shib -> pres : Provide access token
+    deactivate shib
+    pres -> ssc : Login with access token
+    group President Authenticated
+        pres -> ssc : Override course grade to zero
+        alt first offense
+            pres -> ssc : Suspend student for 1 term
+        else second offsense
+            pres -> ssc : Suspend student for 2 terms
+        else third offsense or greater
+            pres -> ssc : Expel student
+        end
+        ssc -> db : Submit new course grade and suspension status
+        activate db
+        deactivate ssc
+        db -> db : Store course grade and suspension status
+        deactivate db
+    end
+end
+@enduml

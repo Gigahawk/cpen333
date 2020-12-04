@@ -1,0 +1,72 @@
+@startuml
+title Selection and admittance into a year 2 program  (Case 2)
+actor Student as student
+boundary SSC as ssc
+entity Shibboleth as shib
+database Database as db
+actor "Faculty Admin" as admin
+
+activate student
+student -> ssc : Login request
+activate ssc
+ssc -> shib : Authentication request
+activate shib
+shib -> student : Credential request
+student -> shib : Provide credentials
+shib -> student : Provide access token
+deactivate shib
+student -> ssc : Login with access token
+group Authenticated
+    student -> ssc : Submit 2nd year placement form
+    ssc -> db : Submit placement preferences
+    activate db
+    db -> db : Store placement preferences
+    deactivate db
+    student -> ssc : Log out request
+    deactivate student
+    ssc -> ssc: Invalidate access token
+    deactivate ssc
+end
+...After 2nd Year Placement Submission Deadline...
+ssc -> db : Request all placement preferences
+activate ssc
+activate db
+db -> db : Retrieve placement preferences
+db -> ssc : Send placement preferences
+ssc -> db : Request all student grades
+db -> db : Retrieve student grades
+db -> ssc : Send send student grades
+deactivate db
+
+ssc -> ssc : Rank students by grades
+loop len(unprocessed_students_list) > 0
+    ssc -> ssc : Select first student from unprocessed students list
+    loop len(student.prefs) > 0
+        alt Major(student.prefs[0]).full == false
+            ssc -> ssc : Assign student to preferred major
+        else First preference is full
+            ssc -> ssc : Remove first preference from student
+        end
+    end
+    ssc -> ssc : Move student to list of processed students
+end
+ssc -> db : Send student placements
+activate db
+db -> db : Store student placements
+deactivate db
+alt students were placed
+    ssc -> student : Notify placed students of their placement
+    activate student
+else students were not placed
+    ssc -> admin : Notify Admin of students who could not be placed
+    activate admin
+    admin -> student : Notify students that they must make an appointment with student services if they wish to stay in Engineering
+    deactivate admin
+end
+deactivate student
+
+
+
+
+
+@enduml
