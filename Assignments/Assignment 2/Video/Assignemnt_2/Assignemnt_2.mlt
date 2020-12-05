@@ -1,0 +1,1046 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<mlt LC_NUMERIC="C" version="6.23.0" title="Shotcut version 20.09.27" producer="main_bin">
+  <profile description="automatic" width="1920" height="1080" progressive="1" sample_aspect_num="1" sample_aspect_den="1" display_aspect_num="1920" display_aspect_den="1080" frame_rate_num="60" frame_rate_den="1" colorspace="709"/>
+  <producer id="producer0" in="00:00:00.000" out="00:00:05.650">
+    <property name="length">00:00:05.667</property>
+    <property name="eof">pause</property>
+    <property name="resource">case_2.mkv</property>
+    <property name="audio_index">1</property>
+    <property name="video_index">0</property>
+    <property name="mute_on_pause">0</property>
+    <property name="mlt_service">avformat-novalidate</property>
+    <property name="seekable">1</property>
+    <property name="aspect_ratio">1</property>
+    <property name="creation_time">2020-12-05T05:18:25</property>
+    <property name="global_feed">1</property>
+    <property name="xml">was here</property>
+    <property name="shotcut:hash">1681762e77cb71f3040f491ba54ca0a4</property>
+  </producer>
+  <producer id="producer1" in="00:00:00.000" out="00:00:05.433">
+    <property name="length">00:00:05.450</property>
+    <property name="eof">pause</property>
+    <property name="resource">1.wav</property>
+    <property name="audio_index">0</property>
+    <property name="video_index">-1</property>
+    <property name="mute_on_pause">0</property>
+    <property name="mlt_service">avformat-novalidate</property>
+    <property name="seekable">1</property>
+    <property name="creation_time">2020-12-05T05:23:21</property>
+    <property name="global_feed">1</property>
+    <property name="xml">was here</property>
+    <property name="shotcut:hash">0b90823f7484ee7688dcea1df7b5b23a</property>
+  </producer>
+  <playlist id="main_bin">
+    <property name="xml_retain">1</property>
+    <entry producer="producer0" in="00:00:00.000" out="00:00:05.650"/>
+    <entry producer="producer1" in="00:00:00.000" out="00:00:05.433"/>
+  </playlist>
+  <producer id="black" in="00:00:00.000" out="00:02:33.167">
+    <property name="length">00:02:33.183</property>
+    <property name="eof">pause</property>
+    <property name="resource">0</property>
+    <property name="aspect_ratio">1</property>
+    <property name="mlt_service">color</property>
+    <property name="mlt_image_format">rgb24a</property>
+    <property name="set.test_audio">0</property>
+  </producer>
+  <playlist id="background">
+    <entry producer="black" in="00:00:00.000" out="00:02:33.167"/>
+  </playlist>
+  <producer id="producer2" in="00:00:00.000" out="03:59:59.983">
+    <property name="length">04:00:00.000</property>
+    <property name="eof">pause</property>
+    <property name="resource">d:/git_WSL/cpen333/Assignments/Assignment 2/Video/Assignemnt_2/case_2_init.png</property>
+    <property name="ttl">1</property>
+    <property name="aspect_ratio">1</property>
+    <property name="progressive">1</property>
+    <property name="seekable">1</property>
+    <property name="mlt_service">qimage</property>
+    <property name="creation_time">2020-12-05T05:24:58</property>
+    <property name="shotcut:hash">278bd577b168088c5e68bf65fcf418d0</property>
+    <property name="global_feed">1</property>
+    <property name="shotcut:caption">case_2_init.png</property>
+    <property name="xml">was here</property>
+  </producer>
+  <producer id="producer3" in="00:00:00.000" out="00:00:38.050">
+    <property name="length">00:00:38.067</property>
+    <property name="eof">pause</property>
+    <property name="resource">0.15:case_2_reversed.mkv</property>
+    <property name="aspect_ratio">1</property>
+    <property name="seekable">1</property>
+    <property name="audio_index">1</property>
+    <property name="video_index">0</property>
+    <property name="mute_on_pause">1</property>
+    <property name="warp_speed">0.15</property>
+    <property name="warp_resource">case_2_reversed.mkv</property>
+    <property name="mlt_service">timewarp</property>
+    <property name="shotcut:producer">avformat</property>
+    <property name="video_delay">0</property>
+    <property name="shotcut:hash">b0614caeb8f124a358a71915f586503b</property>
+    <property name="shotcut:caption">case_2_reversed.mkv</property>
+    <property name="shotcut:resource">d:/git_WSL/cpen333/Assignments/Assignment 2/Video/Assignemnt_2/case_2.mkv</property>
+    <property name="global_feed">1</property>
+    <property name="xml">was here</property>
+  </producer>
+  <producer id="producer4" in="00:00:00.000" out="00:00:05.700">
+    <property name="length">343</property>
+    <property name="eof">pause</property>
+    <property name="resource">case_2_reversed.mkv</property>
+    <property name="audio_index">1</property>
+    <property name="video_index">0</property>
+    <property name="mute_on_pause">0</property>
+    <property name="mlt_service">avformat-novalidate</property>
+    <property name="seekable">1</property>
+    <property name="aspect_ratio">1</property>
+    <property name="creation_time">2020-12-05T05:18:25</property>
+    <property name="shotcut:hash">b0614caeb8f124a358a71915f586503b</property>
+    <property name="shotcut:originalIn">00:00:00.000</property>
+    <property name="shotcut:originalOut">00:00:05.650</property>
+    <property name="shotcut:resource">d:/git_WSL/cpen333/Assignments/Assignment 2/Video/Assignemnt_2/case_2.mkv</property>
+    <property name="shotcut:caption">case_2_reversed.mkv</property>
+    <property name="global_feed">1</property>
+    <property name="xml">was here</property>
+  </producer>
+  <producer id="producer5" in="00:00:00.000" out="03:59:59.983">
+    <property name="length">04:00:00.000</property>
+    <property name="eof">pause</property>
+    <property name="resource">d:/git_WSL/cpen333/Assignments/Assignment 2/Video/Assignemnt_2/case_2_pref.png</property>
+    <property name="ttl">1</property>
+    <property name="aspect_ratio">1</property>
+    <property name="progressive">1</property>
+    <property name="seekable">1</property>
+    <property name="mlt_service">qimage</property>
+    <property name="creation_time">2020-12-05T05:30:33</property>
+    <property name="shotcut:hash">140f753ee720245ff73a06235c44349b</property>
+    <property name="global_feed">1</property>
+    <property name="shotcut:caption">case_2_pref.png</property>
+    <property name="xml">was here</property>
+  </producer>
+  <producer id="producer6" in="00:00:00.000" out="00:00:05.700">
+    <property name="length">343</property>
+    <property name="eof">pause</property>
+    <property name="resource">case_2_reversed.mkv</property>
+    <property name="audio_index">1</property>
+    <property name="video_index">0</property>
+    <property name="mute_on_pause">0</property>
+    <property name="mlt_service">avformat-novalidate</property>
+    <property name="seekable">1</property>
+    <property name="aspect_ratio">1</property>
+    <property name="creation_time">2020-12-05T05:18:25</property>
+    <property name="shotcut:hash">b0614caeb8f124a358a71915f586503b</property>
+    <property name="shotcut:originalIn">00:00:00.000</property>
+    <property name="shotcut:originalOut">00:00:05.650</property>
+    <property name="shotcut:resource">d:/git_WSL/cpen333/Assignments/Assignment 2/Video/Assignemnt_2/case_2.mkv</property>
+    <property name="shotcut:caption">case_2_reversed.mkv</property>
+    <property name="global_feed">1</property>
+    <property name="xml">was here</property>
+  </producer>
+  <producer id="producer7" in="00:00:00.000" out="03:59:59.983">
+    <property name="length">04:00:00.000</property>
+    <property name="eof">pause</property>
+    <property name="resource">d:/git_WSL/cpen333/Assignments/Assignment 2/Video/Assignemnt_2/case_2_sort.png</property>
+    <property name="ttl">1</property>
+    <property name="aspect_ratio">1</property>
+    <property name="progressive">1</property>
+    <property name="seekable">1</property>
+    <property name="mlt_service">qimage</property>
+    <property name="creation_time">2020-12-05T05:32:13</property>
+    <property name="shotcut:hash">ae20818e2440aba11a9e41465cbbe58f</property>
+    <property name="global_feed">1</property>
+    <property name="shotcut:caption">case_2_sort.png</property>
+    <property name="xml">was here</property>
+  </producer>
+  <producer id="producer8" in="00:00:00.000" out="00:00:05.700">
+    <property name="length">343</property>
+    <property name="eof">pause</property>
+    <property name="resource">case_2_reversed.mkv</property>
+    <property name="audio_index">1</property>
+    <property name="video_index">0</property>
+    <property name="mute_on_pause">0</property>
+    <property name="mlt_service">avformat-novalidate</property>
+    <property name="seekable">1</property>
+    <property name="aspect_ratio">1</property>
+    <property name="creation_time">2020-12-05T05:18:25</property>
+    <property name="shotcut:hash">b0614caeb8f124a358a71915f586503b</property>
+    <property name="shotcut:originalIn">00:00:00.000</property>
+    <property name="shotcut:originalOut">00:00:05.650</property>
+    <property name="shotcut:resource">d:/git_WSL/cpen333/Assignments/Assignment 2/Video/Assignemnt_2/case_2.mkv</property>
+    <property name="shotcut:caption">case_2_reversed.mkv</property>
+    <property name="global_feed">1</property>
+    <property name="xml">was here</property>
+  </producer>
+  <producer id="producer9" in="00:00:00.000" out="03:59:59.983">
+    <property name="length">04:00:00.000</property>
+    <property name="eof">pause</property>
+    <property name="resource">d:/git_WSL/cpen333/Assignments/Assignment 2/Video/Assignemnt_2/case_2_place.png</property>
+    <property name="ttl">1</property>
+    <property name="aspect_ratio">1</property>
+    <property name="progressive">1</property>
+    <property name="seekable">1</property>
+    <property name="mlt_service">qimage</property>
+    <property name="creation_time">2020-12-05T05:34:59</property>
+    <property name="shotcut:hash">0fdae730f6ca6bde4879cd54050e5007</property>
+    <property name="global_feed">1</property>
+    <property name="shotcut:caption">case_2_place.png</property>
+    <property name="xml">was here</property>
+  </producer>
+  <producer id="producer10" in="00:00:00.000" out="00:00:05.700">
+    <property name="length">343</property>
+    <property name="eof">pause</property>
+    <property name="resource">case_2_reversed.mkv</property>
+    <property name="audio_index">1</property>
+    <property name="video_index">0</property>
+    <property name="mute_on_pause">0</property>
+    <property name="mlt_service">avformat-novalidate</property>
+    <property name="seekable">1</property>
+    <property name="aspect_ratio">1</property>
+    <property name="creation_time">2020-12-05T05:18:25</property>
+    <property name="shotcut:hash">b0614caeb8f124a358a71915f586503b</property>
+    <property name="shotcut:originalIn">00:00:00.000</property>
+    <property name="shotcut:originalOut">00:00:05.650</property>
+    <property name="shotcut:resource">d:/git_WSL/cpen333/Assignments/Assignment 2/Video/Assignemnt_2/case_2.mkv</property>
+    <property name="shotcut:caption">case_2_reversed.mkv</property>
+    <property name="global_feed">1</property>
+    <property name="xml">was here</property>
+  </producer>
+  <producer id="producer11" in="00:00:00.000" out="03:59:59.983">
+    <property name="length">04:00:00.000</property>
+    <property name="eof">pause</property>
+    <property name="resource">d:/git_WSL/cpen333/Assignments/Assignment 2/Video/Assignemnt_2/case_2_db.png</property>
+    <property name="ttl">1</property>
+    <property name="aspect_ratio">1</property>
+    <property name="progressive">1</property>
+    <property name="seekable">1</property>
+    <property name="mlt_service">qimage</property>
+    <property name="creation_time">2020-12-05T05:38:12</property>
+    <property name="shotcut:hash">9b922a4c27bd512174b0b9e7656b2a72</property>
+    <property name="global_feed">1</property>
+    <property name="shotcut:caption">case_2_db.png</property>
+    <property name="xml">was here</property>
+  </producer>
+  <producer id="producer12" in="00:00:00.000" out="00:00:05.700">
+    <property name="length">343</property>
+    <property name="eof">pause</property>
+    <property name="resource">case_2_reversed.mkv</property>
+    <property name="audio_index">1</property>
+    <property name="video_index">0</property>
+    <property name="mute_on_pause">0</property>
+    <property name="mlt_service">avformat-novalidate</property>
+    <property name="seekable">1</property>
+    <property name="aspect_ratio">1</property>
+    <property name="creation_time">2020-12-05T05:18:25</property>
+    <property name="shotcut:hash">b0614caeb8f124a358a71915f586503b</property>
+    <property name="shotcut:originalIn">00:00:00.000</property>
+    <property name="shotcut:originalOut">00:00:05.650</property>
+    <property name="shotcut:resource">d:/git_WSL/cpen333/Assignments/Assignment 2/Video/Assignemnt_2/case_2.mkv</property>
+    <property name="shotcut:caption">case_2_reversed.mkv</property>
+    <property name="global_feed">1</property>
+    <property name="xml">was here</property>
+  </producer>
+  <producer id="producer13" in="00:00:00.000" out="03:59:59.983">
+    <property name="length">04:00:00.000</property>
+    <property name="eof">pause</property>
+    <property name="resource">d:/git_WSL/cpen333/Assignments/Assignment 2/Video/Assignemnt_2/case_2_end.png</property>
+    <property name="ttl">1</property>
+    <property name="aspect_ratio">1</property>
+    <property name="progressive">1</property>
+    <property name="seekable">1</property>
+    <property name="mlt_service">qimage</property>
+    <property name="creation_time">2020-12-05T05:40:13</property>
+    <property name="shotcut:hash">57e40a2f0ee6fdba51253a7f0f339ce8</property>
+    <property name="global_feed">1</property>
+    <property name="shotcut:caption">case_2_end.png</property>
+    <property name="xml">was here</property>
+  </producer>
+  <producer id="producer14" in="00:00:00.000" out="00:00:12.533">
+    <property name="length">753</property>
+    <property name="eof">pause</property>
+    <property name="resource">case_3_reversed.mkv</property>
+    <property name="audio_index">1</property>
+    <property name="video_index">0</property>
+    <property name="mute_on_pause">0</property>
+    <property name="mlt_service">avformat-novalidate</property>
+    <property name="seekable">1</property>
+    <property name="aspect_ratio">1</property>
+    <property name="creation_time">2020-12-05T05:41:50</property>
+    <property name="shotcut:hash">170567feb4ff82bb1994c6934ca7891b</property>
+    <property name="shotcut:originalIn">00:00:00.000</property>
+    <property name="shotcut:originalOut">00:00:12.500</property>
+    <property name="shotcut:resource">d:/git_WSL/cpen333/Assignments/Assignment 2/Video/Assignemnt_2/case_3.mkv</property>
+    <property name="shotcut:caption">case_3_reversed.mkv</property>
+    <property name="global_feed">1</property>
+    <property name="xml">was here</property>
+  </producer>
+  <producer id="producer15" in="00:00:00.000" out="03:59:59.983">
+    <property name="length">04:00:00.000</property>
+    <property name="eof">pause</property>
+    <property name="resource">d:/git_WSL/cpen333/Assignments/Assignment 2/Video/Assignemnt_2/case_3_init.png</property>
+    <property name="ttl">1</property>
+    <property name="aspect_ratio">1</property>
+    <property name="progressive">1</property>
+    <property name="seekable">1</property>
+    <property name="mlt_service">qimage</property>
+    <property name="creation_time">2020-12-05T05:48:18</property>
+    <property name="shotcut:hash">ed04df78dea5576ee713d2f8d5ba6d62</property>
+    <property name="global_feed">1</property>
+    <property name="shotcut:caption">case_3_init.png</property>
+    <property name="xml">was here</property>
+  </producer>
+  <tractor id="tractor0" global_feed="1" in="00:00:00.000" out="00:00:00.033">
+    <property name="shotcut:transition">lumaMix</property>
+    <track producer="producer14" in="00:00:05.317" out="00:00:05.350"/>
+    <track producer="producer15" in="00:00:00.000" out="00:00:00.033"/>
+    <transition id="transition0" out="00:00:00.033">
+      <property name="a_track">0</property>
+      <property name="b_track">1</property>
+      <property name="factory">loader</property>
+      <property name="mlt_service">luma</property>
+      <property name="alpha_over">1</property>
+    </transition>
+    <transition id="transition1" out="00:00:00.033">
+      <property name="a_track">0</property>
+      <property name="b_track">1</property>
+      <property name="mlt_service">mix</property>
+      <property name="start">-1</property>
+      <property name="accepts_blanks">1</property>
+    </transition>
+  </tractor>
+  <producer id="producer16" in="00:00:00.000" out="00:00:12.533">
+    <property name="length">753</property>
+    <property name="eof">pause</property>
+    <property name="resource">case_3_reversed.mkv</property>
+    <property name="audio_index">1</property>
+    <property name="video_index">0</property>
+    <property name="mute_on_pause">0</property>
+    <property name="mlt_service">avformat-novalidate</property>
+    <property name="seekable">1</property>
+    <property name="aspect_ratio">1</property>
+    <property name="creation_time">2020-12-05T05:41:50</property>
+    <property name="shotcut:hash">170567feb4ff82bb1994c6934ca7891b</property>
+    <property name="shotcut:originalIn">00:00:00.000</property>
+    <property name="shotcut:originalOut">00:00:12.500</property>
+    <property name="shotcut:resource">d:/git_WSL/cpen333/Assignments/Assignment 2/Video/Assignemnt_2/case_3.mkv</property>
+    <property name="shotcut:caption">case_3_reversed.mkv</property>
+    <property name="global_feed">1</property>
+    <property name="xml">was here</property>
+  </producer>
+  <producer id="producer17" in="00:00:00.000" out="03:59:59.983">
+    <property name="length">04:00:00.000</property>
+    <property name="eof">pause</property>
+    <property name="resource">d:/git_WSL/cpen333/Assignments/Assignment 2/Video/Assignemnt_2/case_3_reg.png</property>
+    <property name="ttl">1</property>
+    <property name="aspect_ratio">1</property>
+    <property name="progressive">1</property>
+    <property name="seekable">1</property>
+    <property name="mlt_service">qimage</property>
+    <property name="creation_time">2020-12-05T05:53:33</property>
+    <property name="shotcut:hash">8506f3856daa5ea7fcf88deedac943eb</property>
+    <property name="global_feed">1</property>
+    <property name="shotcut:caption">case_3_reg.png</property>
+    <property name="xml">was here</property>
+  </producer>
+  <producer id="producer18" in="00:00:00.000" out="00:00:12.533">
+    <property name="length">753</property>
+    <property name="eof">pause</property>
+    <property name="resource">case_3_reversed.mkv</property>
+    <property name="audio_index">1</property>
+    <property name="video_index">0</property>
+    <property name="mute_on_pause">0</property>
+    <property name="mlt_service">avformat-novalidate</property>
+    <property name="seekable">1</property>
+    <property name="aspect_ratio">1</property>
+    <property name="creation_time">2020-12-05T05:41:50</property>
+    <property name="shotcut:hash">170567feb4ff82bb1994c6934ca7891b</property>
+    <property name="shotcut:originalIn">00:00:00.000</property>
+    <property name="shotcut:originalOut">00:00:12.500</property>
+    <property name="shotcut:resource">d:/git_WSL/cpen333/Assignments/Assignment 2/Video/Assignemnt_2/case_3.mkv</property>
+    <property name="shotcut:caption">case_3_reversed.mkv</property>
+    <property name="global_feed">1</property>
+    <property name="xml">was here</property>
+  </producer>
+  <producer id="producer19" in="00:00:00.000" out="03:59:59.983">
+    <property name="length">04:00:00.000</property>
+    <property name="eof">pause</property>
+    <property name="resource">d:/git_WSL/cpen333/Assignments/Assignment 2/Video/Assignemnt_2/case_3_tuit.png</property>
+    <property name="ttl">1</property>
+    <property name="aspect_ratio">1</property>
+    <property name="progressive">1</property>
+    <property name="seekable">1</property>
+    <property name="mlt_service">qimage</property>
+    <property name="creation_time">2020-12-05T05:54:47</property>
+    <property name="shotcut:hash">d53aa3a22c6028459db6fc70d9c9b47b</property>
+    <property name="global_feed">1</property>
+    <property name="shotcut:caption">case_3_tuit.png</property>
+    <property name="xml">was here</property>
+  </producer>
+  <producer id="producer20" in="00:00:00.000" out="00:00:12.533">
+    <property name="length">753</property>
+    <property name="eof">pause</property>
+    <property name="resource">case_3_reversed.mkv</property>
+    <property name="audio_index">1</property>
+    <property name="video_index">0</property>
+    <property name="mute_on_pause">0</property>
+    <property name="mlt_service">avformat-novalidate</property>
+    <property name="seekable">1</property>
+    <property name="aspect_ratio">1</property>
+    <property name="creation_time">2020-12-05T05:41:50</property>
+    <property name="shotcut:hash">170567feb4ff82bb1994c6934ca7891b</property>
+    <property name="shotcut:originalIn">00:00:00.000</property>
+    <property name="shotcut:originalOut">00:00:12.500</property>
+    <property name="shotcut:resource">d:/git_WSL/cpen333/Assignments/Assignment 2/Video/Assignemnt_2/case_3.mkv</property>
+    <property name="shotcut:caption">case_3_reversed.mkv</property>
+    <property name="global_feed">1</property>
+    <property name="xml">was here</property>
+  </producer>
+  <producer id="producer21" in="00:00:00.000" out="00:00:09.283">
+    <property name="length">558</property>
+    <property name="eof">pause</property>
+    <property name="resource">case_5_reversed.mkv</property>
+    <property name="audio_index">1</property>
+    <property name="video_index">0</property>
+    <property name="mute_on_pause">0</property>
+    <property name="mlt_service">avformat-novalidate</property>
+    <property name="seekable">1</property>
+    <property name="aspect_ratio">1</property>
+    <property name="creation_time">2020-12-05T05:59:05</property>
+    <property name="shotcut:hash">5fc1cb4f89a8cfc6495d7daabf138b52</property>
+    <property name="shotcut:originalIn">00:00:00.000</property>
+    <property name="shotcut:originalOut">00:00:09.250</property>
+    <property name="shotcut:resource">d:/git_WSL/cpen333/Assignments/Assignment 2/Video/Assignemnt_2/case_5.mkv</property>
+    <property name="shotcut:caption">case_5_reversed.mkv</property>
+    <property name="global_feed">1</property>
+    <property name="xml">was here</property>
+  </producer>
+  <producer id="producer22" in="00:00:00.000" out="03:59:59.983">
+    <property name="length">04:00:00.000</property>
+    <property name="eof">pause</property>
+    <property name="resource">d:/git_WSL/cpen333/Assignments/Assignment 2/Video/Assignemnt_2/case_5_init.png</property>
+    <property name="ttl">1</property>
+    <property name="aspect_ratio">1</property>
+    <property name="progressive">1</property>
+    <property name="seekable">1</property>
+    <property name="mlt_service">qimage</property>
+    <property name="creation_time">2020-12-05T06:02:04</property>
+    <property name="shotcut:hash">c3a5adf8f290563b79eacc4315377b85</property>
+    <property name="global_feed">1</property>
+    <property name="shotcut:caption">case_5_init.png</property>
+    <property name="xml">was here</property>
+  </producer>
+  <producer id="producer23" in="00:00:00.000" out="00:00:09.283">
+    <property name="length">558</property>
+    <property name="eof">pause</property>
+    <property name="resource">case_5_reversed.mkv</property>
+    <property name="audio_index">1</property>
+    <property name="video_index">0</property>
+    <property name="mute_on_pause">0</property>
+    <property name="mlt_service">avformat-novalidate</property>
+    <property name="seekable">1</property>
+    <property name="aspect_ratio">1</property>
+    <property name="creation_time">2020-12-05T05:59:05</property>
+    <property name="shotcut:hash">5fc1cb4f89a8cfc6495d7daabf138b52</property>
+    <property name="shotcut:originalIn">00:00:00.000</property>
+    <property name="shotcut:originalOut">00:00:09.250</property>
+    <property name="shotcut:resource">d:/git_WSL/cpen333/Assignments/Assignment 2/Video/Assignemnt_2/case_5.mkv</property>
+    <property name="shotcut:caption">case_5_reversed.mkv</property>
+    <property name="global_feed">1</property>
+    <property name="xml">was here</property>
+  </producer>
+  <producer id="producer24" in="00:00:00.000" out="03:59:59.983">
+    <property name="length">04:00:00.000</property>
+    <property name="eof">pause</property>
+    <property name="resource">d:/git_WSL/cpen333/Assignments/Assignment 2/Video/Assignemnt_2/case_5_grades.png</property>
+    <property name="ttl">1</property>
+    <property name="aspect_ratio">1</property>
+    <property name="progressive">1</property>
+    <property name="seekable">1</property>
+    <property name="mlt_service">qimage</property>
+    <property name="creation_time">2020-12-05T06:04:45</property>
+    <property name="shotcut:hash">bdd6631c7d4ebe7b116e23bc7a7ccd6d</property>
+    <property name="global_feed">1</property>
+    <property name="shotcut:caption">case_5_grades.png</property>
+    <property name="xml">was here</property>
+  </producer>
+  <producer id="producer25" in="00:00:00.000" out="00:00:09.283">
+    <property name="length">558</property>
+    <property name="eof">pause</property>
+    <property name="resource">case_5_reversed.mkv</property>
+    <property name="audio_index">1</property>
+    <property name="video_index">0</property>
+    <property name="mute_on_pause">0</property>
+    <property name="mlt_service">avformat-novalidate</property>
+    <property name="seekable">1</property>
+    <property name="aspect_ratio">1</property>
+    <property name="creation_time">2020-12-05T05:59:05</property>
+    <property name="shotcut:hash">5fc1cb4f89a8cfc6495d7daabf138b52</property>
+    <property name="shotcut:originalIn">00:00:00.000</property>
+    <property name="shotcut:originalOut">00:00:09.250</property>
+    <property name="shotcut:resource">d:/git_WSL/cpen333/Assignments/Assignment 2/Video/Assignemnt_2/case_5.mkv</property>
+    <property name="shotcut:caption">case_5_reversed.mkv</property>
+    <property name="global_feed">1</property>
+    <property name="xml">was here</property>
+  </producer>
+  <producer id="producer26" in="00:00:00.000" out="03:59:59.983">
+    <property name="length">04:00:00.000</property>
+    <property name="eof">pause</property>
+    <property name="resource">d:/git_WSL/cpen333/Assignments/Assignment 2/Video/Assignemnt_2/case_5_grade_rep.png</property>
+    <property name="ttl">1</property>
+    <property name="aspect_ratio">1</property>
+    <property name="progressive">1</property>
+    <property name="seekable">1</property>
+    <property name="mlt_service">qimage</property>
+    <property name="creation_time">2020-12-05T06:06:03</property>
+    <property name="shotcut:hash">945bb5bc8753837db8086a2c02dfdb87</property>
+    <property name="global_feed">1</property>
+    <property name="shotcut:caption">case_5_grade_rep.png</property>
+  </producer>
+  <tractor id="tractor1" global_feed="1" in="00:00:00.000" out="00:00:00.017">
+    <property name="shotcut:transition">lumaMix</property>
+    <track producer="producer25" in="00:00:04.717" out="00:00:04.733"/>
+    <track producer="producer26" in="00:00:00.000" out="00:00:00.017"/>
+    <transition id="transition2" out="00:00:00.017">
+      <property name="a_track">0</property>
+      <property name="b_track">1</property>
+      <property name="factory">loader</property>
+      <property name="mlt_service">luma</property>
+      <property name="alpha_over">1</property>
+    </transition>
+    <transition id="transition3" out="00:00:00.017">
+      <property name="a_track">0</property>
+      <property name="b_track">1</property>
+      <property name="mlt_service">mix</property>
+      <property name="start">-1</property>
+      <property name="accepts_blanks">1</property>
+    </transition>
+  </tractor>
+  <producer id="producer27" in="00:00:00.000" out="00:00:09.283">
+    <property name="length">558</property>
+    <property name="eof">pause</property>
+    <property name="resource">case_5_reversed.mkv</property>
+    <property name="audio_index">1</property>
+    <property name="video_index">0</property>
+    <property name="mute_on_pause">0</property>
+    <property name="mlt_service">avformat-novalidate</property>
+    <property name="seekable">1</property>
+    <property name="aspect_ratio">1</property>
+    <property name="creation_time">2020-12-05T05:59:05</property>
+    <property name="shotcut:hash">5fc1cb4f89a8cfc6495d7daabf138b52</property>
+    <property name="shotcut:originalIn">00:00:00.000</property>
+    <property name="shotcut:originalOut">00:00:09.250</property>
+    <property name="shotcut:resource">d:/git_WSL/cpen333/Assignments/Assignment 2/Video/Assignemnt_2/case_5.mkv</property>
+    <property name="shotcut:caption">case_5_reversed.mkv</property>
+    <property name="global_feed">1</property>
+    <property name="xml">was here</property>
+  </producer>
+  <tractor id="tractor2" global_feed="1" in="00:00:00.000" out="00:00:00.000">
+    <property name="shotcut:transition">lumaMix</property>
+    <track producer="producer26" in="00:00:03.983" out="00:00:03.983"/>
+    <track producer="producer27" in="00:00:04.750" out="00:00:04.750"/>
+    <transition id="transition4">
+      <property name="a_track">0</property>
+      <property name="b_track">1</property>
+      <property name="factory">loader</property>
+      <property name="mlt_service">luma</property>
+      <property name="alpha_over">1</property>
+    </transition>
+    <transition id="transition5">
+      <property name="a_track">0</property>
+      <property name="b_track">1</property>
+      <property name="mlt_service">mix</property>
+      <property name="start">-1</property>
+      <property name="accepts_blanks">1</property>
+    </transition>
+  </tractor>
+  <producer id="producer28" in="00:00:00.000" out="03:59:59.983">
+    <property name="length">04:00:00.000</property>
+    <property name="eof">pause</property>
+    <property name="resource">d:/git_WSL/cpen333/Assignments/Assignment 2/Video/Assignemnt_2/case_5_avg.png</property>
+    <property name="ttl">1</property>
+    <property name="aspect_ratio">1</property>
+    <property name="progressive">1</property>
+    <property name="seekable">1</property>
+    <property name="mlt_service">qimage</property>
+    <property name="creation_time">2020-12-05T06:07:13</property>
+    <property name="shotcut:hash">fd64a8f4ad4ce3024d9e5634f8eea872</property>
+    <property name="global_feed">1</property>
+    <property name="shotcut:caption">case_5_avg.png</property>
+  </producer>
+  <producer id="producer29" in="00:00:00.000" out="00:00:06.550">
+    <property name="length">394</property>
+    <property name="eof">pause</property>
+    <property name="resource">case_8_reversed.mkv</property>
+    <property name="audio_index">1</property>
+    <property name="video_index">0</property>
+    <property name="mute_on_pause">0</property>
+    <property name="mlt_service">avformat-novalidate</property>
+    <property name="seekable">1</property>
+    <property name="aspect_ratio">1</property>
+    <property name="creation_time">2020-12-05T06:09:14</property>
+    <property name="shotcut:hash">0a88f3a66f3ded935af0096a5bf6b52a</property>
+    <property name="shotcut:originalIn">00:00:00.000</property>
+    <property name="shotcut:originalOut">00:00:06.533</property>
+    <property name="shotcut:resource">d:/git_WSL/cpen333/Assignments/Assignment 2/Video/Assignemnt_2/case_8.mkv</property>
+    <property name="shotcut:caption">case_8_reversed.mkv</property>
+    <property name="global_feed">1</property>
+    <property name="xml">was here</property>
+  </producer>
+  <producer id="producer30" in="00:00:00.000" out="03:59:59.983">
+    <property name="length">04:00:00.000</property>
+    <property name="eof">pause</property>
+    <property name="resource">d:/git_WSL/cpen333/Assignments/Assignment 2/Video/Assignemnt_2/case_8_init.png</property>
+    <property name="ttl">1</property>
+    <property name="aspect_ratio">1</property>
+    <property name="progressive">1</property>
+    <property name="seekable">1</property>
+    <property name="mlt_service">qimage</property>
+    <property name="creation_time">2020-12-05T06:11:46</property>
+    <property name="shotcut:hash">514011b78429d18c36dacafc140dcb00</property>
+    <property name="global_feed">1</property>
+    <property name="shotcut:caption">case_8_init.png</property>
+  </producer>
+  <producer id="producer31" in="00:00:00.000" out="00:00:06.550">
+    <property name="length">394</property>
+    <property name="eof">pause</property>
+    <property name="resource">case_8_reversed.mkv</property>
+    <property name="audio_index">1</property>
+    <property name="video_index">0</property>
+    <property name="mute_on_pause">0</property>
+    <property name="mlt_service">avformat-novalidate</property>
+    <property name="seekable">1</property>
+    <property name="aspect_ratio">1</property>
+    <property name="creation_time">2020-12-05T06:09:14</property>
+    <property name="shotcut:hash">0a88f3a66f3ded935af0096a5bf6b52a</property>
+    <property name="shotcut:originalIn">00:00:00.000</property>
+    <property name="shotcut:originalOut">00:00:06.533</property>
+    <property name="shotcut:resource">d:/git_WSL/cpen333/Assignments/Assignment 2/Video/Assignemnt_2/case_8.mkv</property>
+    <property name="shotcut:caption">case_8_reversed.mkv</property>
+    <property name="global_feed">1</property>
+    <property name="xml">was here</property>
+  </producer>
+  <producer id="producer32" in="00:00:00.000" out="03:59:59.983">
+    <property name="length">04:00:00.000</property>
+    <property name="eof">pause</property>
+    <property name="resource">d:/git_WSL/cpen333/Assignments/Assignment 2/Video/Assignemnt_2/case_8_statement.png</property>
+    <property name="ttl">1</property>
+    <property name="aspect_ratio">1</property>
+    <property name="progressive">1</property>
+    <property name="seekable">1</property>
+    <property name="mlt_service">qimage</property>
+    <property name="creation_time">2020-12-05T06:13:44</property>
+    <property name="shotcut:hash">4b564a66943f815c02ca4331d583bb26</property>
+    <property name="global_feed">1</property>
+    <property name="shotcut:caption">case_8_statement.png</property>
+  </producer>
+  <producer id="producer33" in="00:00:00.000" out="00:00:06.550">
+    <property name="length">394</property>
+    <property name="eof">pause</property>
+    <property name="resource">case_8_reversed.mkv</property>
+    <property name="audio_index">1</property>
+    <property name="video_index">0</property>
+    <property name="mute_on_pause">0</property>
+    <property name="mlt_service">avformat-novalidate</property>
+    <property name="seekable">1</property>
+    <property name="aspect_ratio">1</property>
+    <property name="creation_time">2020-12-05T06:09:14</property>
+    <property name="shotcut:hash">0a88f3a66f3ded935af0096a5bf6b52a</property>
+    <property name="shotcut:originalIn">00:00:00.000</property>
+    <property name="shotcut:originalOut">00:00:06.533</property>
+    <property name="shotcut:resource">d:/git_WSL/cpen333/Assignments/Assignment 2/Video/Assignemnt_2/case_8.mkv</property>
+    <property name="shotcut:caption">case_8_reversed.mkv</property>
+    <property name="global_feed">1</property>
+    <property name="xml">was here</property>
+  </producer>
+  <producer id="producer34" in="00:00:00.000" out="03:59:59.983">
+    <property name="length">04:00:00.000</property>
+    <property name="eof">pause</property>
+    <property name="resource">d:/git_WSL/cpen333/Assignments/Assignment 2/Video/Assignemnt_2/case_8_end.png</property>
+    <property name="ttl">1</property>
+    <property name="aspect_ratio">1</property>
+    <property name="progressive">1</property>
+    <property name="seekable">1</property>
+    <property name="mlt_service">qimage</property>
+    <property name="creation_time">2020-12-05T06:17:04</property>
+    <property name="shotcut:hash">4c252751c8ab3e6f874ce50f1430c80a</property>
+    <property name="global_feed">1</property>
+    <property name="shotcut:caption">case_8_end.png</property>
+  </producer>
+  <tractor id="tractor3" global_feed="1" in="00:00:00.000" out="00:00:00.000">
+    <property name="shotcut:transition">lumaMix</property>
+    <track producer="producer33" in="00:00:04.283" out="00:00:04.283"/>
+    <track producer="producer34" in="00:00:00.000" out="00:00:00.000"/>
+    <transition id="transition6">
+      <property name="a_track">0</property>
+      <property name="b_track">1</property>
+      <property name="factory">loader</property>
+      <property name="mlt_service">luma</property>
+      <property name="alpha_over">1</property>
+    </transition>
+    <transition id="transition7">
+      <property name="a_track">0</property>
+      <property name="b_track">1</property>
+      <property name="mlt_service">mix</property>
+      <property name="start">-1</property>
+      <property name="accepts_blanks">1</property>
+    </transition>
+  </tractor>
+  <playlist id="playlist0">
+    <property name="shotcut:video">1</property>
+    <property name="shotcut:name">V1</property>
+    <entry producer="producer2" in="00:00:00.000" out="00:00:05.433"/>
+    <entry producer="producer3" in="00:00:11.000" out="00:00:15.550"/>
+    <entry producer="producer4" in="00:00:02.350" out="00:00:02.450"/>
+    <entry producer="producer5" in="00:00:00.000" out="00:00:08.183"/>
+    <entry producer="producer6" in="00:00:02.467" out="00:00:02.883"/>
+    <entry producer="producer7" in="00:00:00.000" out="00:00:09.733"/>
+    <entry producer="producer8" in="00:00:02.900" out="00:00:03.150"/>
+    <entry producer="producer9" in="00:00:00.000" out="00:00:11.200"/>
+    <entry producer="producer10" in="00:00:03.167" out="00:00:03.483"/>
+    <entry producer="producer11" in="00:00:00.000" out="00:00:04.683"/>
+    <entry producer="producer12" in="00:00:03.500" out="00:00:03.800"/>
+    <entry producer="producer13" in="00:00:00.000" out="00:00:10.083"/>
+    <blank length="00:00:00.267"/>
+    <entry producer="producer14" in="00:00:02.433" out="00:00:05.300"/>
+    <entry producer="tractor0" in="00:00:00.000" out="00:00:00.033"/>
+    <entry producer="producer15" in="00:00:00.050" out="00:00:04.433"/>
+    <entry producer="producer16" in="00:00:05.367" out="00:00:05.883"/>
+    <entry producer="producer17" in="00:00:00.000" out="00:00:08.317"/>
+    <entry producer="producer18" in="00:00:05.900" out="00:00:08.433"/>
+    <entry producer="producer19" in="00:00:00.000" out="00:00:09.133"/>
+    <entry producer="producer20" in="00:00:08.450" out="00:00:10.783"/>
+    <blank length="00:00:00.650"/>
+    <entry producer="producer21" in="00:00:01.667" out="00:00:03.533"/>
+    <entry producer="producer22" in="00:00:00.000" out="00:00:04.950"/>
+    <entry producer="producer23" in="00:00:03.550" out="00:00:04.167"/>
+    <entry producer="producer24" in="00:00:00.000" out="00:00:07.617"/>
+    <entry producer="producer25" in="00:00:04.183" out="00:00:04.700"/>
+    <entry producer="tractor1" in="00:00:00.000" out="00:00:00.017"/>
+    <entry producer="producer26" in="00:00:00.033" out="00:00:03.967"/>
+    <entry producer="tractor2" in="00:00:00.000" out="00:00:00.000"/>
+    <entry producer="producer27" in="00:00:04.767" out="00:00:06.117"/>
+    <entry producer="producer28" in="00:00:00.017" out="00:00:02.633"/>
+    <blank length="00:00:00.467"/>
+    <entry producer="producer29" in="00:00:01.617" out="00:00:03.350"/>
+    <entry producer="producer30" in="00:00:00.000" out="00:00:06.150"/>
+    <entry producer="producer31" in="00:00:03.367" out="00:00:03.783"/>
+    <entry producer="producer32" in="00:00:00.000" out="00:00:11.783"/>
+    <entry producer="producer33" in="00:00:03.800" out="00:00:04.267"/>
+    <entry producer="tractor3" in="00:00:00.000" out="00:00:00.000"/>
+    <entry producer="producer34" in="00:00:00.017" out="00:00:21.800"/>
+  </playlist>
+  <producer id="producer35" in="00:00:00.000" out="00:00:05.433">
+    <property name="length">00:00:05.450</property>
+    <property name="eof">pause</property>
+    <property name="resource">1.wav</property>
+    <property name="audio_index">0</property>
+    <property name="video_index">-1</property>
+    <property name="mute_on_pause">0</property>
+    <property name="mlt_service">avformat-novalidate</property>
+    <property name="seekable">1</property>
+    <property name="creation_time">2020-12-05T05:23:21</property>
+    <property name="global_feed">1</property>
+    <property name="xml">was here</property>
+    <property name="shotcut:hash">0b90823f7484ee7688dcea1df7b5b23a</property>
+    <property name="shotcut:caption">1.wav</property>
+  </producer>
+  <producer id="producer36" in="00:00:00.000" out="00:00:04.550">
+    <property name="length">00:00:04.567</property>
+    <property name="eof">pause</property>
+    <property name="resource">d:/git_WSL/cpen333/Assignments/Assignment 2/Video/Assignemnt_2/2.wav</property>
+    <property name="audio_index">0</property>
+    <property name="video_index">-1</property>
+    <property name="mute_on_pause">0</property>
+    <property name="mlt_service">avformat-novalidate</property>
+    <property name="seekable">1</property>
+    <property name="creation_time">2020-12-05T05:27:16</property>
+    <property name="shotcut:hash">e8f7b65a62afeaf9498d3a034a2f6516</property>
+    <property name="global_feed">1</property>
+    <property name="shotcut:caption">2.wav</property>
+  </producer>
+  <producer id="producer37" in="00:00:00.000" out="00:00:08.300">
+    <property name="length">00:00:08.317</property>
+    <property name="eof">pause</property>
+    <property name="resource">d:/git_WSL/cpen333/Assignments/Assignment 2/Video/Assignemnt_2/3.wav</property>
+    <property name="audio_index">0</property>
+    <property name="video_index">-1</property>
+    <property name="mute_on_pause">0</property>
+    <property name="mlt_service">avformat-novalidate</property>
+    <property name="seekable">1</property>
+    <property name="creation_time">2020-12-05T05:30:00</property>
+    <property name="shotcut:hash">63988b04aeff6d59a10e130fea13266b</property>
+    <property name="global_feed">1</property>
+    <property name="shotcut:caption">3.wav</property>
+  </producer>
+  <producer id="producer38" in="00:00:00.000" out="00:00:10.167">
+    <property name="length">00:00:10.183</property>
+    <property name="eof">pause</property>
+    <property name="resource">d:/git_WSL/cpen333/Assignments/Assignment 2/Video/Assignemnt_2/4.wav</property>
+    <property name="audio_index">0</property>
+    <property name="video_index">-1</property>
+    <property name="mute_on_pause">0</property>
+    <property name="mlt_service">avformat-novalidate</property>
+    <property name="seekable">1</property>
+    <property name="creation_time">2020-12-05T05:33:24</property>
+    <property name="shotcut:hash">a2ccf8dede0bfc6931e17cdb964b124d</property>
+    <property name="global_feed">1</property>
+    <property name="shotcut:caption">4.wav</property>
+  </producer>
+  <producer id="producer39" in="00:00:00.000" out="00:00:11.467">
+    <property name="length">00:00:11.483</property>
+    <property name="eof">pause</property>
+    <property name="resource">d:/git_WSL/cpen333/Assignments/Assignment 2/Video/Assignemnt_2/5.wav</property>
+    <property name="audio_index">0</property>
+    <property name="video_index">-1</property>
+    <property name="mute_on_pause">0</property>
+    <property name="mlt_service">avformat-novalidate</property>
+    <property name="seekable">1</property>
+    <property name="creation_time">2020-12-05T05:36:02</property>
+    <property name="shotcut:hash">f7c7c8ba955b07811cb86aac49872512</property>
+    <property name="global_feed">1</property>
+    <property name="shotcut:caption">5.wav</property>
+    <property name="xml">was here</property>
+  </producer>
+  <producer id="producer40" in="00:00:00.000" out="00:00:04.883">
+    <property name="length">00:00:04.900</property>
+    <property name="eof">pause</property>
+    <property name="resource">d:/git_WSL/cpen333/Assignments/Assignment 2/Video/Assignemnt_2/6.wav</property>
+    <property name="audio_index">0</property>
+    <property name="video_index">-1</property>
+    <property name="mute_on_pause">0</property>
+    <property name="mlt_service">avformat-novalidate</property>
+    <property name="seekable">1</property>
+    <property name="creation_time">2020-12-05T05:37:47</property>
+    <property name="shotcut:hash">bbb1e8c99a7cf968b62ba544d4da4873</property>
+    <property name="global_feed">1</property>
+    <property name="shotcut:caption">6.wav</property>
+  </producer>
+  <producer id="producer41" in="00:00:00.000" out="00:00:10.400">
+    <property name="length">00:00:10.417</property>
+    <property name="eof">pause</property>
+    <property name="resource">d:/git_WSL/cpen333/Assignments/Assignment 2/Video/Assignemnt_2/7.wav</property>
+    <property name="audio_index">0</property>
+    <property name="video_index">-1</property>
+    <property name="mute_on_pause">0</property>
+    <property name="mlt_service">avformat-novalidate</property>
+    <property name="seekable">1</property>
+    <property name="creation_time">2020-12-05T05:39:35</property>
+    <property name="shotcut:hash">f18ce11dfa8ac245c70438942255718e</property>
+    <property name="global_feed">1</property>
+    <property name="shotcut:caption">7.wav</property>
+  </producer>
+  <producer id="producer42" in="00:00:00.000" out="00:00:07.317">
+    <property name="length">00:00:07.333</property>
+    <property name="eof">pause</property>
+    <property name="resource">d:/git_WSL/cpen333/Assignments/Assignment 2/Video/Assignemnt_2/8.wav</property>
+    <property name="audio_index">0</property>
+    <property name="video_index">-1</property>
+    <property name="mute_on_pause">0</property>
+    <property name="mlt_service">avformat-novalidate</property>
+    <property name="seekable">1</property>
+    <property name="creation_time">2020-12-05T05:49:09</property>
+    <property name="shotcut:hash">688ab0dbf1baff29d3ccc37b59afda50</property>
+    <property name="global_feed">1</property>
+    <property name="shotcut:caption">8.wav</property>
+  </producer>
+  <producer id="producer43" in="00:00:00.000" out="00:00:08.317">
+    <property name="length">00:00:08.333</property>
+    <property name="eof">pause</property>
+    <property name="resource">d:/git_WSL/cpen333/Assignments/Assignment 2/Video/Assignemnt_2/9.wav</property>
+    <property name="audio_index">0</property>
+    <property name="video_index">-1</property>
+    <property name="mute_on_pause">0</property>
+    <property name="mlt_service">avformat-novalidate</property>
+    <property name="seekable">1</property>
+    <property name="creation_time">2020-12-05T05:53:08</property>
+    <property name="shotcut:hash">b5663fe368a7867c0d2efc1f9065fd6f</property>
+    <property name="global_feed">1</property>
+    <property name="shotcut:caption">9.wav</property>
+  </producer>
+  <producer id="producer44" in="00:00:00.000" out="00:00:10.533">
+    <property name="length">00:00:10.550</property>
+    <property name="eof">pause</property>
+    <property name="resource">d:/git_WSL/cpen333/Assignments/Assignment 2/Video/Assignemnt_2/11.wav</property>
+    <property name="audio_index">0</property>
+    <property name="video_index">-1</property>
+    <property name="mute_on_pause">0</property>
+    <property name="mlt_service">avformat-novalidate</property>
+    <property name="seekable">1</property>
+    <property name="creation_time">2020-12-05T05:57:36</property>
+    <property name="shotcut:hash">a6cdeb6ed7cafc898026d8213baf5c11</property>
+    <property name="global_feed">1</property>
+    <property name="shotcut:caption">11.wav</property>
+  </producer>
+  <producer id="producer45" in="00:00:00.000" out="00:00:05.467">
+    <property name="length">00:00:05.483</property>
+    <property name="eof">pause</property>
+    <property name="resource">d:/git_WSL/cpen333/Assignments/Assignment 2/Video/Assignemnt_2/12.wav</property>
+    <property name="audio_index">0</property>
+    <property name="video_index">-1</property>
+    <property name="mute_on_pause">0</property>
+    <property name="mlt_service">avformat-novalidate</property>
+    <property name="seekable">1</property>
+    <property name="creation_time">2020-12-05T06:01:37</property>
+    <property name="shotcut:hash">177a9ce9a9dbedf4c55d10e00de2c82a</property>
+    <property name="global_feed">1</property>
+    <property name="shotcut:caption">12.wav</property>
+  </producer>
+  <producer id="producer46" in="00:00:00.000" out="00:00:07.617">
+    <property name="length">00:00:07.633</property>
+    <property name="eof">pause</property>
+    <property name="resource">d:/git_WSL/cpen333/Assignments/Assignment 2/Video/Assignemnt_2/13.wav</property>
+    <property name="audio_index">0</property>
+    <property name="video_index">-1</property>
+    <property name="mute_on_pause">0</property>
+    <property name="mlt_service">avformat-novalidate</property>
+    <property name="seekable">1</property>
+    <property name="creation_time">2020-12-05T06:04:03</property>
+    <property name="shotcut:hash">35b03f6b5bf633c9258d10a065910549</property>
+    <property name="global_feed">1</property>
+    <property name="shotcut:caption">13.wav</property>
+  </producer>
+  <producer id="producer47" in="00:00:00.000" out="00:00:03.967">
+    <property name="length">00:00:03.983</property>
+    <property name="eof">pause</property>
+    <property name="resource">d:/git_WSL/cpen333/Assignments/Assignment 2/Video/Assignemnt_2/14.wav</property>
+    <property name="audio_index">0</property>
+    <property name="video_index">-1</property>
+    <property name="mute_on_pause">0</property>
+    <property name="mlt_service">avformat-novalidate</property>
+    <property name="seekable">1</property>
+    <property name="creation_time">2020-12-05T06:06:34</property>
+    <property name="shotcut:hash">84f63c9425b62d1e6b68232aa36975c4</property>
+    <property name="global_feed">1</property>
+    <property name="shotcut:caption">14.wav</property>
+  </producer>
+  <producer id="producer48" in="00:00:00.000" out="00:00:02.617">
+    <property name="length">00:00:02.633</property>
+    <property name="eof">pause</property>
+    <property name="resource">d:/git_WSL/cpen333/Assignments/Assignment 2/Video/Assignemnt_2/15.wav</property>
+    <property name="audio_index">0</property>
+    <property name="video_index">-1</property>
+    <property name="mute_on_pause">0</property>
+    <property name="mlt_service">avformat-novalidate</property>
+    <property name="seekable">1</property>
+    <property name="creation_time">2020-12-05T06:07:35</property>
+    <property name="shotcut:hash">7a2cd713c9d0e9670ba917a27060ca9d</property>
+    <property name="global_feed">1</property>
+    <property name="shotcut:caption">15.wav</property>
+  </producer>
+  <producer id="producer49" in="00:00:00.000" out="00:00:06.400">
+    <property name="length">00:00:06.417</property>
+    <property name="eof">pause</property>
+    <property name="resource">d:/git_WSL/cpen333/Assignments/Assignment 2/Video/Assignemnt_2/16.wav</property>
+    <property name="audio_index">0</property>
+    <property name="video_index">-1</property>
+    <property name="mute_on_pause">0</property>
+    <property name="mlt_service">avformat-novalidate</property>
+    <property name="seekable">1</property>
+    <property name="creation_time">2020-12-05T06:11:14</property>
+    <property name="shotcut:hash">899a6dccc1ab4da58695d1db9effc6f8</property>
+    <property name="global_feed">1</property>
+    <property name="shotcut:caption">16.wav</property>
+  </producer>
+  <producer id="producer50" in="00:00:00.000" out="00:00:06.867">
+    <property name="length">00:00:06.883</property>
+    <property name="eof">pause</property>
+    <property name="resource">d:/git_WSL/cpen333/Assignments/Assignment 2/Video/Assignemnt_2/17.wav</property>
+    <property name="audio_index">0</property>
+    <property name="video_index">-1</property>
+    <property name="mute_on_pause">0</property>
+    <property name="mlt_service">avformat-novalidate</property>
+    <property name="seekable">1</property>
+    <property name="creation_time">2020-12-05T06:13:13</property>
+    <property name="shotcut:hash">5955dd31547c134d5fc39b7f666a5dcb</property>
+    <property name="global_feed">1</property>
+    <property name="shotcut:caption">17.wav</property>
+  </producer>
+  <producer id="producer51" in="00:00:00.000" out="00:00:04.900">
+    <property name="length">00:00:04.917</property>
+    <property name="eof">pause</property>
+    <property name="resource">d:/git_WSL/cpen333/Assignments/Assignment 2/Video/Assignemnt_2/18.wav</property>
+    <property name="audio_index">0</property>
+    <property name="video_index">-1</property>
+    <property name="mute_on_pause">0</property>
+    <property name="mlt_service">avformat-novalidate</property>
+    <property name="seekable">1</property>
+    <property name="creation_time">2020-12-05T06:14:30</property>
+    <property name="shotcut:hash">56f57c6b898cc39b344902ea54452fa0</property>
+    <property name="global_feed">1</property>
+    <property name="shotcut:caption">18.wav</property>
+  </producer>
+  <producer id="producer52" in="00:00:00.000" out="00:00:21.800">
+    <property name="length">00:00:21.817</property>
+    <property name="eof">pause</property>
+    <property name="resource">d:/git_WSL/cpen333/Assignments/Assignment 2/Video/Assignemnt_2/19.wav</property>
+    <property name="audio_index">0</property>
+    <property name="video_index">-1</property>
+    <property name="mute_on_pause">0</property>
+    <property name="mlt_service">avformat-novalidate</property>
+    <property name="seekable">1</property>
+    <property name="creation_time">2020-12-05T06:17:24</property>
+    <property name="shotcut:hash">17305cbf540a5fc417dcb8a7a1afa2de</property>
+    <property name="global_feed">1</property>
+    <property name="shotcut:caption">19.wav</property>
+  </producer>
+  <playlist id="playlist1">
+    <property name="shotcut:audio">1</property>
+    <property name="shotcut:name">A1</property>
+    <entry producer="producer35" in="00:00:00.000" out="00:00:05.433"/>
+    <entry producer="producer36" in="00:00:00.000" out="00:00:04.550"/>
+    <entry producer="producer37" in="00:00:00.000" out="00:00:08.300"/>
+    <entry producer="producer38" in="00:00:00.000" out="00:00:10.167"/>
+    <entry producer="producer39" in="00:00:00.000" out="00:00:11.467"/>
+    <blank length="00:00:00.133"/>
+    <entry producer="producer40" in="00:00:00.000" out="00:00:04.883"/>
+    <entry producer="producer41" in="00:00:00.000" out="00:00:10.400"/>
+    <blank length="00:00:00.267"/>
+    <entry producer="producer42" in="00:00:00.000" out="00:00:07.317"/>
+    <blank length="00:00:00.533"/>
+    <entry producer="producer43" in="00:00:00.000" out="00:00:08.317"/>
+    <blank length="00:00:02.100"/>
+    <entry producer="producer44" in="00:00:00.000" out="00:00:10.533"/>
+    <blank length="00:00:03.417"/>
+    <entry producer="producer45" in="00:00:00.000" out="00:00:05.467"/>
+    <blank length="00:00:00.633"/>
+    <entry producer="producer46" in="00:00:00.000" out="00:00:07.617"/>
+    <blank length="00:00:00.533"/>
+    <entry producer="producer47" in="00:00:00.000" out="00:00:03.967"/>
+    <blank length="00:00:01.383"/>
+    <entry producer="producer48" in="00:00:00.000" out="00:00:02.617"/>
+    <blank length="00:00:01.967"/>
+    <entry producer="producer49" in="00:00:00.000" out="00:00:06.400"/>
+    <blank length="00:00:00.433"/>
+    <entry producer="producer50" in="00:00:00.000" out="00:00:06.867"/>
+    <entry producer="producer51" in="00:00:00.000" out="00:00:04.900"/>
+    <blank length="00:00:00.483"/>
+    <entry producer="producer52" in="00:00:00.000" out="00:00:21.800"/>
+  </playlist>
+  <tractor id="tractor4" title="Shotcut version 20.09.27" global_feed="1" in="00:00:00.000" out="00:02:33.167">
+    <property name="shotcut">1</property>
+    <property name="shotcut:projectAudioChannels">2</property>
+    <property name="shotcut:projectFolder">1</property>
+    <property name="shotcut:scaleFactor">0.353</property>
+    <track producer="background"/>
+    <track producer="playlist0"/>
+    <track producer="playlist1" hide="video"/>
+    <transition id="transition8">
+      <property name="a_track">0</property>
+      <property name="b_track">1</property>
+      <property name="mlt_service">mix</property>
+      <property name="always_active">1</property>
+      <property name="sum">1</property>
+    </transition>
+    <transition id="transition9">
+      <property name="a_track">0</property>
+      <property name="b_track">1</property>
+      <property name="version">0.9</property>
+      <property name="mlt_service">frei0r.cairoblend</property>
+      <property name="disable">1</property>
+    </transition>
+    <transition id="transition10">
+      <property name="a_track">0</property>
+      <property name="b_track">2</property>
+      <property name="mlt_service">mix</property>
+      <property name="always_active">1</property>
+      <property name="sum">1</property>
+    </transition>
+  </tractor>
+</mlt>
