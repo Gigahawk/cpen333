@@ -29,6 +29,9 @@ public:
         }
 		return inst;
     }
+    ~Database() {
+        inst = nullptr;
+    }
 
     void push_student(string username) {
         uint16_t id = id_from_str(username);
@@ -46,6 +49,12 @@ public:
         p.id = id;
         p.username = username;
         prof_table.push_back(p);
+    }
+
+    void push_course(CourseEntry c) {
+        log("Creating course:");
+        printf("%s", course_to_str_full(c));
+        course_table.push_back(c);
     }
 
     void push_statement_of_case(SoCEntry sce) {
@@ -242,11 +251,6 @@ public:
         log("End of course database table");
     }
 
-    void destroy() {
-        log("Clearing data");
-        while (!table.empty())
-            table.pop_back();
-    }
 
     void suspend_student(uint16_t id) {
         StudentEntry* se = _get_student(id);
@@ -303,6 +307,20 @@ public:
 
     SoCEntry get_soc(uint16_t cid, uint16_t sid) {
         return *_get_soc(cid, sid);
+    }
+
+    void destroy() {
+        log("DROPPING ALL TABLES");
+        while (!table.empty())
+            table.pop_back();
+        while (!grade_table.empty())
+            grade_table.pop_back();
+        while (!course_table.empty())
+            course_table.pop_back();
+        while (!soc_table.empty())
+            soc_table.pop_back();
+        while (!sor_table.empty())
+            sor_table.pop_back();
     }
 
 private:
