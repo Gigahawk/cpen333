@@ -20,6 +20,23 @@ public:
     SSC() {
         log_name = string("SSC");
     }
+
+    void submit_grades(string token, vector<GradeEntry> grades) {
+        if (verify_token(token) != PROFESSOR) {
+            log("Account is not a professor, cannot submit grades");
+            throw SSCException("Invalid professor token");
+        }
+        uint16_t id = get_id_from_token(token);
+        log("Connecting to database");
+        Database* db = Database::get_instance();
+        log("Submitting grades to database");
+        // Ideally this would be a single database query, doing this for simplicity
+        for (auto g : grades) {
+            db->update_grade(g);
+        }
+        log("Grades submitted to database");
+    }
+
     void submit_2nd_year_prefs(string token, vector<Major> prefs) {
         if (verify_token(token) != STUDENT) {
             log("Account is not a student, cannot specify 2nd year preferences");
@@ -104,6 +121,20 @@ public:
         StudentEntry s = db->get_student(id);
         log("Retrieved student %s from database", s.username.c_str());
         return s;
+    }
+
+    vector<GradeEntry> get_grade_report(string token) {
+        if (verify_token(token) != STUDENT) {
+            log("Account is not a student, cannot return grade report");
+            throw SSCException("Invalid student token");
+        }
+        uint16_t id = get_id_from_token(token);
+		log("Connecting to database");
+        Database* db = Database::get_instance();
+        vector<GradeEntry> ges = db->get_grade_report(id);
+        log("Retrieved grade report from database");
+        return ges;
+
     }
 
     bool attempt_registration(string token, uint16_t course_id) {

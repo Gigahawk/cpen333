@@ -42,6 +42,29 @@ string prefs_list_to_str(vector<Major> l)
     return out;
 }
 
+string grade_report_to_str(vector<GradeEntry> ges)
+{
+    string out = "\n";
+    for (auto g : ges) {
+        out += g.name + ": ";
+        if (g.grade == -1)
+            out += "NONE\n";
+        else
+            out += to_string(g.grade) + "\n";
+    }
+    return out;
+}
+
+double course_average(vector<GradeEntry> ges)
+{
+    double avg = 0.0;
+    for (auto g : ges) {
+        avg += g.grade;
+    }
+    avg /= ges.size();
+    return avg;
+}
+
 string stud_to_str(StudentEntry s)
 {
     string out = string("\n");

@@ -23,6 +23,7 @@ enum Major {
 	MINE,
 	MANU,
 	ENVE,
+	APSC,
 	INVL
 };
 
@@ -41,6 +42,7 @@ static const char* MajorStr[] = {
 	"MINE",
 	"MANU",
 	"ENVE",
+	"APSC",
 	"INVALID",
 };
 
@@ -55,10 +57,11 @@ static const vector<uint32_t> MajorLimit = {
 	1,  //CHBE
 	1,  //BMEG
 	1,  //GEOE
-	1, //MTRL
-	1, //MINE
-	1, //MANU
-	1, //ENVE
+	1,  //MTRL
+	1,  //MINE
+	1,  //MANU
+	1,  //ENVE
+	0,  //APSC
 	0
 };
 
@@ -83,8 +86,23 @@ struct StudentEntry {
     double average = 0;
     double amt_paid = 0;
     vector<Major> prefs;
+	//vector<GradeEntry> grades;
 	Major placement = Major::INVL;
 	vector<uint16_t> registered_courses;
+};
+
+struct GradeEntry {
+	uint16_t course_id = 0;
+	uint16_t stud_id;
+	double grade = 0;
+	// Used only for reporting
+	string name = "";
+};
+
+struct ProfEntry {
+	uint16_t id = 0;
+	string username;
+	// add list of teachables later?
 };
 
 struct CourseEntry {
@@ -93,6 +111,7 @@ struct CourseEntry {
 	uint16_t code;
 	Term term = Term::W1;
 	uint8_t timeslot;
+	uint8_t credits = 5;
 	uint16_t seats = 0;
 };
 
@@ -103,6 +122,8 @@ string course_to_str(CourseEntry c);
 string course_to_str_full(CourseEntry c);
 string prefs_list_to_str(vector<Major> l);
 
+string grade_report_to_str(vector<GradeEntry> ges);
+double course_average(vector<GradeEntry> ges);
 string stud_to_str(StudentEntry s);
 string seats_available(vector<uint32_t> seats);
 string generate_cc();

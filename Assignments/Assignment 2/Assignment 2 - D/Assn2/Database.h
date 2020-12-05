@@ -34,6 +34,58 @@ public:
         table.push_back(s);
     }
 
+    void push_prof(string username) {
+        uint16_t id = id_from_str(username);
+        log("Creating professor %s with id %d", username.c_str(), id);
+        ProfEntry p;
+        p.id = id;
+        p.username = username;
+        prof_table.push_back(p);
+    }
+
+    void update_grade(GradeEntry ge) {
+        log("Setting grade for student %d in course %d to %f",
+            ge.stud_id, ge.course_id, ge.grade);
+        GradeEntry* _ge = nullptr;
+        try {
+            _ge = _get_grade(ge.course_id, ge.stud_id);
+            log("Existing grade entry found");
+            _ge->grade = ge.grade;
+        }
+        catch (DatabaseException& e) {
+            log("No existing entry found, creating a new one");
+            grade_table.push_back(ge);
+        }
+		log("Grade updated successfully");
+    }
+
+    vector<GradeEntry> get_grade_report(uint16_t sid) {
+        vector<GradeEntry> ges;
+        StudentEntry s = get_student(sid);
+
+        for (auto cid : s.registered_courses) {
+            string name = course_to_str(get_course(cid));
+			try {
+                GradeEntry ge = get_grade(cid, sid);
+                ge.name = name;
+				ges.push_back(ge);
+			}
+			catch (DatabaseException& e) {
+                ges.push_back({ cid, sid, -1, name});
+			}
+        }
+        return ges;
+    }
+
+    vector<GradeEntry> get_class_report(uint16_t cid) {
+        vector<GradeEntry> ges;
+        for (auto g : grade_table) {
+            if (g.course_id == cid)
+                ges.push_back(g);
+        }
+        return ges;
+    }
+
     void set_prefs(uint16_t id, vector<Major> prefs) {
         log("Setting placement preferences for student ID %d", id);
         StudentEntry* se = _get_student(id);
@@ -81,7 +133,7 @@ public:
         CourseEntry* ce = _get_course(course_id);
         log("Attempting registration for %s (%d), to course %s",
             se->username.c_str(), se->id, course_to_str(*ce).c_str());
-        if (se->placement != ce->faculty) {
+        if (se->placement != ce->faculty && ce->faculty != Major::APSC) {
 			log("Student not in major");
             return false;
         }
@@ -99,6 +151,13 @@ public:
         return true;
     }
 
+    vector<ProfEntry> get_profs() {
+        return prof_table;
+    }
+
+    vector<GradeEntry> get_grades() {
+        return grade_table;
+    }
     void pay_tuition(uint16_t id, double amt) {
         StudentEntry* se = _get_student(id);
         log("Updating payment for %s (%d)", se->username.c_str(), se->id);
@@ -137,12 +196,15 @@ public:
     }
 
     void populate_course_codes() {
-        for (int i = 0; i < NUM_COURSES; i++) {
-            CourseEntry c;
+		CourseEntry c;
+        for (int i = 0; i < NUM_COURSES -1; i++) {
             c.code = unif_cc(re);
             c.faculty = (Major)unif_maj(re);
             c.id = id_from_str(course_to_str(c));
             c.term = (Term)unif_term(re);
+            // Make all courses worth 5 credits
+            // (Tuition is based on $100 per credit for simplicity)
+            c.credits = 5;
             // Make classes small to force looking for other courses
             c.seats = 1;
             // Assume timeslots for all courses are fixed, each course just gets assigned
@@ -150,6 +212,15 @@ public:
             c.timeslot = unif_ts(re);
             course_table.push_back(c);
         }
+        // Always create APSC666 for debug
+        c.code = 666;
+        c.faculty = Major::APSC;
+		c.id = id_from_str(course_to_str(c));
+		c.term = Term::W1;
+        c.seats = 100;
+        c.credits = 5;
+        c.timeslot = 99; // Make sure no conflict with other courses
+		course_table.push_back(c);
     }
 
     StudentEntry get_student(uint16_t id) {
@@ -159,6 +230,11 @@ public:
     CourseEntry get_course(uint16_t id) {
         return *_get_course(id);
     }
+
+    GradeEntry get_grade(uint16_t cid, uint16_t sid) {
+        return *_get_grade(cid, sid);
+    }
+
 private:
 	uniform_int_distribution<int> unif_cc = uniform_int_distribution<int>(100, 599);
 	uniform_int_distribution<int> unif_maj = uniform_int_distribution<int>(0, MajorLimit.size() - 2);
@@ -189,6 +265,19 @@ private:
         throw DatabaseException("Course not in database");
     }
 
+    GradeEntry* _get_grade(uint16_t cid, uint16_t sid) {
+        log("Looking for grade entry with course ID %d and student ID %d",
+            cid, sid);
+        for (auto i = grade_table.begin(); i != grade_table.end(); ++i) {
+            if (i->course_id == cid && i->stud_id == sid) {
+                log("Found grade entry");
+                return &(*i);
+            }
+        }
+		log("Error: grade entry  not found");
+        throw DatabaseException("GradeEntry not in database");
+    }
+
     bool no_conflict(CourseEntry ce, vector<uint16_t> course_ids) {
         for (auto cid : course_ids) {
             CourseEntry* cce = _get_course(cid);
@@ -201,6 +290,8 @@ private:
         return true;
     }
     vector<StudentEntry> table;
+    vector<ProfEntry> prof_table;
+    vector<GradeEntry> grade_table;
     vector<CourseEntry> course_table;
     static Database* inst;
     Database() {

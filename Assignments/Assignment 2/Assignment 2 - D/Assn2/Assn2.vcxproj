@@ -43,7 +43,7 @@
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v142</PlatformToolset>
-    <CharacterSet>Unicode</CharacterSet>
+    <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
@@ -117,6 +117,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -146,10 +147,11 @@
     <ClCompile Include="GenericException.cpp" />
     <ClCompile Include="Logger.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="PaymentProcessor.cpp" />
+    <ClCompile Include="Prof.cpp" />
     <ClCompile Include="Shibboleth.cpp" />
     <ClCompile Include="SSC.cpp" />
     <ClCompile Include="Student.cpp" />
+    <ClCompile Include="PaymentProcessor.cpp" />
     <ClCompile Include="Tuition.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -158,10 +160,11 @@
     <ClInclude Include="Database.h" />
     <ClInclude Include="GenericException.h" />
     <ClInclude Include="Logger.h" />
-    <ClInclude Include="PaymentProcessor.h" />
+    <ClInclude Include="Prof.h" />
     <ClInclude Include="Shibboleth.h" />
     <ClInclude Include="SSC.h" />
     <ClInclude Include="Student.h" />
+    <ClInclude Include="PaymentProcessor.h" />
     <ClInclude Include="Tuition.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -39,6 +39,9 @@
     <ClInclude Include="GenericException.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Prof.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="Tuition.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -72,6 +75,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="GenericException.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Prof.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Tuition.cpp">

@@ -26,6 +26,7 @@ public:
         log_name = string("STUDENT");
     }
     vector<Major> prefs;
+    //vector<GradeEntry> grades;
     string username;
     void set_password(string s) { password = s; }
     void set_credit_card(string c) { cc = c; }
@@ -60,6 +61,14 @@ public:
                 want_courses--;
         }
         log("%s was able to register for %d courses", username.c_str(), MAX_COURSES - want_courses);
+    }
+
+    void show_grade_report() {
+        string token = login();
+        SSC s;
+        vector<GradeEntry> ges = s.get_grade_report(token);
+        log("Grade report for %s: ", username.c_str());
+        printf("%s", grade_report_to_str(ges).c_str());
     }
 
     void pay_tuition() {
