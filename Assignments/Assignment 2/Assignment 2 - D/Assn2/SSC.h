@@ -8,10 +8,12 @@
 #include "Database.h"
 #include "Admin.h"
 #include "PaymentProcessor.h"
+#include "President.h"
 #include "common.h"
 
 using namespace std;
 
+class President;
 
 class SSC :
     public Logger
@@ -47,6 +49,84 @@ public:
         Database* db = Database::get_instance();
 		log("Submitting preferences to database");
         db->set_prefs(id, prefs);
+    }
+
+    void submit_statement_of_case(string token, string stud_name, string course_name, string msg) {
+        if (verify_token(token) != PROFESSOR) {
+            log("Account is not a professor, cannot submit statement of case");
+            throw SSCException("Invalid professor token");
+        }
+        uint16_t id = get_id_from_token(token);
+        uint16_t stud_id = id_from_str(stud_name);
+        uint16_t course_id = id_from_str(course_name);
+        SoCEntry sce;
+        sce.prof_id = id;
+        sce.stud_id = stud_id;
+        sce.course_id = course_id;
+        sce.msg = msg;
+		log("Connecting to database");
+        Database* db = Database::get_instance();
+		log("Submitting statement of case to database");
+        db->push_statement_of_case(sce);
+
+        log("Sending email to request response from student");
+    }
+
+    bool submit_statement_of_resp(string token, uint16_t prof_id, uint16_t course_id, string msg) {
+        if (verify_token(token) != STUDENT) {
+            log("Account is not a student, cannot submit statement of response");
+            throw SSCException("Invalid student token");
+        }
+        uint16_t id = get_id_from_token(token);
+        SoREntry sre;
+        sre.prof_id = prof_id;
+        sre.stud_id = id;
+        sre.course_id = course_id;
+        sre.msg = msg;
+		log("Connecting to database");
+        Database* db = Database::get_instance();
+		log("Submitting statement of response to database");
+        if (db->push_statement_of_resp(sre)) {
+			// If no exception thrown assume db has logged both statement of case and statement of response
+			log("Retrieving matching statement of case");
+            SoCEntry sce = db->get_soc(course_id, id);
+			log("Sending email to president to arrange hearing");
+            President* p = President::get_instance();
+            p->notify_case({ sce, sre });
+            return true;
+        }
+        return false;
+    }
+
+    vector<SoCEntry> get_misconduct_allegations(string token) {
+        if (verify_token(token) != STUDENT) {
+            log("Account is not a student, cannot retrieve misconduct allegations");
+            throw SSCException("Invalid student token");
+        }
+        uint16_t id = get_id_from_token(token);
+		log("Connecting to database");
+        Database* db = Database::get_instance();
+		log("Requesting misconduct allegations");
+        return db->get_socs_by_stud_id(id);
+    }
+
+    void suspend_student(string token, uint16_t stud_id, uint16_t course_id) {
+        if (verify_token(token) != PRESIDENT) {
+            log("Account is not a president, cannot suspend students");
+            throw SSCException("Invalid president token");
+        }
+		log("Connecting to database");
+        Database* db = Database::get_instance();
+        if (course_id) {
+            GradeEntry ge;
+            ge.course_id = course_id;
+            ge.stud_id = stud_id;
+            ge.grade = 0.0;
+            log("Setting grade course %d for student %d to 0");
+            db->update_grade(ge);
+        }
+        log("SUSPENDING STUDENT ID %d", stud_id);
+        db->suspend_student(stud_id);
     }
 
     void place_students() {

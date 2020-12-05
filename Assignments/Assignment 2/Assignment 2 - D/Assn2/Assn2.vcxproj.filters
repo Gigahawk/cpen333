@@ -48,6 +48,9 @@
     <ClInclude Include="PaymentProcessor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="President.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -84,6 +87,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="PaymentProcessor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="President.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

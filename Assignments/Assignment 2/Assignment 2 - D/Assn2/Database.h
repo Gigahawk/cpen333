@@ -1,4 +1,5 @@
 #pragma once
+#include <ctime>
 #include <vector>
 #include <string>
 #include <random>
@@ -12,7 +13,11 @@
 using namespace std;
 
 
-// Mock Database
+// Mock Database.
+// Sanity checks have been added where they make sense/were conveneint.
+// A real deployment of a system like this would normally just use a database
+// from a vendor that has been configured to always check things like making
+// sure foreign keys exist in their respective tables etc.
 class Database :
     public Logger
 {
@@ -41,6 +46,25 @@ public:
         p.id = id;
         p.username = username;
         prof_table.push_back(p);
+    }
+
+    void push_statement_of_case(SoCEntry sce) {
+        log("Adding statement of case for student %d in course %d", sce.stud_id, sce.course_id);
+        soc_table.push_back(sce);
+    }
+
+    bool push_statement_of_resp(SoREntry sre) {
+        log("Adding statement of response for student %d", sre.stud_id);
+        try {
+			log("Verifying corresponding statement of case exists");
+            _get_soc(sre.course_id, sre.stud_id);
+        }
+        catch (DatabaseException& e) {
+			log("Statement of case does not exist");
+            return false;
+        }
+        sor_table.push_back(sre);
+        return true;
     }
 
     void update_grade(GradeEntry ge) {
@@ -84,6 +108,15 @@ public:
                 ges.push_back(g);
         }
         return ges;
+    }
+
+    vector<SoCEntry> get_socs_by_stud_id(uint16_t sid) {
+        vector<SoCEntry> sces;
+        for (auto sce : soc_table) {
+            if (sce.stud_id == sid)
+                sces.push_back(sce);
+        }
+        return sces;
     }
 
     void set_prefs(uint16_t id, vector<Major> prefs) {
@@ -133,6 +166,24 @@ public:
         CourseEntry* ce = _get_course(course_id);
         log("Attempting registration for %s (%d), to course %s",
             se->username.c_str(), se->id, course_to_str(*ce).c_str());
+        if (se->suspension_count >= 3) {
+			log("Student is expelled");
+            return false;
+        }
+        if (se->suspension_count > 0) {
+            double time_since_sus = difftime(time(0), se->last_suspended);
+            log("Student has been suspended %d times", se->suspension_count);
+            // Suspension only lasts a few seconds to make simulation time reasonable
+			log("It has been %f seconds since suspension", time_since_sus);
+            if (se->suspension_count == 2 && time_since_sus < 20) { // 20s == 2 terms
+				log("Student is still suspended");
+				return false;
+            }
+            if (se->suspension_count == 1 && time_since_sus < 10) { // 10s == 1 term
+				log("Student is still suspended");
+				return false;
+            }
+        }
         if (se->placement != ce->faculty && ce->faculty != Major::APSC) {
 			log("Student not in major");
             return false;
@@ -141,10 +192,12 @@ public:
             log("Course full");
             return false;
         }
+        log("Checking for course conflicts");
         if (!no_conflict(*ce, se->registered_courses)) {
             log("Course conflicts with other course");
             return false;
         }
+        log("No conflicts");
         ce->seats--;
         se->registered_courses.push_back(course_id);
         log("Registered successfully");
@@ -195,6 +248,19 @@ public:
             table.pop_back();
     }
 
+    void suspend_student(uint16_t id) {
+        StudentEntry* se = _get_student(id);
+        log("SUSPENDING %s (%d)", se->username.c_str(), se->id);
+        se->suspension_count++;
+        se->last_suspended = time(nullptr);
+        tm ptm;
+        localtime_s(&ptm, &se->last_suspended);
+        char buffer[32];
+        strftime(buffer, 32, "%d/%m/%Y", &ptm);
+        log("Student has been suspended %d times as of %s",
+            se->suspension_count, buffer);
+    }
+
     void populate_course_codes() {
 		CourseEntry c;
         for (int i = 0; i < NUM_COURSES -1; i++) {
@@ -233,6 +299,10 @@ public:
 
     GradeEntry get_grade(uint16_t cid, uint16_t sid) {
         return *_get_grade(cid, sid);
+    }
+
+    SoCEntry get_soc(uint16_t cid, uint16_t sid) {
+        return *_get_soc(cid, sid);
     }
 
 private:
@@ -274,8 +344,34 @@ private:
                 return &(*i);
             }
         }
-		log("Error: grade entry  not found");
+		log("Error: grade entry not found");
         throw DatabaseException("GradeEntry not in database");
+    }
+
+    SoCEntry* _get_soc(uint16_t cid, uint16_t sid) {
+        log("Looking for statement of case entry with course ID %d and student ID %d",
+            cid, sid);
+        for (auto i = soc_table.begin(); i != soc_table.end(); ++i) {
+            if (i->course_id == cid && i->stud_id == sid) {
+                log("Found statement of case entry");
+                return &(*i);
+            }
+        }
+		log("Error: statement of case entry not found");
+        throw DatabaseException("SoCEntry not in database");
+    }
+
+    SoREntry* _get_sor(uint16_t cid, uint16_t sid) {
+        log("Looking for statement of response entry with course ID %d and student ID %d",
+            cid, sid);
+        for (auto i = sor_table.begin(); i != sor_table.end(); ++i) {
+            if (i->course_id == cid && i->stud_id == sid) {
+                log("Found statement of case entry");
+                return &(*i);
+            }
+        }
+		log("Error: statement of response entry not found");
+        throw DatabaseException("SoREntry not in database");
     }
 
     bool no_conflict(CourseEntry ce, vector<uint16_t> course_ids) {
@@ -293,6 +389,8 @@ private:
     vector<ProfEntry> prof_table;
     vector<GradeEntry> grade_table;
     vector<CourseEntry> course_table;
+    vector<SoCEntry> soc_table;
+    vector<SoREntry> sor_table;
     static Database* inst;
     Database() {
         log_name = string("DATABASE");

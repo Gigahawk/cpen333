@@ -1,4 +1,5 @@
 #pragma once
+#include <ctime>
 #include <vector>
 #include <string>
 #include <functional>
@@ -79,14 +80,15 @@ static const char* TermStr[] = {
 	"W1", "W2", "S1", "S2"
 };
 
-// Database schema of student
+// Database schemas
 struct StudentEntry {
     uint16_t id = 0;
     string username;
     double average = 0;
     double amt_paid = 0;
     vector<Major> prefs;
-	//vector<GradeEntry> grades;
+	uint8_t suspension_count = 0;
+	time_t last_suspended = 0;
 	Major placement = Major::INVL;
 	vector<uint16_t> registered_courses;
 };
@@ -103,6 +105,27 @@ struct ProfEntry {
 	uint16_t id = 0;
 	string username;
 	// add list of teachables later?
+};
+
+// Statement of Case
+struct SoCEntry {
+	uint16_t stud_id;
+	uint16_t prof_id;
+	uint16_t course_id;
+	string msg;
+};
+
+// Statement of Response
+struct SoREntry {
+	uint16_t stud_id;
+	uint16_t prof_id;
+	uint16_t course_id;
+	string msg;
+};
+
+struct Case {
+	SoCEntry sce;
+	SoREntry sre;
 };
 
 struct CourseEntry {
