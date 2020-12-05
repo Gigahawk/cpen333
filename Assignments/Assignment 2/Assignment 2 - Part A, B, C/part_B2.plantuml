@@ -59,6 +59,7 @@ alt students were placed
     activate student
 else students were not placed
     ssc -> admin : Notify Admin of students who could not be placed
+    deactivate ssc
     activate admin
     admin -> student : Notify students that they must make an appointment with student services if they wish to stay in Engineering
     deactivate admin

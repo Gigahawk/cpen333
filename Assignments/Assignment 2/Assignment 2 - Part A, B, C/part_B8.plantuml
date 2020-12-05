@@ -78,6 +78,7 @@ alt guilty verdict
             pres -> ssc : Suspend student for 2 terms
         else third offsense or greater
             pres -> ssc : Expel student
+            deactivate pres
         end
         ssc -> db : Submit new course grade and suspension status
         activate db
@@ -113,5 +114,7 @@ group Student Authenticated
     db -> ssc : Notify SSC that student is suspended
     deactivate db
     ssc -> student : Notify student of suspension
+    deactivate student
+    deactivate ssc
 end
 @enduml

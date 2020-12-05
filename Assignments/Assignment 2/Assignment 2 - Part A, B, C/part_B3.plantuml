@@ -64,4 +64,5 @@ group Authenticated
     ssc -> student : Display payment success/failure page
 end
 deactivate ssc
+deactivate student
 @enduml
