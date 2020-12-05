@@ -154,6 +154,7 @@
     <ClCompile Include="Student.cpp" />
     <ClCompile Include="PaymentProcessor.cpp" />
     <ClCompile Include="Tuition.cpp" />
+    <ClCompile Include="User.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Admin.h" />
@@ -168,6 +169,7 @@
     <ClInclude Include="Student.h" />
     <ClInclude Include="PaymentProcessor.h" />
     <ClInclude Include="Tuition.h" />
+    <ClInclude Include="User.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

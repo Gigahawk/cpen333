@@ -1,13 +1,13 @@
 #pragma once
 #include <vector>
-#include "Logger.h"
+#include "User.h"
 #include "Shibboleth.h"
 #include "common.h"
 
 // Use singleton pattern so that we have persistent
 // storage to simulate an email inbox
 class President :
-    public Logger
+    public User
 {
 public:
     static President* get_instance() {
