@@ -41,11 +41,23 @@ void case_3();
 void case_5();
 void case_8();
 
-int main() {
-	case_2();
-	case_3();
-	case_5();
-	case_8();
+int main(int argc, char* argv[]) {
+	if (argc < 2)
+		return -1;
+	switch (argv[1][0]) {
+		case '2':
+		case_2();
+		break;
+		case '3':
+		case_3();
+		break;
+		case '5':
+		case_5();
+		break;
+		case '8':
+		case_8();
+		break;
+	}
 
 	return 0;
 }
