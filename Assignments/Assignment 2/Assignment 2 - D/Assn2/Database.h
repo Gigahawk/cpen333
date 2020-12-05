@@ -42,18 +42,54 @@ public:
         prof_table.push_back(p);
     }
 
+    void update_grade(GradeEntry ge) {
+        log("Setting grade for student %d in course %d to %f",
+            ge.stud_id, ge.course_id, ge.grade);
+        GradeEntry* _ge = nullptr;
+        try {
+            _ge = _get_grade(ge.course_id, ge.stud_id);
+            log("Existing grade entry found");
+            _ge->grade = ge.grade;
+        }
+        catch (DatabaseException& e) {
+            log("No existing entry found, creating a new one");
+            grade_table.push_back(ge);
+        }
+		log("Grade updated successfully");
+    }
+
+    vector<GradeEntry> get_grade_report(uint16_t sid) {
+        vector<GradeEntry> ges;
+        StudentEntry s = get_student(sid);
+
+        for (auto cid : s.registered_courses) {
+            string name = course_to_str(get_course(cid));
+			try {
+                GradeEntry ge = get_grade(cid, sid);
+                ge.name = name;
+				ges.push_back(ge);
+			}
+			catch (DatabaseException& e) {
+                ges.push_back({ cid, sid, -1, name});
+			}
+        }
+        return ges;
+    }
+
+    vector<GradeEntry> get_class_report(uint16_t cid) {
+        vector<GradeEntry> ges;
+        for (auto g : grade_table) {
+            if (g.course_id == cid)
+                ges.push_back(g);
+        }
+        return ges;
+    }
+
     void set_prefs(uint16_t id, vector<Major> prefs) {
         log("Setting placement preferences for student ID %d", id);
         StudentEntry* se = _get_student(id);
         se->prefs = prefs;
         log("Placement preferences set to %s", prefs_list_to_str(se->prefs).c_str());
-    }
-
-    void set_grades(uint16_t id, vector<GradeEntry> grades) {
-        log("Setting grades for student ID %d", id);
-        StudentEntry* se = _get_student(id);
-        //se->grades = grades;
-        log("Grades updated");
     }
 
     void set_average(uint16_t id, double avg) {
@@ -75,7 +111,7 @@ public:
         CourseEntry* ce = _get_course(course_id);
         log("Attempting registration for %s (%d), to course %s",
             se->username.c_str(), se->id, course_to_str(*ce).c_str());
-        if (se->placement != ce->faculty) {
+        if (se->placement != ce->faculty && ce->faculty != Major::APSC) {
 			log("Student not in major");
             return false;
         }
@@ -132,12 +168,15 @@ public:
     }
 
     void populate_course_codes() {
-        for (int i = 0; i < NUM_COURSES; i++) {
-            CourseEntry c;
+		CourseEntry c;
+        for (int i = 0; i < NUM_COURSES -1; i++) {
             c.code = unif_cc(re);
             c.faculty = (Major)unif_maj(re);
             c.id = id_from_str(course_to_str(c));
             c.term = (Term)unif_term(re);
+            // Make all courses worth 5 credits
+            // (Tuition is based on $100 per credit for simplicity)
+            c.credits = 5;
             // Make classes small to force looking for other courses
             c.seats = 1;
             // Assume timeslots for all courses are fixed, each course just gets assigned
@@ -145,10 +184,27 @@ public:
             c.timeslot = unif_ts(re);
             course_table.push_back(c);
         }
+        // Always create APSC666 for debug
+        c.code = 666;
+        c.faculty = Major::APSC;
+		c.id = id_from_str(course_to_str(c));
+		c.term = Term::W1;
+        c.seats = 100;
+        c.credits = 5;
+        c.timeslot = 99; // Make sure no conflict with other courses
+		course_table.push_back(c);
     }
 
     StudentEntry get_student(uint16_t id) {
         return *_get_student(id);
+    }
+
+    CourseEntry get_course(uint16_t id) {
+        return *_get_course(id);
+    }
+
+    GradeEntry get_grade(uint16_t cid, uint16_t sid) {
+        return *_get_grade(cid, sid);
     }
 
 private:
@@ -179,6 +235,19 @@ private:
         }
 		log("Error: course %d not found", id);
         throw DatabaseException("Course not in database");
+    }
+
+    GradeEntry* _get_grade(uint16_t cid, uint16_t sid) {
+        log("Looking for grade entry with course ID %d and student ID %d",
+            cid, sid);
+        for (auto i = grade_table.begin(); i != grade_table.end(); ++i) {
+            if (i->course_id == cid && i->stud_id == sid) {
+                log("Found grade entry");
+                return &(*i);
+            }
+        }
+		log("Error: grade entry  not found");
+        throw DatabaseException("GradeEntry not in database");
     }
 
     bool no_conflict(CourseEntry ce, vector<uint16_t> course_ids) {

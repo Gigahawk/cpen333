@@ -39,8 +39,8 @@ void case_3();
 void case_5();
 
 int main() {
-	case_2();
-	case_3();
+	//case_2();
+	//case_3();
 	case_5();
 
 	return 0;
@@ -73,10 +73,6 @@ void case_3() {
 	cout << "Simulating \"View and register for courses in T1 or T2 (or summer) and pay tuition fees\" (Case 2)" << endl;
 	init();
 
-	cout << "Populating course database" << endl;
-	Database *db = Database::get_instance();
-	db->populate_course_codes();
-	db->print_course_db();
 	SSC ssc;
 
 
@@ -102,12 +98,33 @@ void case_3() {
 
 void case_5() {
 	cout << "Simulating \"Submit a course grade and standing for each registered student\" (Case 5)" << endl;
-	init(); // initialize 
+	init(); // initialize
+	Database* db = Database::get_instance();
 
-	for (auto p : profs) {
-		p.submit_grades();
+	Prof p = profs[0];
+
+	cout << "Registering all students to APSC666" << endl;
+	for (auto s : studs) {
+		db->attempt_registration(id_from_str(s.username), id_from_str("APSC666"));
+	}
+	cout << "Compiling grade list for APSC666" << endl;
+	GradeEntry ge;
+	ge.course_id = id_from_str("APSC666");
+	for (auto s : studs) {
+		ge.stud_id = id_from_str(s.username);
+		ge.grade = unif_avg(re);
+		p.grades.push_back(ge);
 	}
 
+	cout << "Submitting grades to SSC" << endl;
+	p.submit_grades();
+	cout << "Printing grade report for each student" << endl;
+
+	for (auto s : studs) {
+		s.show_grade_report();
+	}
+	vector<GradeEntry> ges = db->get_class_report(ge.course_id);
+	cout << "Average for APSC666: " << course_average(ges) << endl;
 }
 
 
@@ -122,12 +139,12 @@ void init() {
 	while (!studs.empty()) {
 		studs.pop_back();
 	}
-	
+
 	while (!profs.empty()) {
 		profs.pop_back();
 	}
 
-	cout << "Prepopulating database" << endl;
+	cout << "Prepopulating student database" << endl;
 	for (auto n : names) {
 		db->push_student(n);
 		db->set_average(id_from_str(n), unif_avg(re));
@@ -138,6 +155,7 @@ void init() {
 		studs.push_back(s);
 	}
 
+	cout << "Prepopulating professor database" << endl;
 	for (auto pn : prof_names) {
 		db->push_prof(pn);
 		Prof p = Prof();
@@ -146,6 +164,10 @@ void init() {
 		p.set_password(pn);
 		profs.push_back(p);
 	}
+
+	cout << "Prepopulating course database" << endl;
+	db->populate_course_codes();
+	db->print_course_db();
 
 	show_log(true);
 }
