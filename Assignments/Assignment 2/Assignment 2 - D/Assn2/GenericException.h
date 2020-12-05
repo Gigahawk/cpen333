@@ -29,3 +29,15 @@ public:
 private:
     string msg;
 };
+
+class StudentException :
+    public exception
+{
+public:
+    StudentException(const string& msg) : msg(msg) {}
+    virtual const char* what() const throw() {
+        return msg.c_str();
+    }
+private:
+    string msg;
+};

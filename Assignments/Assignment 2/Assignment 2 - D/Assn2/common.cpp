@@ -85,6 +85,50 @@ string seats_available(vector<uint32_t> seats)
     return out;
 }
 
+string generate_cc()
+{
+	// Avoiding writing a generator for valid luhn numbers,
+	// just use a pregenerated list
+	default_random_engine re;
+	static const vector<string> ccs = {
+		"4716300754905439",
+		"4024007156652215",
+		"4556591882185063214",
+		"5488931044140065",
+		"5491637984720643",
+		"5206696044555304",
+		"372548830448872",
+		"343454574559584",
+		"349389116539716",
+		"6011266609684718",
+		"6011307300601724",
+		"6011229260159835293",
+		"3589913343632847",
+		"3530417693936618",
+		"3545498424422125494",
+		"5567795756964242",
+		"5475611900471771",
+		"5573367565736856",
+		"30266306092272",
+		"30426638895137",
+		"30262609152228",
+		"36815313458555",
+		"36986963300916",
+		"36150893214628",
+		"5038788540271942",
+		"6763719671526605",
+		"6763974852301373",
+		"4026696900594596",
+		"4844516943738440",
+		"4026894167623154",
+		"6373065751925867",
+		"6372245492763683",
+		"6393452607156473"
+	};
+	uniform_int_distribution<int> unif_cc = uniform_int_distribution<int>(0, ccs.size());
+	return ccs[unif_cc(re)];
+}
+
 bool compare_average(StudentEntry s1, StudentEntry s2) {
     return s1.average < s2.average;
 }

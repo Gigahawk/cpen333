@@ -2,6 +2,9 @@
 #include <vector>
 #include <string>
 #include <functional>
+#include <random>
+#include <iterator>
+#include <algorithm>
 
 using namespace std;
 
@@ -81,6 +84,7 @@ struct StudentEntry {
     uint16_t id = 0;
     string username;
     double average = 0;
+    double amt_paid = 0;
     vector<Major> prefs;
 	//vector<GradeEntry> grades;
 	Major placement = Major::INVL;
@@ -122,5 +126,6 @@ string grade_report_to_str(vector<GradeEntry> ges);
 double course_average(vector<GradeEntry> ges);
 string stud_to_str(StudentEntry s);
 string seats_available(vector<uint32_t> seats);
+string generate_cc();
 bool compare_average(StudentEntry s1, StudentEntry s2);
 

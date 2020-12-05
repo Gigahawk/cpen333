@@ -6,6 +6,7 @@
 #include "common.h"
 #include "Shibboleth.h"
 #include "SSC.h"
+#include "Tuition.h"
 #include "Logger.h"
 
 #define MAX_COURSES 8
@@ -18,6 +19,7 @@ class Student :
 private:
 	default_random_engine re;
     string password;
+    string cc;
     uint8_t want_courses = MAX_COURSES;
 public:
     Student() {
@@ -27,6 +29,7 @@ public:
     //vector<GradeEntry> grades;
     string username;
     void set_password(string s) { password = s; }
+    void set_credit_card(string c) { cc = c; }
     string login() {
         Shibboleth s;
         log("Logging in as %s", username.c_str());
@@ -68,5 +71,24 @@ public:
         printf("%s", grade_report_to_str(ges).c_str());
     }
 
+    void pay_tuition() {
+        string token = login();
+        SSC s;
+        Tuition t = s.get_tuition(token);
+
+        // Student can optionally pay any amount, assume they just pay the full tuition
+        try {
+			PaymentProcessor pp = s.pay_tuition(token);
+			Payment p = pp.pay(cc);
+			if (!s.verify_payment(token, p)) {
+				log("Payment not accepted");
+				throw StudentException("Payment error");
+			}
+			log("Paid successfully");
+        }
+        catch (SSCException& e) {
+			log("Could not pay, student probably not enrolled");
+        }
+    }
 };
 

@@ -151,6 +151,9 @@
     <ClCompile Include="Shibboleth.cpp" />
     <ClCompile Include="SSC.cpp" />
     <ClCompile Include="Student.cpp" />
+    <ClCompile Include="PaymentProcessor.cpp" />
+    <ClCompile Include="Shibboleth.cpp" />
+    <ClCompile Include="Tuition.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Admin.h" />
@@ -162,6 +165,9 @@
     <ClInclude Include="Shibboleth.h" />
     <ClInclude Include="SSC.h" />
     <ClInclude Include="Student.h" />
+    <ClInclude Include="PaymentProcessor.h" />
+    <ClInclude Include="Shibboleth.h" />
+    <ClInclude Include="Tuition.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

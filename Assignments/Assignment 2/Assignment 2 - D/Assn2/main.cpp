@@ -6,6 +6,7 @@
 #include "Admin.h"
 #include "Student.h"
 #include "Prof.h"
+#include "Tuition.h"
 
 using namespace std;
 
@@ -92,8 +93,13 @@ void case_3() {
 	ssc.place_students();
 	show_log(true);
 
+	cout << "Opening registration" << endl;
 	for (auto s : studs)
 		s.register_for_courses();
+
+	cout << "Payment is due" << endl;
+	for (auto s : studs)
+		s.pay_tuition();
 }
 
 void case_5() {
@@ -152,6 +158,7 @@ void init() {
 		s.username = n;
 		// Password is valid if same as username
 		s.set_password(n);
+		s.set_credit_card(generate_cc());
 		studs.push_back(s);
 	}
 
