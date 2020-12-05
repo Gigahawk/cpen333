@@ -40,8 +40,8 @@ void case_3();
 void case_5();
 
 int main() {
-	//case_2();
-	//case_3();
+	case_2();
+	case_3();
 	case_5();
 
 	return 0;
