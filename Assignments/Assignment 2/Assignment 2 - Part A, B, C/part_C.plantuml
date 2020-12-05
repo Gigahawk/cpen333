@@ -1,45 +1,404 @@
 @startuml
 
-abstract User {
-    string jwt
+
+
+
+
+/' Objects '/
+
+class Admin <<Singleton>>{
+	-Admin()
+	+{static} get_instance() : Admin*
+	-{static} inst : static Admin*
+	-unplaced : vector<StudentEntry>
+	+arrange_placement_meetings() : void
+	+destroy() : void
+	+notify_unplaced(StudentEntry s) : void
 }
 
-class Fees {
 
+class Database <<Singleton>>{
+	-Database()
+	+~Database()
+	+get_course(uint16_t id) : CourseEntry
+	-_get_course(uint16_t id) : CourseEntry*
+	+{static} get_instance() : Database*
+	+get_grade(uint16_t cid, uint16_t sid) : GradeEntry
+	-_get_grade(uint16_t cid, uint16_t sid) : GradeEntry*
+	+get_soc(uint16_t cid, uint16_t sid) : SoCEntry
+	-_get_soc(uint16_t cid, uint16_t sid) : SoCEntry*
+	-_get_sor(uint16_t cid, uint16_t sid) : SoREntry*
+	+get_student(uint16_t id) : StudentEntry
+	-_get_student(uint16_t id) : StudentEntry*
+	+get_tuition(uint16_t id) : Tuition
+	+attempt_registration(uint16_t id, uint16_t course_id) : bool
+	-no_conflict(CourseEntry ce, vector<uint16_t> course_ids) : bool
+	+push_statement_of_resp(SoREntry sre) : bool
+	-re : default_random_engine
+	-{static} inst : static Database*
+	-unif_cc : uniform_int_distribution<int>
+	-unif_maj : uniform_int_distribution<int>
+	-unif_term : uniform_int_distribution<int>
+	-unif_ts : uniform_int_distribution<int>
+	-course_table : vector<CourseEntry>
+	+get_courses() : vector<CourseEntry>
+	+get_class_report(uint16_t cid) : vector<GradeEntry>
+	+get_grade_report(uint16_t sid) : vector<GradeEntry>
+	+get_grades() : vector<GradeEntry>
+	-grade_table : vector<GradeEntry>
+	+get_profs() : vector<ProfEntry>
+	-prof_table : vector<ProfEntry>
+	+get_socs_by_stud_id(uint16_t sid) : vector<SoCEntry>
+	-soc_table : vector<SoCEntry>
+	-sor_table : vector<SoREntry>
+	+get_students() : vector<StudentEntry>
+	-table : vector<StudentEntry>
+	+destroy() : void
+	+pay_tuition(uint16_t id, double amt) : void
+	+populate_course_codes() : void
+	+print_course_db() : void
+	+print_db() : void
+	+push_course(CourseEntry c) : void
+	+push_prof(string username) : void
+	+push_statement_of_case(SoCEntry sce) : void
+	+push_student(string username) : void
+	+set_average(uint16_t id, double avg) : void
+	+set_placement(uint16_t id, Major m) : void
+	+set_prefs(uint16_t id, vector<Major> prefs) : void
+	+suspend_student(uint16_t id) : void
+	+update_grade(GradeEntry ge) : void
 }
 
-class Student {
-    enum standing
 
-    int getFees()
+class DatabaseException {
+	+DatabaseException(const string& msg)
+	+what() : char*
+	-msg : string
 }
 
-class Professor {
 
+class LogMgr <<Singleton>>{
+	-LogMgr()
+	+{static} get_instance() : LogMgr*
+	+enable : bool
+	-{static} inst : static LogMgr*
 }
 
-class President {
 
+class Logger {
+	#log_name : string
+	#log(const char* format) : void
 }
 
-class SSC {
-    void submit2ndYear()
-    int getId()
-}
-
-class Shibboleth {
-    string getToken()
-}
 
 class PaymentProcessor {
-
+	+PaymentProcessor(double amt, uint16_t id)
+	+pay(string cc) : Payment
+	-amt : double
+	-id : uint16_t
 }
 
-class Database {
 
+class President <<Singleton>> {
+	-President()
+	+{static} get_instance() : President*
+	-{static} inst : static President*
+	-password : string
+	-username : string
+	-cases : vector<Case>
+	+investigate_cases() : void
+	+notify_case(Case c) : void
 }
+
+
+class Prof {
+	+Prof()
+	-re : default_random_engine
+	+grades : vector<GradeEntry>
+	+submit_grades() : void
+	+submit_statement_of_case(string stud_name, string course_name) : void
+}
+
+
+class SSC {
+	+SSC()
+	-verify_token(string token) : AccountType
+	+pay_tuition(string token) : PaymentProcessor
+	+get_student_info(string token) : StudentEntry
+	+get_tuition(string token) : Tuition
+	+attempt_registration(string token, uint16_t course_id) : bool
+	+submit_statement_of_resp(string token, uint16_t prof_id, uint16_t course_id, string msg) : bool
+	+verify_payment(string token, Payment p) : bool
+	-get_id_from_token(string token) : uint16_t
+	+get_course_catalog() : vector<CourseEntry>
+	+get_grade_report(string token) : vector<GradeEntry>
+	+get_misconduct_allegations(string token) : vector<SoCEntry>
+	-split_token(string token) : vector<string>
+	+notify_admin(StudentEntry s) : void
+	+notify_placement(StudentEntry s) : void
+	+place_students() : void
+	+submit_2nd_year_prefs(string token, vector<Major> prefs) : void
+	+submit_grades(string token, vector<GradeEntry> grades) : void
+	+submit_statement_of_case(string token, string stud_name, string course_name, string msg) : void
+	+suspend_student(string token, uint16_t stud_id, uint16_t course_id) : void
+}
+
+
+class SSCException {
+	+SSCException(const string& msg)
+	+what() : char*
+	-msg : string
+}
+
+
+class Shibboleth {
+	+Shibboleth()
+	+getToken(string username, string password) : string
+}
+
+
+class Student {
+	+Student()
+	-re : default_random_engine
+	-cc : string
+	-want_courses : uint8_t
+	+prefs : vector<Major>
+	+pay_tuition() : void
+	+register_for_courses() : void
+	+respond_to_allegations() : void
+	+set_credit_card(string c) : void
+	+show_grade_report() : void
+	+submit_2nd_year_prefs() : void
+}
+
+
+class StudentException {
+	+StudentException(const string& msg)
+	+what() : char*
+	-msg : string
+}
+
+
+class Tuition {
+	+total() : double
+	+as_string() : string
+}
+
+
+class User {
+	+login() : string
+	#password : string
+	+username : string
+	+set_password(string s) : void
+}
+
+
+enum AccountType {
+	INVALID
+	PRESIDENT
+	PROFESSOR
+	STUDENT
+}
+
+
+enum Major {
+	APSC
+	BMEG
+	CHBE
+	CIVL
+	CPEN
+	ELEC
+	ENPH
+	ENVE
+	GEOE
+	IGEN
+	INVL
+	MANU
+	MECH
+	MINE
+	MTRL
+}
+
+
+enum Standing {
+	FAILED
+	GOOD
+	PROBATION
+}
+
+
+enum Term {
+	S1
+	S2
+	W1
+	W2
+}
+
+
+entity Case << (S,lightBlue) >> {
+	+sce : SoCEntry
+	+sre : SoREntry
+}
+
+
+entity CourseEntry << (S,lightBlue) >>{
+	+faculty : Major
+	+term : Term
+	+code : uint16_t
+	+id : uint16_t
+	+seats : uint16_t
+	+credits : uint8_t
+	+timeslot : uint8_t
+}
+
+
+entity GradeEntry << (S,lightBlue) >>{
+	+grade : double
+	+name : string
+	+course_id : uint16_t
+	+stud_id : uint16_t
+}
+
+
+entity Payment << (S,lightBlue) >>{
+	+amt : double
+	+sig : string
+	+id : uint16_t
+}
+
+
+entity ProfEntry << (S,lightBlue) >>{
+	+username : string
+	+id : uint16_t
+}
+
+
+entity SoCEntry << (S,lightBlue) >>{
+	+msg : string
+	+course_id : uint16_t
+	+prof_id : uint16_t
+	+stud_id : uint16_t
+}
+
+
+entity SoREntry << (S,lightBlue) >>{
+	+msg : string
+	+course_id : uint16_t
+	+prof_id : uint16_t
+	+stud_id : uint16_t
+}
+
+
+entity StudentEntry << (S,lightBlue) >>{
+	+placement : Major
+	+amt_paid : double
+	+average : double
+	+username : string
+	+last_suspended : time_t
+	+id : uint16_t
+	+suspension_count : uint8_t
+	+prefs : vector<Major>
+	+registered_courses : vector<uint16_t>
+}
+
+
+entity TuitionItem << (S,lightBlue) >>{
+	+cost : double
+	+name : string
+}
+
+
+
+
+
+/' Inheritance relationships '/
+
+'Logger <|-- Admin
+'
+'
+'Logger <|-- Database
+'
+'
+'Logger <|-- PaymentProcessor
+'
+'
+'Logger <|-- SSC
+'
+'
+'Logger <|-- Shibboleth
+'
+'
+'Logger <|-- User
+
+
+User <|-- President
+
+
+User <|-- Prof
+
 
 User <|-- Student
-User <|-- Professor
-User <|-- President
+
+
+
+
+
+/' Aggregation relationships '/
+
+Admin o-- Admin
+
+
+Admin *-- StudentEntry
+
+
+Case *-- SoCEntry
+
+
+Case *-- SoREntry
+
+
+Database *-- CourseEntry
+
+
+Database o-- Database
+
+
+Database *-- GradeEntry
+
+
+Database *-- ProfEntry
+
+
+Database *-- SoCEntry
+
+
+Database *-- SoREntry
+
+
+Database *-- StudentEntry
+
+
+LogMgr o-- LogMgr
+LogMgr x.> Logger : Controls
+
+
+President *-- Case
+
+
+President o-- President
+
+
+Prof *-- GradeEntry
+
+Shibboleth x..> SSC: Controls access to
+SSC <.x User : Accesses
+SSC x..> Database : Controls access to
+SSC x..> Admin : Notifies
+SSC x.> User : Informs/Notifies
+PaymentProcessor x..> Payment : Provides
+SSC x..> Payment : Accepts
+Tuition x..> TuitionItem : Is composed of
+ 
+
+
 @enduml
