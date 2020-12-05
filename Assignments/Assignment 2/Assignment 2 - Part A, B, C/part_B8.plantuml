@@ -1,4 +1,5 @@
 @startuml
+
 title President suspends student for 1 or 2 terms (or indefinitely) based\non number of incidences of cheating in a course while at UBC.\nThis requires that students be banned from registering during suspension,\na zero is entered in the course and a record of the incident is \nentered on their transcript and recorded in Deans office (Case 8)
 actor Professor as prof
 actor Student as student
@@ -39,6 +40,7 @@ shib -> student : Provide access token
 deactivate shib
 student -> ssc : Login with access token
 group Student Authenticated
+    ssc -> student : Show notification for misconduct case
     student -> ssc : Submit Statement of Response
     deactivate student
     ssc -> db : Send Statement of Response
@@ -83,5 +85,33 @@ alt guilty verdict
         db -> db : Store course grade and suspension status
         deactivate db
     end
+end
+student -> ssc : Login request
+activate student
+activate ssc
+ssc -> shib : Authentication request
+activate shib
+shib -> student : Credential request
+student -> shib : Provide credentials
+shib -> student : Provide access token
+deactivate shib
+student -> ssc : Login with access token
+group Student Authenticated
+    ssc -> student : Show notification for suspension
+    student -> ssc : Request course catalog
+    ssc -> student : Show course catalog
+    student -> ssc : Search for/select course code
+    ssc -> db : Request course information
+    activate db
+    db -> db : Retrieve course information
+    db -> ssc : Provide course information
+    deactivate db
+    ssc -> student : Show course page
+    student -> ssc : Registration request
+    ssc -> db : Attempt registration
+    activate db
+    db -> ssc : Notify SSC that student is suspended
+    deactivate db
+    ssc -> student : Notify student of suspension
 end
 @enduml

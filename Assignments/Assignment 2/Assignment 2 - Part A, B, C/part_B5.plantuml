@@ -1,5 +1,6 @@
 @startuml
 title Submit a course grade and standing for each registered student. (Case 5)
+actor Student as student
 actor Professor as prof
 boundary SSC as ssc
 entity Shibboleth as shib
@@ -16,12 +17,35 @@ prof -> shib : Provide credentials
 shib -> prof : Provide access token
 deactivate shib
 prof -> ssc : Login with access token
-group Authenticated
+group ProfessorAuthenticated
 prof -> ssc : Submit grades table for course
+deactivate prof
 activate db
 ssc -> db : Submit grades
 db -> db : Store grades
 deactivate db
 end
 deactivate ssc
+...Grades are released...
+student -> ssc : Login request
+activate student
+activate ssc
+ssc -> shib : Authentication request
+activate shib
+shib -> student : Credential request
+student -> shib : Provide credentials
+shib -> student : Provide access token
+deactivate shib
+student -> ssc : Login with access token
+group Student Authenticated
+    student -> ssc : Request grade report
+    ssc -> db : Request grade report for student
+    activate db
+    db -> db : Retrieve grade report
+    db -> ssc : Return grade report
+    deactivate db
+    ssc -> student : Display grade report
+    deactivate ssc
+    deactivate student
+end
 @enduml
