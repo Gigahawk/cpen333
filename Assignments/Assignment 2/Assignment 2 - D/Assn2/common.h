@@ -79,8 +79,23 @@ struct StudentEntry {
     string username;
     double average = 0;
     vector<Major> prefs;
+	//vector<GradeEntry> grades;
 	Major placement = Major::INVL;
 	vector<uint16_t> registered_courses;
+};
+
+struct GradeEntry {
+	uint16_t id = 0;
+	Major faculty = Major::INVL;
+	uint16_t code;
+	vector<StudentEntry> classlist;
+	float grade = 0;
+};
+
+struct ProfEntry {
+	uint16_t id = 0;
+	string username;
+	// add list of teachables later?
 };
 
 struct CourseEntry {

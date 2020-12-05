@@ -24,6 +24,7 @@ public:
         log_name = string("STUDENT");
     }
     vector<Major> prefs;
+    //vector<GradeEntry> grades;
     string username;
     void set_password(string s) { password = s; }
     string login() {
@@ -58,5 +59,6 @@ public:
         }
         log("%s was able to register for %d courses", username.c_str(), MAX_COURSES - want_courses);
     }
+
 };
 

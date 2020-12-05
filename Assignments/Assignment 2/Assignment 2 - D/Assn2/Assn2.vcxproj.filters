@@ -42,6 +42,12 @@
     <ClInclude Include="GenericException.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\..\..\..\RTExamples\rt.h">
+      <Filter>Resource Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Prof.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -72,6 +78,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="GenericException.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\..\..\..\..\RTExamples\rt.cpp">
+      <Filter>Resource Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Prof.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

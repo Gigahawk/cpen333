@@ -33,11 +33,27 @@ public:
         table.push_back(s);
     }
 
+    void push_prof(string username) {
+        uint16_t id = id_from_str(username);
+        log("Creating professor %s with id %d", username.c_str(), id);
+        ProfEntry p;
+        p.id = id;
+        p.username = username;
+        prof_table.push_back(p);
+    }
+
     void set_prefs(uint16_t id, vector<Major> prefs) {
         log("Setting placement preferences for student ID %d", id);
         StudentEntry* se = _get_student(id);
         se->prefs = prefs;
         log("Placement preferences set to %s", prefs_list_to_str(se->prefs).c_str());
+    }
+
+    void set_grades(uint16_t id, vector<GradeEntry> grades) {
+        log("Setting grades for student ID %d", id);
+        StudentEntry* se = _get_student(id);
+        //se->grades = grades;
+        log("Grades updated");
     }
 
     void set_average(uint16_t id, double avg) {
@@ -75,6 +91,14 @@ public:
         se->registered_courses.push_back(course_id);
         log("Registered successfully");
         return true;
+    }
+
+    vector<ProfEntry> get_profs() {
+        return prof_table;
+    }
+
+    vector<GradeEntry> get_grades() {
+        return grade_table;
     }
 
     vector<StudentEntry> get_students() {
@@ -169,6 +193,8 @@ private:
         return true;
     }
     vector<StudentEntry> table;
+    vector<ProfEntry> prof_table;
+    vector<GradeEntry> grade_table;
     vector<CourseEntry> course_table;
     static Database* inst;
     Database() {

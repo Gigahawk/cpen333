@@ -19,6 +19,24 @@ public:
     SSC() {
         log_name = string("SSC");
     }
+    
+    void submit_grades(string token, vector<GradeEntry> grades) {
+        if (verify_token(token) != PROFESSOR) {
+            log("Account is not a professor, cannot submit grades");
+            throw SSCException("Invalid professor token");
+        }
+        uint16_t id = get_id_from_token(token);
+        log("Connecting to database");
+        Database* db = Database::get_instance();
+        log("Submitting grades to database");
+        /* // broken
+        for (auto s : studs) {
+            id = id_from_str(s.username);
+            db->set_grades(id, grades);
+        }*/
+        log("Grades submitted to database");
+    }
+
     void submit_2nd_year_prefs(string token, vector<Major> prefs) {
         if (verify_token(token) != STUDENT) {
             log("Account is not a student, cannot specify 2nd year preferences");
