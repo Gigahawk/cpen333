@@ -7,18 +7,17 @@
 #include "Shibboleth.h"
 #include "SSC.h"
 #include "Tuition.h"
-#include "Logger.h"
+#include "User.h"
 
 #define MAX_COURSES 8
 
 using namespace std;
 
 class Student :
-    public Logger
+    public User
 {
 private:
 	default_random_engine re;
-    string password;
     string cc;
     uint8_t want_courses = MAX_COURSES;
 public:
@@ -26,16 +25,7 @@ public:
         log_name = string("STUDENT");
     }
     vector<Major> prefs;
-    string username;
-    void set_password(string s) { password = s; }
     void set_credit_card(string c) { cc = c; }
-    string login() {
-        Shibboleth s;
-        log("Logging in as %s", username.c_str());
-        string token = s.getToken(username, password);
-        log("Token recieved: %s", token.c_str());
-        return token;
-    }
 
     void submit_2nd_year_prefs() {
         string token = login();
