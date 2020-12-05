@@ -6,6 +6,9 @@
 
 using namespace std;
 
+// Treat faculty admin as a single entity
+// Use singleton pattern so that we have persistent
+// storage to simulate an email inbox
 class Admin :
     public Logger
 {

@@ -39,5 +39,15 @@ public:
         log("%s submitted grades to database", username.c_str());
     }
 
+    void submit_statement_of_case(string stud_name, string course_name) {
+        string token = login();
+        // Could also contain info such as course and misconduct type,
+        // but just using a message for simplicity
+        string msg = stud_name + " is bad";
+        SSC s;
+        s.submit_statement_of_case(token, stud_name, course_name, msg);
+        log("%s submitted statement of case to SSC", username.c_str());
+    }
+
 };
 

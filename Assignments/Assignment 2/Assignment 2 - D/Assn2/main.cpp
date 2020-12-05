@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <iostream>
 #include <random>
+#include <windows.h>
 #include "Logger.h"
 #include "Database.h"
 #include "Admin.h"
@@ -38,11 +39,13 @@ void init();
 void case_2();
 void case_3();
 void case_5();
+void case_8();
 
 int main() {
 	case_2();
 	case_3();
 	case_5();
+	case_8();
 
 	return 0;
 }
@@ -131,6 +134,55 @@ void case_5() {
 	}
 	vector<GradeEntry> ges = db->get_class_report(ge.course_id);
 	cout << "Average for APSC666: " << course_average(ges) << endl;
+}
+
+void case_8() {
+	cout << "President suspends student for 1 or 2 terms (or indefinitely) based\non number of incidences of cheating in a course while at UBC.\nThis requires that students be banned from registering during suspension,\na zero is entered in the course and a record of the incident is \nentered on their transcript and recorded in Deans office (Case 8)" << endl;
+	init(); // initialize
+	Database* db = Database::get_instance();
+
+	Prof p = profs[0];
+	Student s = studs[0];
+
+	cout << "Registering student to APSC666" << endl;
+	db->attempt_registration(id_from_str(s.username), id_from_str("APSC666"));
+
+	cout << "Compiling grade list for APSC666" << endl;
+	GradeEntry ge;
+	ge.course_id = id_from_str("APSC666");
+	ge.stud_id = id_from_str(s.username);
+	ge.grade = unif_avg(re);
+	p.grades.push_back(ge);
+	cout << "Submitting grades to SSC" << endl;
+	p.submit_grades();
+
+	cout << "Printing grade report" << endl;
+
+	s.show_grade_report();
+
+	cout << "Submitting statement of case" << endl;
+	p.submit_statement_of_case(s.username, "APSC666");
+	cout << "Submitting statement of response" << endl;
+	s.respond_to_allegations();
+	cout << "Getting president to investiagte case and arrange hearing" << endl;
+	President* pres = President::get_instance();
+	pres->investigate_cases();
+
+	CourseEntry c;
+	for (auto ce : db->get_courses()) {
+		if (ce.faculty == Major::APSC) {
+			c = ce;
+			break;
+		}
+	}
+	cout << "Attempting registration for " << course_to_str(c) << endl;
+	db->attempt_registration(id_from_str(s.username), c.id);
+
+	cout << "Waiting for suspension to clear" << endl;
+	Sleep(15000);
+	cout << "Attempting registration for " << course_to_str(c) << endl;
+	db->attempt_registration(id_from_str(s.username), c.id);
+
 }
 
 

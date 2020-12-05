@@ -26,7 +26,6 @@ public:
         log_name = string("STUDENT");
     }
     vector<Major> prefs;
-    //vector<GradeEntry> grades;
     string username;
     void set_password(string s) { password = s; }
     void set_credit_card(string c) { cc = c; }
@@ -88,6 +87,22 @@ public:
         }
         catch (SSCException& e) {
 			log("Could not pay, student probably not enrolled");
+        }
+    }
+
+    void respond_to_allegations() {
+        log("Checking for misconduct allegations");
+        string token = login();
+        SSC s;
+
+        vector<SoCEntry> sces = s.get_misconduct_allegations(token);
+        for (auto sce : sces) {
+            log("Responding to allegation from prof ID %d", sce.prof_id);
+            if (!s.submit_statement_of_resp(token, sce.prof_id, sce.course_id, "I din do nuffin")) {
+                log("Could not submit statement of resposne");
+                throw StudentException("Statement of Response error");
+            }
+            log("Submitted successfully");
         }
     }
 };

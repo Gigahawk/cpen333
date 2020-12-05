@@ -147,6 +147,7 @@
     <ClCompile Include="GenericException.cpp" />
     <ClCompile Include="Logger.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="President.cpp" />
     <ClCompile Include="Prof.cpp" />
     <ClCompile Include="Shibboleth.cpp" />
     <ClCompile Include="SSC.cpp" />
@@ -160,6 +161,7 @@
     <ClInclude Include="Database.h" />
     <ClInclude Include="GenericException.h" />
     <ClInclude Include="Logger.h" />
+    <ClInclude Include="President.h" />
     <ClInclude Include="Prof.h" />
     <ClInclude Include="Shibboleth.h" />
     <ClInclude Include="SSC.h" />
